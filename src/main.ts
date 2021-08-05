@@ -12,6 +12,7 @@ const getAlertByRisk = (
 let teardown = () => {}
 
 async function run(): Promise<void> {
+    const startTime = Date.now()
     const username = getInput('username') || process.env.SAUCE_USERNAME
     const accessKey = getInput('accessKey') || process.env.SAUCE_ACCESS_KEY
     const urlToScan = getInput('url')
@@ -20,7 +21,6 @@ async function run(): Promise<void> {
     const alv = parseInt(getInput('allowedLowVulnerabilties'), 10) || 0
     const aiv =
         parseInt(getInput('allowedInformationalVulnerabilties'), 10) || -1
-    const startTime = Date.now()
 
     if (!username || !accessKey) {
         return setFailed(
@@ -123,5 +123,5 @@ async function run(): Promise<void> {
 // eslint-disable-next-line github/no-then
 run().catch(async error => {
     setFailed(error.message)
-    teardown()
+    return teardown()
 })

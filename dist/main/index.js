@@ -12936,6 +12936,7 @@ const getAlertByRisk = (alerts, risk) => alerts.filter(alert => alert.risk.toLow
 let teardown = () => { };
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        const startTime = Date.now();
         const username = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('username') || process.env.SAUCE_USERNAME;
         const accessKey = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('accessKey') || process.env.SAUCE_ACCESS_KEY;
         const urlToScan = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('url');
@@ -12943,7 +12944,6 @@ function run() {
         const amv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedMediumVulnerabilties'), 10) || 0;
         const alv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedLowVulnerabilties'), 10) || 0;
         const aiv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedInformationalVulnerabilties'), 10) || -1;
-        const startTime = Date.now();
         if (!username || !accessKey) {
             return (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)('Missing "username" or "accessKey" GitHub Action parameter');
         }
@@ -13020,7 +13020,7 @@ function run() {
 // eslint-disable-next-line github/no-then
 run().catch((error) => __awaiter(void 0, void 0, void 0, function* () {
     (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);
-    teardown();
+    return teardown();
 }));
 
 })();
