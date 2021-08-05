@@ -1,16 +1,111 @@
-import {getInput, saveState, setFailed, warning} from '@actions/core'
+import {getInput, setFailed, info, startGroup, endGroup} from '@actions/core'
+import SauceZap from '@saucelabs/zap'
 
+const sleep = async (time = 100) =>
+    new Promise(resolve => setTimeout(resolve, time))
+
+const getAlertByRisk = (
+    alerts: any[],
+    risk: 'severe' | 'medium' | 'low' | 'informational'
+) => alerts.filter(alert => alert.risk === risk)
 
 async function run(): Promise<void> {
     const username = getInput('username')
     const accessKey = getInput('accessKey')
-    const url = getInput('url')
+    const urlToScan = getInput('url')
     const asv = parseInt(getInput('allowedSevereVulnerabilties'), 10) || 0
     const amv = parseInt(getInput('allowedMediumVulnerabilties'), 10) || 0
     const alv = parseInt(getInput('allowedLowVulnerabilties'), 10) || 0
-    const aiv = parseInt(getInput('allowedInformationalVulnerabilties'), 10) || -1
+    const aiv =
+        parseInt(getInput('allowedInformationalVulnerabilties'), 10) || -1
     const startTime = Date.now()
 
+    // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
+    const zaproxy = new SauceZap({
+        username,
+        accessKey
+    })
+
+    /**
+     * start Sauce Labs Zap session
+     */
+    await zaproxy.session.newSession({commandTimeout: 1000 * 60})
+    const {scan} = await zaproxy.spider.scan({url: urlToScan})
+
+    info(`Exploring application ${urlToScan}`)
+    while (true) {
+        const {status} = await zaproxy.spider.status({
+            scanId: parseInt(scan, 10)
+        })
+        if (status === '100') {
+            break
+        }
+
+        process.stdout.cursorTo(0)
+        process.stdout.write(`Scan Status: ${status}%`)
+        await sleep()
+    }
+
+    info('Start analyzing application')
+    const {scan: ascan} = await zaproxy.ascan.scan({
+        url: urlToScan,
+        scanPolicyName: 'Default Policy'
+    })
+    while (true) {
+        const {status} = await zaproxy.ascan.status({
+            scanId: parseInt(ascan, 10)
+        })
+        if (status === '100') {
+            break
+        }
+
+        await sleep()
+    }
+
+    info('Computing vulnerabilities')
+    const {alerts} = await zaproxy.alert.alerts()
+    startGroup(`Vulnerability results`)
+    for (const alert of alerts) {
+        const url = new URL(alert.url)
+        info(
+            `${url.pathname} (${alert.risk}): ${alert.name}\n` +
+                `Description: ${alert.description.trim()}\n` +
+                `Solution: ${alert.solution.trim()}\n\n`
+        )
+    }
+    endGroup()
+
+    await zaproxy.session.deleteSession()
+    info(`Computed scan results after ${(Date.now() - startTime) / 1000}s`)
+
+    const severeVulnerabilities = getAlertByRisk(alerts, 'severe')
+    const mediumVulnerabilities = getAlertByRisk(alerts, 'medium')
+    const lowVulnerabilities = getAlertByRisk(alerts, 'low')
+    const informationalVulnerabilities = getAlertByRisk(alerts, 'informational')
+    info(
+        'Vulnerabilities found:\n' +
+            `Severe: ${severeVulnerabilities.length}\n` +
+            `Medium: ${mediumVulnerabilities.length}\n` +
+            `Low: ${lowVulnerabilities.length}\n` +
+            `Informational: ${informationalVulnerabilities.length}\n`
+    )
+
+    if (asv !== -1 && severeVulnerabilities.length > asv)
+        setFailed(
+            `Found ${severeVulnerabilities.length} severe vulnerabilities, allowed are ${asv}`
+        )
+    if (amv !== -1 && mediumVulnerabilities.length > amv)
+        setFailed(
+            `Found ${mediumVulnerabilities.length} medium vulnerabilities, allowed are ${amv}`
+        )
+    if (alv !== -1 && lowVulnerabilities.length > alv)
+        setFailed(
+            `Found ${lowVulnerabilities.length} low vulnerabilities, allowed are ${alv}`
+        )
+    if (aiv !== -1 && informationalVulnerabilities.length > aiv)
+        setFailed(
+            `Found ${informationalVulnerabilities.length} informational vulnerabilities, allowed are ${aiv}`
+        )
 }
 
 // eslint-disable-next-line github/no-then
