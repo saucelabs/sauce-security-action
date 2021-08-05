@@ -10,6 +10,6 @@ jobs:
 
             - uses: ./
               with:
-                SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
-                SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+                username: ${{ secrets.SAUCE_USERNAME }}
+                accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
                 url: https://www.saucedemo.com/

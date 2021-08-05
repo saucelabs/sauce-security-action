@@ -12943,6 +12943,12 @@ function run() {
         const alv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedLowVulnerabilties'), 10) || 0;
         const aiv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedInformationalVulnerabilties'), 10) || -1;
         const startTime = Date.now();
+        if (!username || !accessKey) {
+            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)('Missing "username" or "accessKey" GitHub Action parameter');
+        }
+        if (!urlToScan) {
+            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)('Missing GitHub Action parameter "urlToScan"');
+        }
         // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
         const zaproxy = new (_saucelabs_zap__WEBPACK_IMPORTED_MODULE_1___default())({
             username,

@@ -20,6 +20,16 @@ async function run(): Promise<void> {
         parseInt(getInput('allowedInformationalVulnerabilties'), 10) || -1
     const startTime = Date.now()
 
+    if (!username || !accessKey) {
+        return setFailed(
+            'Missing "username" or "accessKey" GitHub Action parameter'
+        )
+    }
+
+    if (!urlToScan) {
+        return setFailed('Missing GitHub Action parameter "urlToScan"')
+    }
+
     // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
     const zaproxy = new SauceZap({
         username,
