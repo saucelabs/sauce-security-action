@@ -12951,8 +12951,8 @@ function run() {
         }
         // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
         const zaproxy = new (_saucelabs_zap__WEBPACK_IMPORTED_MODULE_1___default())({
-            username,
-            accessKey
+            user: username,
+            key: accessKey
         });
         /**
          * start Sauce Labs Zap session

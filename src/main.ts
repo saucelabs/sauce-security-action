@@ -32,8 +32,8 @@ async function run(): Promise<void> {
 
     // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
     const zaproxy = new SauceZap({
-        username,
-        accessKey
+        user: username,
+        key: accessKey
     })
 
     /**
