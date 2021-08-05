@@ -10,8 +10,8 @@ const getAlertByRisk = (
 ) => alerts.filter(alert => alert.risk === risk)
 
 async function run(): Promise<void> {
-    const username = getInput('username')
-    const accessKey = getInput('accessKey')
+    const username = getInput('username') || process.env.SAUCE_USERNAME
+    const accessKey = getInput('accessKey') || process.env.SAUCE_ACCESS_KEY
     const urlToScan = getInput('url')
     const asv = parseInt(getInput('allowedSevereVulnerabilties'), 10) || 0
     const amv = parseInt(getInput('allowedMediumVulnerabilties'), 10) || 0
@@ -27,7 +27,7 @@ async function run(): Promise<void> {
     }
 
     if (!urlToScan) {
-        return setFailed('Missing GitHub Action parameter "urlToScan"')
+        return setFailed('Missing GitHub Action parameter "url"')
     }
 
     // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2

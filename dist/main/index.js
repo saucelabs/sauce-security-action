@@ -12935,8 +12935,8 @@ const sleep = (time = 100) => __awaiter(void 0, void 0, void 0, function* () { r
 const getAlertByRisk = (alerts, risk) => alerts.filter(alert => alert.risk === risk);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        const username = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('username');
-        const accessKey = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('accessKey');
+        const username = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('username') || process.env.SAUCE_USERNAME;
+        const accessKey = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('accessKey') || process.env.SAUCE_ACCESS_KEY;
         const urlToScan = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('url');
         const asv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedSevereVulnerabilties'), 10) || 0;
         const amv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('allowedMediumVulnerabilties'), 10) || 0;
@@ -12947,7 +12947,7 @@ function run() {
             return (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)('Missing "username" or "accessKey" GitHub Action parameter');
         }
         if (!urlToScan) {
-            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)('Missing GitHub Action parameter "urlToScan"');
+            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)('Missing GitHub Action parameter "url"');
         }
         // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
         const zaproxy = new (_saucelabs_zap__WEBPACK_IMPORTED_MODULE_1___default())({
