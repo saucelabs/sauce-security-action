@@ -12932,7 +12932,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 const sleep = (time = 100) => __awaiter(void 0, void 0, void 0, function* () { return new Promise(resolve => setTimeout(resolve, time)); });
-const getAlertByRisk = (alerts, risk) => alerts.filter(alert => alert.risk === risk);
+const getAlertByRisk = (alerts, risk) => alerts.filter(alert => alert.risk.toLowerCase() === risk);
 let teardown = () => { };
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -12961,7 +12961,7 @@ function run() {
         yield zaproxy.session.newSession({ commandTimeout: 1000 * 60 });
         teardown = () => __awaiter(this, void 0, void 0, function* () { return zaproxy.session.deleteSession(); });
         const { scan } = yield zaproxy.spider.scan({ url: urlToScan });
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Exploring application ${urlToScan}`);
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Exploring application ${urlToScan} ...`);
         while (true) {
             const { status } = yield zaproxy.spider.status({
                 scanId: parseInt(scan, 10)
@@ -12971,7 +12971,7 @@ function run() {
             }
             yield sleep();
         }
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('Start analyzing application');
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('Start analyzing application ...');
         const { scan: ascan } = yield zaproxy.ascan.scan({
             url: urlToScan,
             scanPolicyName: 'Default Policy'
@@ -12985,24 +12985,24 @@ function run() {
             }
             yield sleep();
         }
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('Computing vulnerabilities');
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('Computing vulnerabilities ...');
         const { alerts } = yield zaproxy.alert.alerts();
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`\nComputed scan results after ${(Date.now() - startTime) / 1000}s`);
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.startGroup)(`Vulnerability results`);
         for (const alert of alerts) {
             const url = new URL(alert.url);
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`${url.pathname} (${alert.risk}): ${alert.name}\n` +
+            (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`${urlToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
                 `Description: ${alert.description.trim()}\n` +
                 `Solution: ${alert.solution.trim()}\n\n`);
         }
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.endGroup)();
         yield zaproxy.session.deleteSession();
         teardown = () => { };
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Computed scan results after ${(Date.now() - startTime) / 1000}s`);
         const severeVulnerabilities = getAlertByRisk(alerts, 'severe');
         const mediumVulnerabilities = getAlertByRisk(alerts, 'medium');
         const lowVulnerabilities = getAlertByRisk(alerts, 'low');
         const informationalVulnerabilities = getAlertByRisk(alerts, 'informational');
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('Vulnerabilities found:\n' +
+        (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('\nVulnerabilities found:\n' +
             `Severe: ${severeVulnerabilities.length}\n` +
             `Medium: ${mediumVulnerabilities.length}\n` +
             `Low: ${lowVulnerabilities.length}\n` +
