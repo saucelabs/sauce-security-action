@@ -9,6 +9,8 @@ const getAlertByRisk = (
     risk: 'severe' | 'medium' | 'low' | 'informational'
 ) => alerts.filter(alert => alert.risk === risk)
 
+let teardown = () => {}
+
 async function run(): Promise<void> {
     const username = getInput('username') || process.env.SAUCE_USERNAME
     const accessKey = getInput('accessKey') || process.env.SAUCE_ACCESS_KEY
@@ -40,6 +42,7 @@ async function run(): Promise<void> {
      * start Sauce Labs Zap session
      */
     await zaproxy.session.newSession({commandTimeout: 1000 * 60})
+    teardown = async () => zaproxy.session.deleteSession()
     const {scan} = await zaproxy.spider.scan({url: urlToScan})
 
     info(`Exploring application ${urlToScan}`)
@@ -51,8 +54,6 @@ async function run(): Promise<void> {
             break
         }
 
-        process.stdout.cursorTo(0)
-        process.stdout.write(`Scan Status: ${status}%`)
         await sleep()
     }
 
@@ -86,6 +87,7 @@ async function run(): Promise<void> {
     endGroup()
 
     await zaproxy.session.deleteSession()
+    teardown = () => {}
     info(`Computed scan results after ${(Date.now() - startTime) / 1000}s`)
 
     const severeVulnerabilities = getAlertByRisk(alerts, 'severe')
@@ -119,4 +121,7 @@ async function run(): Promise<void> {
 }
 
 // eslint-disable-next-line github/no-then
-run().catch(error => setFailed(error.message))
+run().catch(async error => {
+    setFailed(error.message)
+    teardown()
+})

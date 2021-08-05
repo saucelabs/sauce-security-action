@@ -12933,6 +12933,7 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 const sleep = (time = 100) => __awaiter(void 0, void 0, void 0, function* () { return new Promise(resolve => setTimeout(resolve, time)); });
 const getAlertByRisk = (alerts, risk) => alerts.filter(alert => alert.risk === risk);
+let teardown = () => { };
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const username = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('username') || process.env.SAUCE_USERNAME;
@@ -12958,6 +12959,7 @@ function run() {
          * start Sauce Labs Zap session
          */
         yield zaproxy.session.newSession({ commandTimeout: 1000 * 60 });
+        teardown = () => __awaiter(this, void 0, void 0, function* () { return zaproxy.session.deleteSession(); });
         const { scan } = yield zaproxy.spider.scan({ url: urlToScan });
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Exploring application ${urlToScan}`);
         while (true) {
@@ -12967,8 +12969,6 @@ function run() {
             if (status === '100') {
                 break;
             }
-            process.stdout.cursorTo(0);
-            process.stdout.write(`Scan Status: ${status}%`);
             yield sleep();
         }
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)('Start analyzing application');
@@ -12996,6 +12996,7 @@ function run() {
         }
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.endGroup)();
         yield zaproxy.session.deleteSession();
+        teardown = () => { };
         (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Computed scan results after ${(Date.now() - startTime) / 1000}s`);
         const severeVulnerabilities = getAlertByRisk(alerts, 'severe');
         const mediumVulnerabilities = getAlertByRisk(alerts, 'medium');
@@ -13017,7 +13018,10 @@ function run() {
     });
 }
 // eslint-disable-next-line github/no-then
-run().catch(error => (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message));
+run().catch((error) => __awaiter(void 0, void 0, void 0, function* () {
+    (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);
+    teardown();
+}));
 
 })();
 
