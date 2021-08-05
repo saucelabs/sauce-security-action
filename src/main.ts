@@ -7,7 +7,7 @@ const sleep = async (time = 100) =>
 const getAlertByRisk = (
     alerts: any[],
     risk: 'severe' | 'medium' | 'low' | 'informational'
-) => alerts.filter(alert => alert.risk === risk)
+) => alerts.filter(alert => alert.risk.toLowerCase() === risk)
 
 let teardown = () => {}
 
@@ -45,7 +45,7 @@ async function run(): Promise<void> {
     teardown = async () => zaproxy.session.deleteSession()
     const {scan} = await zaproxy.spider.scan({url: urlToScan})
 
-    info(`Exploring application ${urlToScan}`)
+    info(`Exploring application ${urlToScan} ...`)
     while (true) {
         const {status} = await zaproxy.spider.status({
             scanId: parseInt(scan, 10)
@@ -57,7 +57,7 @@ async function run(): Promise<void> {
         await sleep()
     }
 
-    info('Start analyzing application')
+    info('Start analyzing application ...')
     const {scan: ascan} = await zaproxy.ascan.scan({
         url: urlToScan,
         scanPolicyName: 'Default Policy'
@@ -73,13 +73,14 @@ async function run(): Promise<void> {
         await sleep()
     }
 
-    info('Computing vulnerabilities')
+    info('Computing vulnerabilities ...')
     const {alerts} = await zaproxy.alert.alerts()
+    info(`\nComputed scan results after ${(Date.now() - startTime) / 1000}s`)
     startGroup(`Vulnerability results`)
     for (const alert of alerts) {
         const url = new URL(alert.url)
         info(
-            `${url.pathname} (${alert.risk}): ${alert.name}\n` +
+            `${urlToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
                 `Description: ${alert.description.trim()}\n` +
                 `Solution: ${alert.solution.trim()}\n\n`
         )
@@ -88,14 +89,13 @@ async function run(): Promise<void> {
 
     await zaproxy.session.deleteSession()
     teardown = () => {}
-    info(`Computed scan results after ${(Date.now() - startTime) / 1000}s`)
 
     const severeVulnerabilities = getAlertByRisk(alerts, 'severe')
     const mediumVulnerabilities = getAlertByRisk(alerts, 'medium')
     const lowVulnerabilities = getAlertByRisk(alerts, 'low')
     const informationalVulnerabilities = getAlertByRisk(alerts, 'informational')
     info(
-        'Vulnerabilities found:\n' +
+        '\nVulnerabilities found:\n' +
             `Severe: ${severeVulnerabilities.length}\n` +
             `Medium: ${mediumVulnerabilities.length}\n` +
             `Low: ${lowVulnerabilities.length}\n` +
