@@ -1,0 +1,24 @@
+name: "PR Checks"
+on: push
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        name: Action Test
+        steps:
+            - uses: actions/checkout@v1
+            - uses: ./
+              with:
+                username: ${{ secrets.SAUCE_USERNAME }}
+                accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+                tunnelIdentifier: github-action-tunnel
+
+            - name: "Install Dependencies"
+              run: npm install
+
+            - name: "Run Test"
+              run: npm run test
+              env:
+                SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+                SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+                url: https://www.saucedemo.com/

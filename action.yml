@@ -1,0 +1,37 @@
+# action.yml
+name: 'Sauce Security Action'
+description: 'A GitHub action to run security scans on your applications.'
+author: Christian Bromann
+branding:
+    icon: lock
+    color: red
+inputs:
+    username:
+        description: Sauce Labs user name.
+        required: true
+    accessKey:
+        description: Sauce Labs API Key.
+        required: true
+    url:
+        description: Url to the application under test.
+        required: true
+    allowedSevereVulnerabilties:
+        description: "Amount of severe vulnerabilities that are allowed to be discovered - if set to `-1` these will be ignored. (Default: 0)"
+        required: false
+        default: '0'
+    allowedMediumVulnerabilties:
+        description: "Amount of medium vulnerabilities that are allowed to be discovered - if set to `-1` these will be ignored. (Default: 0)"
+        required: false
+        default: '0'
+    allowedLowVulnerabilties:
+        description: "Amount of low vulnerabilities that are allowed to be discovered - if set to `-1` these will be ignored. (Default: 0)"
+        required: false
+        default: '0'
+    allowedInformationalVulnerabilties:
+        description: "Amount of informational vulnerabilities that are allowed to be discovered - if set to `-1` these will be ignored. (Default: 0)"
+        required: false
+        default: '-1'
+runs:
+    using: 'node12'
+    main: 'dist/main/index.js'
+    post: 'dist/post/index.js'
