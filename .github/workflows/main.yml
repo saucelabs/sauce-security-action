@@ -1,5 +1,5 @@
 name: "PR Checks"
-on: push
+on: [push, pull_request]
 
 jobs:
     test:
@@ -13,3 +13,7 @@ jobs:
                 username: ${{ secrets.SAUCE_USERNAME }}
                 accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
                 url: https://www.saucedemo.com/
+                # expected number of vulnerabilities
+                allowedMediumVulnerabilties: 10
+                allowedLowVulnerabilties: 14
+                allowedInformationalVulnerabilties: 20
