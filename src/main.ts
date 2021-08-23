@@ -147,6 +147,7 @@ async function run(): Promise<void> {
                         `${ext}report` as REPORT
                     ]()
 
+                    console.log(`${ext}report`, report)
                     const reportName = `report.${ext}`
                     await fs.promises.writeFile(
                         path.join(reportPath, reportName),

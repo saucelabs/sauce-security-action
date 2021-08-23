@@ -24025,6 +24025,7 @@ function run() {
                 yield external_fs_default().promises.mkdir(reportPath);
                 yield Promise.all(REPORT_EXTENSIONS.map(ext => () => __awaiter(this, void 0, void 0, function* () {
                     const report = yield zaproxy.core[`${ext}report`]();
+                    console.log(`${ext}report`, report);
                     const reportName = `report.${ext}`;
                     yield external_fs_default().promises.writeFile(external_path_default().join(reportPath, reportName), report.toString(), 'utf-8');
                 })));
