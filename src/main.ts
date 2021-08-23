@@ -140,7 +140,7 @@ async function run(): Promise<void> {
         )
         const uploadResponse = await artifactClient.uploadArtifact(
             'zap-report.html',
-            [reportName],
+            [path.join(__dirname, reportName)],
             __dirname,
             options
         )

@@ -26301,7 +26301,7 @@ function run() {
             const report = yield zaproxy.core.htmlreport();
             const reportName = 'report.html';
             yield fs__WEBPACK_IMPORTED_MODULE_0___default().promises.writeFile(path__WEBPACK_IMPORTED_MODULE_1___default().join(__dirname, reportName), report.toString(), 'utf-8');
-            const uploadResponse = yield artifactClient.uploadArtifact('zap-report.html', [reportName], __dirname, options);
+            const uploadResponse = yield artifactClient.uploadArtifact('zap-report.html', [path__WEBPACK_IMPORTED_MODULE_1___default().join(__dirname, reportName)], __dirname, options);
             if (uploadResponse.failedItems.length > 0) {
                 return (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`An error was encountered when uploading ${uploadResponse.artifactName}.`);
             }
