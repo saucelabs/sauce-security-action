@@ -142,12 +142,11 @@ async function run(): Promise<void> {
             await fs.promises.mkdir(reportPath)
 
             await Promise.all(
-                REPORT_EXTENSIONS.map(ext => async () => {
+                REPORT_EXTENSIONS.map(async ext => {
                     const report = await zaproxy.core[
                         `${ext}report` as REPORT
                     ]()
 
-                    console.log(`${ext}report`, report)
                     const reportName = `report.${ext}`
                     await fs.promises.writeFile(
                         path.join(reportPath, reportName),
@@ -179,7 +178,7 @@ async function run(): Promise<void> {
             await fs.promises.mkdir(assetPath)
 
             await Promise.all(
-                JOB_ASSETS.map(asset => async () => {
+                JOB_ASSETS.map(async asset => {
                     const assetBuffer = await zaproxy.session.getAsset({
                         name: asset
                     })

@@ -24023,9 +24023,8 @@ function run() {
                 (0,core.info)('\nDownloading Zap Reports ...');
                 const reportPath = external_path_default().join(process.cwd(), '__zap-reports__');
                 yield external_fs_default().promises.mkdir(reportPath);
-                yield Promise.all(REPORT_EXTENSIONS.map(ext => () => __awaiter(this, void 0, void 0, function* () {
+                yield Promise.all(REPORT_EXTENSIONS.map((ext) => __awaiter(this, void 0, void 0, function* () {
                     const report = yield zaproxy.core[`${ext}report`]();
-                    console.log(`${ext}report`, report);
                     const reportName = `report.${ext}`;
                     yield external_fs_default().promises.writeFile(external_path_default().join(reportPath, reportName), report.toString(), 'utf-8');
                 })));
@@ -24047,7 +24046,7 @@ function run() {
                 (0,core.info)('\nDownloading Sauce Job Assets ...');
                 const assetPath = external_path_default().join(process.cwd(), '__sauce-assets__');
                 yield external_fs_default().promises.mkdir(assetPath);
-                yield Promise.all(JOB_ASSETS.map(asset => () => __awaiter(this, void 0, void 0, function* () {
+                yield Promise.all(JOB_ASSETS.map((asset) => __awaiter(this, void 0, void 0, function* () {
                     const assetBuffer = yield zaproxy.session.getAsset({
                         name: asset
                     });
