@@ -1,9 +1,18 @@
 import fs from 'fs'
 import path from 'path'
 
-import {getInput, setFailed, info, startGroup, endGroup} from '@actions/core'
-import {create, UploadOptions} from '@actions/artifact'
+import {
+    getInput,
+    setFailed,
+    info,
+    startGroup,
+    endGroup,
+    setOutput
+} from '@actions/core'
 import SauceZap from '@saucelabs/zap'
+
+import {REPORT_EXTENSIONS, JOB_ASSETS} from './constants'
+import type {REPORT} from './types'
 
 const sleep = async (time = 100) =>
     new Promise(resolve => setTimeout(resolve, time))
@@ -20,6 +29,8 @@ async function run(): Promise<void> {
     const username = getInput('username') || process.env.SAUCE_USERNAME
     const accessKey = getInput('accessKey') || process.env.SAUCE_ACCESS_KEY
     const urlToScan = getInput('url')
+    const downloadReports = Boolean(getInput('downloadReports'))
+    const downloadJobAssets = Boolean(getInput('downloadJobAssets'))
     const asv = parseInt(getInput('allowedSevereVulnerabilties'), 10) || 0
     const amv = parseInt(getInput('allowedMediumVulnerabilties'), 10) || 0
     const alv = parseInt(getInput('allowedLowVulnerabilties'), 10) || 0
@@ -121,45 +132,69 @@ async function run(): Promise<void> {
         )
 
     /**
-     * Store HTML artifact if desired
+     * Store Zap report if desired
      */
-    info('Uploading Zap Report ...')
-    const artifactClient = create()
-    const options: UploadOptions = {
-        continueOnError: false,
-        retentionDays: 30
-    }
+    if (downloadReports) {
+        try {
+            info('Downloading Zap Reports ...')
+            const reportPath = path.join(process.cwd(), '__zap-reports__')
+            await fs.promises.mkdir(reportPath)
 
-    try {
-        const report = await zaproxy.core.htmlreport()
-        const reportName = 'report.html'
-        await fs.promises.writeFile(
-            path.join(__dirname, reportName),
-            report.toString(),
-            'utf-8'
-        )
-        const uploadResponse = await artifactClient.uploadArtifact(
-            'zap-report.html',
-            [path.join(__dirname, reportName)],
-            __dirname,
-            options
-        )
+            await Promise.all(
+                REPORT_EXTENSIONS.map(ext => async () => {
+                    const report = await zaproxy.core[
+                        `${ext}report` as REPORT
+                    ]()
 
-        if (uploadResponse.failedItems.length > 0) {
+                    const reportName = `report.${ext}`
+                    await fs.promises.writeFile(
+                        path.join(reportPath, reportName),
+                        report.toString(),
+                        'utf-8'
+                    )
+                })
+            )
+            setOutput('reports-folder-path', reportPath)
+            info('Zap Reports Downloaded!')
+        } catch (err) {
             return setFailed(
-                `An error was encountered when uploading ${uploadResponse.artifactName}.`
+                `An error was encountered when downloading: ${err.message}.`
             )
         }
-
-        info('Zap Report Uploaded!')
-    } catch (err) {
-        return setFailed(
-            `An error was encountered when uploading: ${err.message}.`
-        )
     }
 
     await zaproxy.session.deleteSession()
     teardown = () => {}
+
+    /**
+     * Store Zap session if desired
+     */
+    if (downloadJobAssets) {
+        try {
+            info('Downloading Sauce Job Assets ...')
+            const assetPath = path.join(process.cwd(), '__sauce-assets__')
+            await fs.promises.mkdir(assetPath)
+
+            await Promise.all(
+                JOB_ASSETS.map(asset => async () => {
+                    const assetBuffer = await zaproxy.session.getAsset({
+                        name: asset
+                    })
+                    await fs.promises.writeFile(
+                        path.join(assetPath, asset),
+                        assetBuffer,
+                        'utf-8'
+                    )
+                })
+            )
+            setOutput('assets-folder-path', assetPath)
+            info('Sauce Job Assets Downloaded!')
+        } catch (err) {
+            return setFailed(
+                `An error was encountered when downloading: ${err.message}.`
+            )
+        }
+    }
 }
 
 // eslint-disable-next-line github/no-then

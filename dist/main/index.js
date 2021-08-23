@@ -1,14 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 6963:
-/***/ ((module) => {
-
-"use strict";
-module.exports = JSON.parse('{"openapi":"3.0.2","info":{"title":"Sauce ZAP API","description":"Extended Zap API to run Owasp Zap in the cloud.","contact":{"name":"Open Source Program Office","url":"https://opensource.saucelabs.com","email":"opensource@saucelabs.com"},"license":{"name":"Apache 2.0","url":"https://www.apache.org/licenses/LICENSE-2.0.html"},"version":"Dev Build"},"servers":[{"url":"http://sauce","description":"The URL while proxying through ZAP."}],"components":{"securitySchemes":{"apiKeyHeader":{"type":"apiKey","name":"X-ZAP-API-Key","in":"header"},"apiKeyQuery":{"type":"apiKey","name":"apikey","in":"query"}},"schemas":{"Error":{"type":"object","required":["message","code"],"properties":{"message":{"type":"string"},"code":{"type":"integer","minimum":100,"maximum":600}}},"SessionResponse":{"type":"object","required":["sessionId"],"properties":{"sessionId":{"type":"string"}}}}},"security":[{"apiKeyHeader":[]},{"apiKeyQuery":[]}],"paths":{"/session/":{"post":{"description":"Create an Owasp Zap session in the cloud","operationId":"newSession","tags":["session"],"responses":{"200":{"description":"session response","content":{"application/json":{"schema":{"$ref":"#/components/schemas/SessionResponse"}}}},"500":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"commandTimeout","in":"body","required":false,"deprecated":false,"description":"timeout to close the session when no command was received","schema":{"type":"integer"}},{"name":"sessionTimeout","in":"body","required":false,"deprecated":false,"description":"timeout for the session to be able to run (default 3 hrs)","schema":{"type":"integer"}},{"name":"loadFromSessionId","in":"body","required":false,"deprecated":false,"description":"initiate session with existing Zap session","schema":{"type":"string"}},{"name":"name","in":"body","required":false,"deprecated":false,"description":"name of the Zap session","schema":{"type":"string"}}]},"/session/{sessionId}":{"delete":{"description":"Delete a Owasp Zap session in the cloud","operationId":"deleteSession","tags":["session"],"responses":{"200":{"content":{"application/json":{"schema":{"type":"object","properties":{}}}}},"500":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/session/{sessionId}/load":{"post":{"description":"Load persisted session into remote session","operationId":"loadSession","tags":["session"],"requestBody":{"content":{"multipart/form-data":{"schema":{"type":"object","properties":{"session":{"type":"array","items":{"type":"string","format":"binary"}},"name":{"type":"string"}}}}}},"responses":{"200":{"content":{"application/json":{"schema":{"type":"object","properties":{}}}}},"500":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"path","in":"parameter","required":true,"description":"path to either:\\n - a directory\\n - a *.tar.gz\\ncontaining session files\\n","schema":{"type":"string"}},{"name":"name","in":"parameter","required":true,"description":"name of the session","schema":{"type":"string"}}]},"/session/{sessionId}/assets":{"get":{"description":"Get asset from a complete Zap session","operationId":"getAsset","tags":["session"],"responses":{"200":{"description":"content of asset file","content":{"text/plain":{"schema":{"type":"string","description":"log files like zap.log"}},"application/json":{"schema":{"description":"command logs, e.g. session.json"}},"application/x-tar":{"schema":{"description":"Zap session, e.g. session.tar.gz"}}}},"500":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"name","in":"query","required":true,"description":"name of the asset, e.g. zap.log","schema":{"type":"string"}}]}}}');
-
-/***/ }),
-
 /***/ 3791:
 /***/ ((module) => {
 
@@ -21,1690 +13,7 @@ module.exports = JSON.parse('{"openapi":"3.0.2","info":{"title":"ZAP API","descr
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_from":"@saucelabs/zap@^0.3.1","_id":"@saucelabs/zap@0.3.1","_inBundle":false,"_integrity":"sha512-iEajWMOgYeUzSeOIYMw3JTtAHWXQClvQOQAEJ9a6U+zhuvb+JorlTHTwzVnD3X/rlffVsYtald9SBYT4uhrx3A==","_location":"/@saucelabs/zap","_phantomChildren":{"argparse":"2.0.1","glob":"7.1.7"},"_requested":{"type":"range","registry":true,"raw":"@saucelabs/zap@^0.3.1","name":"@saucelabs/zap","escapedName":"@saucelabs%2fzap","scope":"@saucelabs","rawSpec":"^0.3.1","saveSpec":null,"fetchSpec":"^0.3.1"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/@saucelabs/zap/-/zap-0.3.1.tgz","_shasum":"b15873e5c7466f3e64027e6e91015aaef38a5bc8","_spec":"@saucelabs/zap@^0.3.1","_where":"/Users/christianbromann/Sites/SauceLabs/projects/sauce-security-action","author":{"name":"Christian Bromann","email":"christian@saucelabs.com"},"bin":{"zap":"bin/zap"},"bugs":{"url":"https://github.com/saucelabs/node-zap/issues"},"bundleDependencies":false,"contributors":[{"name":"christian-bromann","email":"christian@saucelabs.com"}],"dependencies":{"change-case":"^4.1.1","ejs":"^3.1.6","form-data":"^4.0.0","got":"^11.7.0","js-yaml":"^4.1.0","tar":"^6.1.2","tmp-promise":"^3.0.2","tunnel":"0.0.6","yargs":"^16.0.3"},"deprecated":false,"description":"OWASP ZapProxy bindings for Node.js","devDependencies":{"@types/jest":"^26.0.23","@types/tar":"^4.0.5","@types/tunnel":"0.0.2","@typescript-eslint/eslint-plugin":"^4.28.0","@typescript-eslint/parser":"^4.28.0","eslint":"^7.29.0","eslint-plugin-import":"^2.23.4","jest":"^27.0.5","npm-run-all":"^4.1.5","openapi-types":"^9.0.3","release-it":"^14.10.0","rimraf":"^3.0.2","source-map-support":"^0.5.19","swagger-typescript-codegen":"^3.2.3","ts-jest":"^27.0.3","ts-node":"^10.0.0","typescript":"^4.3.4"},"homepage":"https://github.com/saucelabs/node-zap","license":"Apache-2.0","main":"./build/index","name":"@saucelabs/zap","publishConfig":{"access":"public"},"repository":{"type":"git","url":"git://github.com/saucelabs/node-zap.git"},"scripts":{"build":"NODE_ENV=dev run-s clean compile postinstall","clean":"rimraf tsconfig.tsbuildinfo ./build ./coverage","compile":"tsc -p ./tsconfig.json","eslint":"eslint -c ./.eslintrc.js ./src/**/*.ts ./tests/**/*.ts","postinstall":"./scripts/setup.js","prepublishOnly":"NODE_ENV=production run-s build","release":"release-it --github.release","release:ci":"npm run release -- --ci --npm.skipChecks --no-git.requireCleanWorkingDir","release:major":"npm run release -- major","release:minor":"npm run release -- minor","release:patch":"npm run release -- patch","test":"run-s build eslint test:unit","test:unit":"cp -r build/api src/api && jest --coverage","watch":"npm run compile -- --watch"},"typings":"./build/index.d.ts","version":"0.3.1"}');
-
-/***/ }),
-
-/***/ 2605:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-var __webpack_unused_export__;
-
-__webpack_unused_export__ = ({ value: true });
-const artifact_client_1 = __nccwpck_require__(8802);
-/**
- * Constructs an ArtifactClient
- */
-function create() {
-    return artifact_client_1.DefaultArtifactClient.create();
-}
-exports.U = create;
-//# sourceMappingURL=artifact-client.js.map
-
-/***/ }),
-
-/***/ 8802:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-const upload_specification_1 = __nccwpck_require__(183);
-const upload_http_client_1 = __nccwpck_require__(4354);
-const utils_1 = __nccwpck_require__(6327);
-const download_http_client_1 = __nccwpck_require__(8538);
-const download_specification_1 = __nccwpck_require__(5686);
-const config_variables_1 = __nccwpck_require__(2222);
-const path_1 = __nccwpck_require__(5622);
-class DefaultArtifactClient {
-    /**
-     * Constructs a DefaultArtifactClient
-     */
-    static create() {
-        return new DefaultArtifactClient();
-    }
-    /**
-     * Uploads an artifact
-     */
-    uploadArtifact(name, files, rootDirectory, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            utils_1.checkArtifactName(name);
-            // Get specification for the files being uploaded
-            const uploadSpecification = upload_specification_1.getUploadSpecification(name, rootDirectory, files);
-            const uploadResponse = {
-                artifactName: name,
-                artifactItems: [],
-                size: 0,
-                failedItems: []
-            };
-            const uploadHttpClient = new upload_http_client_1.UploadHttpClient();
-            if (uploadSpecification.length === 0) {
-                core.warning(`No files found that can be uploaded`);
-            }
-            else {
-                // Create an entry for the artifact in the file container
-                const response = yield uploadHttpClient.createArtifactInFileContainer(name, options);
-                if (!response.fileContainerResourceUrl) {
-                    core.debug(response.toString());
-                    throw new Error('No URL provided by the Artifact Service to upload an artifact to');
-                }
-                core.debug(`Upload Resource URL: ${response.fileContainerResourceUrl}`);
-                // Upload each of the files that were found concurrently
-                const uploadResult = yield uploadHttpClient.uploadArtifactToFileContainer(response.fileContainerResourceUrl, uploadSpecification, options);
-                // Update the size of the artifact to indicate we are done uploading
-                // The uncompressed size is used for display when downloading a zip of the artifact from the UI
-                yield uploadHttpClient.patchArtifactSize(uploadResult.totalSize, name);
-                core.info(`Finished uploading artifact ${name}. Reported size is ${uploadResult.uploadSize} bytes. There were ${uploadResult.failedItems.length} items that failed to upload`);
-                uploadResponse.artifactItems = uploadSpecification.map(item => item.absoluteFilePath);
-                uploadResponse.size = uploadResult.uploadSize;
-                uploadResponse.failedItems = uploadResult.failedItems;
-            }
-            return uploadResponse;
-        });
-    }
-    downloadArtifact(name, path, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const downloadHttpClient = new download_http_client_1.DownloadHttpClient();
-            const artifacts = yield downloadHttpClient.listArtifacts();
-            if (artifacts.count === 0) {
-                throw new Error(`Unable to find any artifacts for the associated workflow`);
-            }
-            const artifactToDownload = artifacts.value.find(artifact => {
-                return artifact.name === name;
-            });
-            if (!artifactToDownload) {
-                throw new Error(`Unable to find an artifact with the name: ${name}`);
-            }
-            const items = yield downloadHttpClient.getContainerItems(artifactToDownload.name, artifactToDownload.fileContainerResourceUrl);
-            if (!path) {
-                path = config_variables_1.getWorkSpaceDirectory();
-            }
-            path = path_1.normalize(path);
-            path = path_1.resolve(path);
-            // During upload, empty directories are rejected by the remote server so there should be no artifacts that consist of only empty directories
-            const downloadSpecification = download_specification_1.getDownloadSpecification(name, items.value, path, (options === null || options === void 0 ? void 0 : options.createArtifactFolder) || false);
-            if (downloadSpecification.filesToDownload.length === 0) {
-                core.info(`No downloadable files were found for the artifact: ${artifactToDownload.name}`);
-            }
-            else {
-                // Create all necessary directories recursively before starting any download
-                yield utils_1.createDirectoriesForArtifact(downloadSpecification.directoryStructure);
-                core.info('Directory structure has been setup for the artifact');
-                yield utils_1.createEmptyFilesForArtifact(downloadSpecification.emptyFilesToCreate);
-                yield downloadHttpClient.downloadSingleArtifact(downloadSpecification.filesToDownload);
-            }
-            return {
-                artifactName: name,
-                downloadPath: downloadSpecification.rootDownloadLocation
-            };
-        });
-    }
-    downloadAllArtifacts(path) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const downloadHttpClient = new download_http_client_1.DownloadHttpClient();
-            const response = [];
-            const artifacts = yield downloadHttpClient.listArtifacts();
-            if (artifacts.count === 0) {
-                core.info('Unable to find any artifacts for the associated workflow');
-                return response;
-            }
-            if (!path) {
-                path = config_variables_1.getWorkSpaceDirectory();
-            }
-            path = path_1.normalize(path);
-            path = path_1.resolve(path);
-            let downloadedArtifacts = 0;
-            while (downloadedArtifacts < artifacts.count) {
-                const currentArtifactToDownload = artifacts.value[downloadedArtifacts];
-                downloadedArtifacts += 1;
-                // Get container entries for the specific artifact
-                const items = yield downloadHttpClient.getContainerItems(currentArtifactToDownload.name, currentArtifactToDownload.fileContainerResourceUrl);
-                const downloadSpecification = download_specification_1.getDownloadSpecification(currentArtifactToDownload.name, items.value, path, true);
-                if (downloadSpecification.filesToDownload.length === 0) {
-                    core.info(`No downloadable files were found for any artifact ${currentArtifactToDownload.name}`);
-                }
-                else {
-                    yield utils_1.createDirectoriesForArtifact(downloadSpecification.directoryStructure);
-                    yield utils_1.createEmptyFilesForArtifact(downloadSpecification.emptyFilesToCreate);
-                    yield downloadHttpClient.downloadSingleArtifact(downloadSpecification.filesToDownload);
-                }
-                response.push({
-                    artifactName: currentArtifactToDownload.name,
-                    downloadPath: downloadSpecification.rootDownloadLocation
-                });
-            }
-            return response;
-        });
-    }
-}
-exports.DefaultArtifactClient = DefaultArtifactClient;
-//# sourceMappingURL=artifact-client.js.map
-
-/***/ }),
-
-/***/ 2222:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-// The number of concurrent uploads that happens at the same time
-function getUploadFileConcurrency() {
-    return 2;
-}
-exports.getUploadFileConcurrency = getUploadFileConcurrency;
-// When uploading large files that can't be uploaded with a single http call, this controls
-// the chunk size that is used during upload
-function getUploadChunkSize() {
-    return 8 * 1024 * 1024; // 8 MB Chunks
-}
-exports.getUploadChunkSize = getUploadChunkSize;
-// The maximum number of retries that can be attempted before an upload or download fails
-function getRetryLimit() {
-    return 5;
-}
-exports.getRetryLimit = getRetryLimit;
-// With exponential backoff, the larger the retry count, the larger the wait time before another attempt
-// The retry multiplier controls by how much the backOff time increases depending on the number of retries
-function getRetryMultiplier() {
-    return 1.5;
-}
-exports.getRetryMultiplier = getRetryMultiplier;
-// The initial wait time if an upload or download fails and a retry is being attempted for the first time
-function getInitialRetryIntervalInMilliseconds() {
-    return 3000;
-}
-exports.getInitialRetryIntervalInMilliseconds = getInitialRetryIntervalInMilliseconds;
-// The number of concurrent downloads that happens at the same time
-function getDownloadFileConcurrency() {
-    return 2;
-}
-exports.getDownloadFileConcurrency = getDownloadFileConcurrency;
-function getRuntimeToken() {
-    const token = process.env['ACTIONS_RUNTIME_TOKEN'];
-    if (!token) {
-        throw new Error('Unable to get ACTIONS_RUNTIME_TOKEN env variable');
-    }
-    return token;
-}
-exports.getRuntimeToken = getRuntimeToken;
-function getRuntimeUrl() {
-    const runtimeUrl = process.env['ACTIONS_RUNTIME_URL'];
-    if (!runtimeUrl) {
-        throw new Error('Unable to get ACTIONS_RUNTIME_URL env variable');
-    }
-    return runtimeUrl;
-}
-exports.getRuntimeUrl = getRuntimeUrl;
-function getWorkFlowRunId() {
-    const workFlowRunId = process.env['GITHUB_RUN_ID'];
-    if (!workFlowRunId) {
-        throw new Error('Unable to get GITHUB_RUN_ID env variable');
-    }
-    return workFlowRunId;
-}
-exports.getWorkFlowRunId = getWorkFlowRunId;
-function getWorkSpaceDirectory() {
-    const workspaceDirectory = process.env['GITHUB_WORKSPACE'];
-    if (!workspaceDirectory) {
-        throw new Error('Unable to get GITHUB_WORKSPACE env variable');
-    }
-    return workspaceDirectory;
-}
-exports.getWorkSpaceDirectory = getWorkSpaceDirectory;
-function getRetentionDays() {
-    return process.env['GITHUB_RETENTION_DAYS'];
-}
-exports.getRetentionDays = getRetentionDays;
-//# sourceMappingURL=config-variables.js.map
-
-/***/ }),
-
-/***/ 8538:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const fs = __importStar(__nccwpck_require__(5747));
-const core = __importStar(__nccwpck_require__(2186));
-const zlib = __importStar(__nccwpck_require__(8761));
-const utils_1 = __nccwpck_require__(6327);
-const url_1 = __nccwpck_require__(8835);
-const status_reporter_1 = __nccwpck_require__(9081);
-const perf_hooks_1 = __nccwpck_require__(630);
-const http_manager_1 = __nccwpck_require__(6527);
-const config_variables_1 = __nccwpck_require__(2222);
-const requestUtils_1 = __nccwpck_require__(755);
-class DownloadHttpClient {
-    constructor() {
-        this.downloadHttpManager = new http_manager_1.HttpManager(config_variables_1.getDownloadFileConcurrency(), '@actions/artifact-download');
-        // downloads are usually significantly faster than uploads so display status information every second
-        this.statusReporter = new status_reporter_1.StatusReporter(1000);
-    }
-    /**
-     * Gets a list of all artifacts that are in a specific container
-     */
-    listArtifacts() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const artifactUrl = utils_1.getArtifactUrl();
-            // use the first client from the httpManager, `keep-alive` is not used so the connection will close immediately
-            const client = this.downloadHttpManager.getClient(0);
-            const headers = utils_1.getDownloadHeaders('application/json');
-            const response = yield requestUtils_1.retryHttpClientRequest('List Artifacts', () => __awaiter(this, void 0, void 0, function* () { return client.get(artifactUrl, headers); }));
-            const body = yield response.readBody();
-            return JSON.parse(body);
-        });
-    }
-    /**
-     * Fetches a set of container items that describe the contents of an artifact
-     * @param artifactName the name of the artifact
-     * @param containerUrl the artifact container URL for the run
-     */
-    getContainerItems(artifactName, containerUrl) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // the itemPath search parameter controls which containers will be returned
-            const resourceUrl = new url_1.URL(containerUrl);
-            resourceUrl.searchParams.append('itemPath', artifactName);
-            // use the first client from the httpManager, `keep-alive` is not used so the connection will close immediately
-            const client = this.downloadHttpManager.getClient(0);
-            const headers = utils_1.getDownloadHeaders('application/json');
-            const response = yield requestUtils_1.retryHttpClientRequest('Get Container Items', () => __awaiter(this, void 0, void 0, function* () { return client.get(resourceUrl.toString(), headers); }));
-            const body = yield response.readBody();
-            return JSON.parse(body);
-        });
-    }
-    /**
-     * Concurrently downloads all the files that are part of an artifact
-     * @param downloadItems information about what items to download and where to save them
-     */
-    downloadSingleArtifact(downloadItems) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const DOWNLOAD_CONCURRENCY = config_variables_1.getDownloadFileConcurrency();
-            // limit the number of files downloaded at a single time
-            core.debug(`Download file concurrency is set to ${DOWNLOAD_CONCURRENCY}`);
-            const parallelDownloads = [...new Array(DOWNLOAD_CONCURRENCY).keys()];
-            let currentFile = 0;
-            let downloadedFiles = 0;
-            core.info(`Total number of files that will be downloaded: ${downloadItems.length}`);
-            this.statusReporter.setTotalNumberOfFilesToProcess(downloadItems.length);
-            this.statusReporter.start();
-            yield Promise.all(parallelDownloads.map((index) => __awaiter(this, void 0, void 0, function* () {
-                while (currentFile < downloadItems.length) {
-                    const currentFileToDownload = downloadItems[currentFile];
-                    currentFile += 1;
-                    const startTime = perf_hooks_1.performance.now();
-                    yield this.downloadIndividualFile(index, currentFileToDownload.sourceLocation, currentFileToDownload.targetPath);
-                    if (core.isDebug()) {
-                        core.debug(`File: ${++downloadedFiles}/${downloadItems.length}. ${currentFileToDownload.targetPath} took ${(perf_hooks_1.performance.now() - startTime).toFixed(3)} milliseconds to finish downloading`);
-                    }
-                    this.statusReporter.incrementProcessedCount();
-                }
-            })))
-                .catch(error => {
-                throw new Error(`Unable to download the artifact: ${error}`);
-            })
-                .finally(() => {
-                this.statusReporter.stop();
-                // safety dispose all connections
-                this.downloadHttpManager.disposeAndReplaceAllClients();
-            });
-        });
-    }
-    /**
-     * Downloads an individual file
-     * @param httpClientIndex the index of the http client that is used to make all of the calls
-     * @param artifactLocation origin location where a file will be downloaded from
-     * @param downloadPath destination location for the file being downloaded
-     */
-    downloadIndividualFile(httpClientIndex, artifactLocation, downloadPath) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let retryCount = 0;
-            const retryLimit = config_variables_1.getRetryLimit();
-            let destinationStream = fs.createWriteStream(downloadPath);
-            const headers = utils_1.getDownloadHeaders('application/json', true, true);
-            // a single GET request is used to download a file
-            const makeDownloadRequest = () => __awaiter(this, void 0, void 0, function* () {
-                const client = this.downloadHttpManager.getClient(httpClientIndex);
-                return yield client.get(artifactLocation, headers);
-            });
-            // check the response headers to determine if the file was compressed using gzip
-            const isGzip = (incomingHeaders) => {
-                return ('content-encoding' in incomingHeaders &&
-                    incomingHeaders['content-encoding'] === 'gzip');
-            };
-            // Increments the current retry count and then checks if the retry limit has been reached
-            // If there have been too many retries, fail so the download stops. If there is a retryAfterValue value provided,
-            // it will be used
-            const backOff = (retryAfterValue) => __awaiter(this, void 0, void 0, function* () {
-                retryCount++;
-                if (retryCount > retryLimit) {
-                    return Promise.reject(new Error(`Retry limit has been reached. Unable to download ${artifactLocation}`));
-                }
-                else {
-                    this.downloadHttpManager.disposeAndReplaceClient(httpClientIndex);
-                    if (retryAfterValue) {
-                        // Back off by waiting the specified time denoted by the retry-after header
-                        core.info(`Backoff due to too many requests, retry #${retryCount}. Waiting for ${retryAfterValue} milliseconds before continuing the download`);
-                        yield utils_1.sleep(retryAfterValue);
-                    }
-                    else {
-                        // Back off using an exponential value that depends on the retry count
-                        const backoffTime = utils_1.getExponentialRetryTimeInMilliseconds(retryCount);
-                        core.info(`Exponential backoff for retry #${retryCount}. Waiting for ${backoffTime} milliseconds before continuing the download`);
-                        yield utils_1.sleep(backoffTime);
-                    }
-                    core.info(`Finished backoff for retry #${retryCount}, continuing with download`);
-                }
-            });
-            const isAllBytesReceived = (expected, received) => {
-                // be lenient, if any input is missing, assume success, i.e. not truncated
-                if (!expected ||
-                    !received ||
-                    process.env['ACTIONS_ARTIFACT_SKIP_DOWNLOAD_VALIDATION']) {
-                    core.info('Skipping download validation.');
-                    return true;
-                }
-                return parseInt(expected) === received;
-            };
-            const resetDestinationStream = (fileDownloadPath) => __awaiter(this, void 0, void 0, function* () {
-                destinationStream.close();
-                yield utils_1.rmFile(fileDownloadPath);
-                destinationStream = fs.createWriteStream(fileDownloadPath);
-            });
-            // keep trying to download a file until a retry limit has been reached
-            while (retryCount <= retryLimit) {
-                let response;
-                try {
-                    response = yield makeDownloadRequest();
-                    if (core.isDebug()) {
-                        utils_1.displayHttpDiagnostics(response);
-                    }
-                }
-                catch (error) {
-                    // if an error is caught, it is usually indicative of a timeout so retry the download
-                    core.info('An error occurred while attempting to download a file');
-                    // eslint-disable-next-line no-console
-                    console.log(error);
-                    // increment the retryCount and use exponential backoff to wait before making the next request
-                    yield backOff();
-                    continue;
-                }
-                let forceRetry = false;
-                if (utils_1.isSuccessStatusCode(response.message.statusCode)) {
-                    // The body contains the contents of the file however calling response.readBody() causes all the content to be converted to a string
-                    // which can cause some gzip encoded data to be lost
-                    // Instead of using response.readBody(), response.message is a readableStream that can be directly used to get the raw body contents
-                    try {
-                        const isGzipped = isGzip(response.message.headers);
-                        yield this.pipeResponseToFile(response, destinationStream, isGzipped);
-                        if (isGzipped ||
-                            isAllBytesReceived(response.message.headers['content-length'], yield utils_1.getFileSize(downloadPath))) {
-                            return;
-                        }
-                        else {
-                            forceRetry = true;
-                        }
-                    }
-                    catch (error) {
-                        // retry on error, most likely streams were corrupted
-                        forceRetry = true;
-                    }
-                }
-                if (forceRetry || utils_1.isRetryableStatusCode(response.message.statusCode)) {
-                    core.info(`A ${response.message.statusCode} response code has been received while attempting to download an artifact`);
-                    resetDestinationStream(downloadPath);
-                    // if a throttled status code is received, try to get the retryAfter header value, else differ to standard exponential backoff
-                    utils_1.isThrottledStatusCode(response.message.statusCode)
-                        ? yield backOff(utils_1.tryGetRetryAfterValueTimeInMilliseconds(response.message.headers))
-                        : yield backOff();
-                }
-                else {
-                    // Some unexpected response code, fail immediately and stop the download
-                    utils_1.displayHttpDiagnostics(response);
-                    return Promise.reject(new Error(`Unexpected http ${response.message.statusCode} during download for ${artifactLocation}`));
-                }
-            }
-        });
-    }
-    /**
-     * Pipes the response from downloading an individual file to the appropriate destination stream while decoding gzip content if necessary
-     * @param response the http response received when downloading a file
-     * @param destinationStream the stream where the file should be written to
-     * @param isGzip a boolean denoting if the content is compressed using gzip and if we need to decode it
-     */
-    pipeResponseToFile(response, destinationStream, isGzip) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield new Promise((resolve, reject) => {
-                if (isGzip) {
-                    const gunzip = zlib.createGunzip();
-                    response.message
-                        .on('error', error => {
-                        core.error(`An error occurred while attempting to read the response stream`);
-                        gunzip.close();
-                        destinationStream.close();
-                        reject(error);
-                    })
-                        .pipe(gunzip)
-                        .on('error', error => {
-                        core.error(`An error occurred while attempting to decompress the response stream`);
-                        destinationStream.close();
-                        reject(error);
-                    })
-                        .pipe(destinationStream)
-                        .on('close', () => {
-                        resolve();
-                    })
-                        .on('error', error => {
-                        core.error(`An error occurred while writing a downloaded file to ${destinationStream.path}`);
-                        reject(error);
-                    });
-                }
-                else {
-                    response.message
-                        .on('error', error => {
-                        core.error(`An error occurred while attempting to read the response stream`);
-                        destinationStream.close();
-                        reject(error);
-                    })
-                        .pipe(destinationStream)
-                        .on('close', () => {
-                        resolve();
-                    })
-                        .on('error', error => {
-                        core.error(`An error occurred while writing a downloaded file to ${destinationStream.path}`);
-                        reject(error);
-                    });
-                }
-            });
-            return;
-        });
-    }
-}
-exports.DownloadHttpClient = DownloadHttpClient;
-//# sourceMappingURL=download-http-client.js.map
-
-/***/ }),
-
-/***/ 5686:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const path = __importStar(__nccwpck_require__(5622));
-/**
- * Creates a specification for a set of files that will be downloaded
- * @param artifactName the name of the artifact
- * @param artifactEntries a set of container entries that describe that files that make up an artifact
- * @param downloadPath the path where the artifact will be downloaded to
- * @param includeRootDirectory specifies if there should be an extra directory (denoted by the artifact name) where the artifact files should be downloaded to
- */
-function getDownloadSpecification(artifactName, artifactEntries, downloadPath, includeRootDirectory) {
-    // use a set for the directory paths so that there are no duplicates
-    const directories = new Set();
-    const specifications = {
-        rootDownloadLocation: includeRootDirectory
-            ? path.join(downloadPath, artifactName)
-            : downloadPath,
-        directoryStructure: [],
-        emptyFilesToCreate: [],
-        filesToDownload: []
-    };
-    for (const entry of artifactEntries) {
-        // Ignore artifacts in the container that don't begin with the same name
-        if (entry.path.startsWith(`${artifactName}/`) ||
-            entry.path.startsWith(`${artifactName}\\`)) {
-            // normalize all separators to the local OS
-            const normalizedPathEntry = path.normalize(entry.path);
-            // entry.path always starts with the artifact name, if includeRootDirectory is false, remove the name from the beginning of the path
-            const filePath = path.join(downloadPath, includeRootDirectory
-                ? normalizedPathEntry
-                : normalizedPathEntry.replace(artifactName, ''));
-            // Case insensitive folder structure maintained in the backend, not every folder is created so the 'folder'
-            // itemType cannot be relied upon. The file must be used to determine the directory structure
-            if (entry.itemType === 'file') {
-                // Get the directories that we need to create from the filePath for each individual file
-                directories.add(path.dirname(filePath));
-                if (entry.fileLength === 0) {
-                    // An empty file was uploaded, create the empty files locally so that no extra http calls are made
-                    specifications.emptyFilesToCreate.push(filePath);
-                }
-                else {
-                    specifications.filesToDownload.push({
-                        sourceLocation: entry.contentLocation,
-                        targetPath: filePath
-                    });
-                }
-            }
-        }
-    }
-    specifications.directoryStructure = Array.from(directories);
-    return specifications;
-}
-exports.getDownloadSpecification = getDownloadSpecification;
-//# sourceMappingURL=download-specification.js.map
-
-/***/ }),
-
-/***/ 6527:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils_1 = __nccwpck_require__(6327);
-/**
- * Used for managing http clients during either upload or download
- */
-class HttpManager {
-    constructor(clientCount, userAgent) {
-        if (clientCount < 1) {
-            throw new Error('There must be at least one client');
-        }
-        this.userAgent = userAgent;
-        this.clients = new Array(clientCount).fill(utils_1.createHttpClient(userAgent));
-    }
-    getClient(index) {
-        return this.clients[index];
-    }
-    // client disposal is necessary if a keep-alive connection is used to properly close the connection
-    // for more information see: https://github.com/actions/http-client/blob/04e5ad73cd3fd1f5610a32116b0759eddf6570d2/index.ts#L292
-    disposeAndReplaceClient(index) {
-        this.clients[index].dispose();
-        this.clients[index] = utils_1.createHttpClient(this.userAgent);
-    }
-    disposeAndReplaceAllClients() {
-        for (const [index] of this.clients.entries()) {
-            this.disposeAndReplaceClient(index);
-        }
-    }
-}
-exports.HttpManager = HttpManager;
-//# sourceMappingURL=http-manager.js.map
-
-/***/ }),
-
-/***/ 755:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const utils_1 = __nccwpck_require__(6327);
-const core = __importStar(__nccwpck_require__(2186));
-const config_variables_1 = __nccwpck_require__(2222);
-function retry(name, operation, customErrorMessages, maxAttempts) {
-    return __awaiter(this, void 0, void 0, function* () {
-        let response = undefined;
-        let statusCode = undefined;
-        let isRetryable = false;
-        let errorMessage = '';
-        let customErrorInformation = undefined;
-        let attempt = 1;
-        while (attempt <= maxAttempts) {
-            try {
-                response = yield operation();
-                statusCode = response.message.statusCode;
-                if (utils_1.isSuccessStatusCode(statusCode)) {
-                    return response;
-                }
-                // Extra error information that we want to display if a particular response code is hit
-                if (statusCode) {
-                    customErrorInformation = customErrorMessages.get(statusCode);
-                }
-                isRetryable = utils_1.isRetryableStatusCode(statusCode);
-                errorMessage = `Artifact service responded with ${statusCode}`;
-            }
-            catch (error) {
-                isRetryable = true;
-                errorMessage = error.message;
-            }
-            if (!isRetryable) {
-                core.info(`${name} - Error is not retryable`);
-                if (response) {
-                    utils_1.displayHttpDiagnostics(response);
-                }
-                break;
-            }
-            core.info(`${name} - Attempt ${attempt} of ${maxAttempts} failed with error: ${errorMessage}`);
-            yield utils_1.sleep(utils_1.getExponentialRetryTimeInMilliseconds(attempt));
-            attempt++;
-        }
-        if (response) {
-            utils_1.displayHttpDiagnostics(response);
-        }
-        if (customErrorInformation) {
-            throw Error(`${name} failed: ${customErrorInformation}`);
-        }
-        throw Error(`${name} failed: ${errorMessage}`);
-    });
-}
-exports.retry = retry;
-function retryHttpClientRequest(name, method, customErrorMessages = new Map(), maxAttempts = config_variables_1.getRetryLimit()) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return yield retry(name, method, customErrorMessages, maxAttempts);
-    });
-}
-exports.retryHttpClientRequest = retryHttpClientRequest;
-//# sourceMappingURL=requestUtils.js.map
-
-/***/ }),
-
-/***/ 9081:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __nccwpck_require__(2186);
-/**
- * Status Reporter that displays information about the progress/status of an artifact that is being uploaded or downloaded
- *
- * Variable display time that can be adjusted using the displayFrequencyInMilliseconds variable
- * The total status of the upload/download gets displayed according to this value
- * If there is a large file that is being uploaded, extra information about the individual status can also be displayed using the updateLargeFileStatus function
- */
-class StatusReporter {
-    constructor(displayFrequencyInMilliseconds) {
-        this.totalNumberOfFilesToProcess = 0;
-        this.processedCount = 0;
-        this.largeFiles = new Map();
-        this.totalFileStatus = undefined;
-        this.largeFileStatus = undefined;
-        this.displayFrequencyInMilliseconds = displayFrequencyInMilliseconds;
-    }
-    setTotalNumberOfFilesToProcess(fileTotal) {
-        this.totalNumberOfFilesToProcess = fileTotal;
-    }
-    start() {
-        // displays information about the total upload/download status
-        this.totalFileStatus = setInterval(() => {
-            // display 1 decimal place without any rounding
-            const percentage = this.formatPercentage(this.processedCount, this.totalNumberOfFilesToProcess);
-            core_1.info(`Total file count: ${this.totalNumberOfFilesToProcess} ---- Processed file #${this.processedCount} (${percentage.slice(0, percentage.indexOf('.') + 2)}%)`);
-        }, this.displayFrequencyInMilliseconds);
-        // displays extra information about any large files that take a significant amount of time to upload or download every 1 second
-        this.largeFileStatus = setInterval(() => {
-            for (const value of Array.from(this.largeFiles.values())) {
-                core_1.info(value);
-            }
-            // delete all entries in the map after displaying the information so it will not be displayed again unless explicitly added
-            this.largeFiles.clear();
-        }, 1000);
-    }
-    // if there is a large file that is being uploaded in chunks, this is used to display extra information about the status of the upload
-    updateLargeFileStatus(fileName, numerator, denominator) {
-        // display 1 decimal place without any rounding
-        const percentage = this.formatPercentage(numerator, denominator);
-        const displayInformation = `Uploading ${fileName} (${percentage.slice(0, percentage.indexOf('.') + 2)}%)`;
-        // any previously added display information should be overwritten for the specific large file because a map is being used
-        this.largeFiles.set(fileName, displayInformation);
-    }
-    stop() {
-        if (this.totalFileStatus) {
-            clearInterval(this.totalFileStatus);
-        }
-        if (this.largeFileStatus) {
-            clearInterval(this.largeFileStatus);
-        }
-    }
-    incrementProcessedCount() {
-        this.processedCount++;
-    }
-    formatPercentage(numerator, denominator) {
-        // toFixed() rounds, so use extra precision to display accurate information even though 4 decimal places are not displayed
-        return ((numerator / denominator) * 100).toFixed(4).toString();
-    }
-}
-exports.StatusReporter = StatusReporter;
-//# sourceMappingURL=status-reporter.js.map
-
-/***/ }),
-
-/***/ 606:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const fs = __importStar(__nccwpck_require__(5747));
-const zlib = __importStar(__nccwpck_require__(8761));
-const util_1 = __nccwpck_require__(1669);
-const stat = util_1.promisify(fs.stat);
-/**
- * Creates a Gzip compressed file of an original file at the provided temporary filepath location
- * @param {string} originalFilePath filepath of whatever will be compressed. The original file will be unmodified
- * @param {string} tempFilePath the location of where the Gzip file will be created
- * @returns the size of gzip file that gets created
- */
-function createGZipFileOnDisk(originalFilePath, tempFilePath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => {
-            const inputStream = fs.createReadStream(originalFilePath);
-            const gzip = zlib.createGzip();
-            const outputStream = fs.createWriteStream(tempFilePath);
-            inputStream.pipe(gzip).pipe(outputStream);
-            outputStream.on('finish', () => __awaiter(this, void 0, void 0, function* () {
-                // wait for stream to finish before calculating the size which is needed as part of the Content-Length header when starting an upload
-                const size = (yield stat(tempFilePath)).size;
-                resolve(size);
-            }));
-            outputStream.on('error', error => {
-                // eslint-disable-next-line no-console
-                console.log(error);
-                reject;
-            });
-        });
-    });
-}
-exports.createGZipFileOnDisk = createGZipFileOnDisk;
-/**
- * Creates a GZip file in memory using a buffer. Should be used for smaller files to reduce disk I/O
- * @param originalFilePath the path to the original file that is being GZipped
- * @returns a buffer with the GZip file
- */
-function createGZipFileInBuffer(originalFilePath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve) => __awaiter(this, void 0, void 0, function* () {
-            var e_1, _a;
-            const inputStream = fs.createReadStream(originalFilePath);
-            const gzip = zlib.createGzip();
-            inputStream.pipe(gzip);
-            // read stream into buffer, using experimental async iterators see https://github.com/nodejs/readable-stream/issues/403#issuecomment-479069043
-            const chunks = [];
-            try {
-                for (var gzip_1 = __asyncValues(gzip), gzip_1_1; gzip_1_1 = yield gzip_1.next(), !gzip_1_1.done;) {
-                    const chunk = gzip_1_1.value;
-                    chunks.push(chunk);
-                }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (gzip_1_1 && !gzip_1_1.done && (_a = gzip_1.return)) yield _a.call(gzip_1);
-                }
-                finally { if (e_1) throw e_1.error; }
-            }
-            resolve(Buffer.concat(chunks));
-        }));
-    });
-}
-exports.createGZipFileInBuffer = createGZipFileInBuffer;
-//# sourceMappingURL=upload-gzip.js.map
-
-/***/ }),
-
-/***/ 4354:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const fs = __importStar(__nccwpck_require__(5747));
-const core = __importStar(__nccwpck_require__(2186));
-const tmp = __importStar(__nccwpck_require__(8065));
-const stream = __importStar(__nccwpck_require__(2413));
-const utils_1 = __nccwpck_require__(6327);
-const config_variables_1 = __nccwpck_require__(2222);
-const util_1 = __nccwpck_require__(1669);
-const url_1 = __nccwpck_require__(8835);
-const perf_hooks_1 = __nccwpck_require__(630);
-const status_reporter_1 = __nccwpck_require__(9081);
-const http_client_1 = __nccwpck_require__(9925);
-const http_manager_1 = __nccwpck_require__(6527);
-const upload_gzip_1 = __nccwpck_require__(606);
-const requestUtils_1 = __nccwpck_require__(755);
-const stat = util_1.promisify(fs.stat);
-class UploadHttpClient {
-    constructor() {
-        this.uploadHttpManager = new http_manager_1.HttpManager(config_variables_1.getUploadFileConcurrency(), '@actions/artifact-upload');
-        this.statusReporter = new status_reporter_1.StatusReporter(10000);
-    }
-    /**
-     * Creates a file container for the new artifact in the remote blob storage/file service
-     * @param {string} artifactName Name of the artifact being created
-     * @returns The response from the Artifact Service if the file container was successfully created
-     */
-    createArtifactInFileContainer(artifactName, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const parameters = {
-                Type: 'actions_storage',
-                Name: artifactName
-            };
-            // calculate retention period
-            if (options && options.retentionDays) {
-                const maxRetentionStr = config_variables_1.getRetentionDays();
-                parameters.RetentionDays = utils_1.getProperRetention(options.retentionDays, maxRetentionStr);
-            }
-            const data = JSON.stringify(parameters, null, 2);
-            const artifactUrl = utils_1.getArtifactUrl();
-            // use the first client from the httpManager, `keep-alive` is not used so the connection will close immediately
-            const client = this.uploadHttpManager.getClient(0);
-            const headers = utils_1.getUploadHeaders('application/json', false);
-            // Extra information to display when a particular HTTP code is returned
-            // If a 403 is returned when trying to create a file container, the customer has exceeded
-            // their storage quota so no new artifact containers can be created
-            const customErrorMessages = new Map([
-                [
-                    http_client_1.HttpCodes.Forbidden,
-                    'Artifact storage quota has been hit. Unable to upload any new artifacts'
-                ],
-                [
-                    http_client_1.HttpCodes.BadRequest,
-                    `The artifact name ${artifactName} is not valid. Request URL ${artifactUrl}`
-                ]
-            ]);
-            const response = yield requestUtils_1.retryHttpClientRequest('Create Artifact Container', () => __awaiter(this, void 0, void 0, function* () { return client.post(artifactUrl, data, headers); }), customErrorMessages);
-            const body = yield response.readBody();
-            return JSON.parse(body);
-        });
-    }
-    /**
-     * Concurrently upload all of the files in chunks
-     * @param {string} uploadUrl Base Url for the artifact that was created
-     * @param {SearchResult[]} filesToUpload A list of information about the files being uploaded
-     * @returns The size of all the files uploaded in bytes
-     */
-    uploadArtifactToFileContainer(uploadUrl, filesToUpload, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const FILE_CONCURRENCY = config_variables_1.getUploadFileConcurrency();
-            const MAX_CHUNK_SIZE = config_variables_1.getUploadChunkSize();
-            core.debug(`File Concurrency: ${FILE_CONCURRENCY}, and Chunk Size: ${MAX_CHUNK_SIZE}`);
-            const parameters = [];
-            // by default, file uploads will continue if there is an error unless specified differently in the options
-            let continueOnError = true;
-            if (options) {
-                if (options.continueOnError === false) {
-                    continueOnError = false;
-                }
-            }
-            // prepare the necessary parameters to upload all the files
-            for (const file of filesToUpload) {
-                const resourceUrl = new url_1.URL(uploadUrl);
-                resourceUrl.searchParams.append('itemPath', file.uploadFilePath);
-                parameters.push({
-                    file: file.absoluteFilePath,
-                    resourceUrl: resourceUrl.toString(),
-                    maxChunkSize: MAX_CHUNK_SIZE,
-                    continueOnError
-                });
-            }
-            const parallelUploads = [...new Array(FILE_CONCURRENCY).keys()];
-            const failedItemsToReport = [];
-            let currentFile = 0;
-            let completedFiles = 0;
-            let uploadFileSize = 0;
-            let totalFileSize = 0;
-            let abortPendingFileUploads = false;
-            this.statusReporter.setTotalNumberOfFilesToProcess(filesToUpload.length);
-            this.statusReporter.start();
-            // only allow a certain amount of files to be uploaded at once, this is done to reduce potential errors
-            yield Promise.all(parallelUploads.map((index) => __awaiter(this, void 0, void 0, function* () {
-                while (currentFile < filesToUpload.length) {
-                    const currentFileParameters = parameters[currentFile];
-                    currentFile += 1;
-                    if (abortPendingFileUploads) {
-                        failedItemsToReport.push(currentFileParameters.file);
-                        continue;
-                    }
-                    const startTime = perf_hooks_1.performance.now();
-                    const uploadFileResult = yield this.uploadFileAsync(index, currentFileParameters);
-                    if (core.isDebug()) {
-                        core.debug(`File: ${++completedFiles}/${filesToUpload.length}. ${currentFileParameters.file} took ${(perf_hooks_1.performance.now() - startTime).toFixed(3)} milliseconds to finish upload`);
-                    }
-                    uploadFileSize += uploadFileResult.successfulUploadSize;
-                    totalFileSize += uploadFileResult.totalSize;
-                    if (uploadFileResult.isSuccess === false) {
-                        failedItemsToReport.push(currentFileParameters.file);
-                        if (!continueOnError) {
-                            // fail fast
-                            core.error(`aborting artifact upload`);
-                            abortPendingFileUploads = true;
-                        }
-                    }
-                    this.statusReporter.incrementProcessedCount();
-                }
-            })));
-            this.statusReporter.stop();
-            // done uploading, safety dispose all connections
-            this.uploadHttpManager.disposeAndReplaceAllClients();
-            core.info(`Total size of all the files uploaded is ${uploadFileSize} bytes`);
-            return {
-                uploadSize: uploadFileSize,
-                totalSize: totalFileSize,
-                failedItems: failedItemsToReport
-            };
-        });
-    }
-    /**
-     * Asynchronously uploads a file. The file is compressed and uploaded using GZip if it is determined to save space.
-     * If the upload file is bigger than the max chunk size it will be uploaded via multiple calls
-     * @param {number} httpClientIndex The index of the httpClient that is being used to make all of the calls
-     * @param {UploadFileParameters} parameters Information about the file that needs to be uploaded
-     * @returns The size of the file that was uploaded in bytes along with any failed uploads
-     */
-    uploadFileAsync(httpClientIndex, parameters) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const totalFileSize = (yield stat(parameters.file)).size;
-            let offset = 0;
-            let isUploadSuccessful = true;
-            let failedChunkSizes = 0;
-            let uploadFileSize = 0;
-            let isGzip = true;
-            // the file that is being uploaded is less than 64k in size, to increase throughput and to minimize disk I/O
-            // for creating a new GZip file, an in-memory buffer is used for compression
-            if (totalFileSize < 65536) {
-                const buffer = yield upload_gzip_1.createGZipFileInBuffer(parameters.file);
-                //An open stream is needed in the event of a failure and we need to retry. If a NodeJS.ReadableStream is directly passed in,
-                // it will not properly get reset to the start of the stream if a chunk upload needs to be retried
-                let openUploadStream;
-                if (totalFileSize < buffer.byteLength) {
-                    // compression did not help with reducing the size, use a readable stream from the original file for upload
-                    openUploadStream = () => fs.createReadStream(parameters.file);
-                    isGzip = false;
-                    uploadFileSize = totalFileSize;
-                }
-                else {
-                    // create a readable stream using a PassThrough stream that is both readable and writable
-                    openUploadStream = () => {
-                        const passThrough = new stream.PassThrough();
-                        passThrough.end(buffer);
-                        return passThrough;
-                    };
-                    uploadFileSize = buffer.byteLength;
-                }
-                const result = yield this.uploadChunk(httpClientIndex, parameters.resourceUrl, openUploadStream, 0, uploadFileSize - 1, uploadFileSize, isGzip, totalFileSize);
-                if (!result) {
-                    // chunk failed to upload
-                    isUploadSuccessful = false;
-                    failedChunkSizes += uploadFileSize;
-                    core.warning(`Aborting upload for ${parameters.file} due to failure`);
-                }
-                return {
-                    isSuccess: isUploadSuccessful,
-                    successfulUploadSize: uploadFileSize - failedChunkSizes,
-                    totalSize: totalFileSize
-                };
-            }
-            else {
-                // the file that is being uploaded is greater than 64k in size, a temporary file gets created on disk using the
-                // npm tmp-promise package and this file gets used to create a GZipped file
-                const tempFile = yield tmp.file();
-                // create a GZip file of the original file being uploaded, the original file should not be modified in any way
-                uploadFileSize = yield upload_gzip_1.createGZipFileOnDisk(parameters.file, tempFile.path);
-                let uploadFilePath = tempFile.path;
-                // compression did not help with size reduction, use the original file for upload and delete the temp GZip file
-                if (totalFileSize < uploadFileSize) {
-                    uploadFileSize = totalFileSize;
-                    uploadFilePath = parameters.file;
-                    isGzip = false;
-                }
-                let abortFileUpload = false;
-                // upload only a single chunk at a time
-                while (offset < uploadFileSize) {
-                    const chunkSize = Math.min(uploadFileSize - offset, parameters.maxChunkSize);
-                    // if an individual file is greater than 100MB (1024*1024*100) in size, display extra information about the upload status
-                    if (uploadFileSize > 104857600) {
-                        this.statusReporter.updateLargeFileStatus(parameters.file, offset, uploadFileSize);
-                    }
-                    const start = offset;
-                    const end = offset + chunkSize - 1;
-                    offset += parameters.maxChunkSize;
-                    if (abortFileUpload) {
-                        // if we don't want to continue in the event of an error, any pending upload chunks will be marked as failed
-                        failedChunkSizes += chunkSize;
-                        continue;
-                    }
-                    const result = yield this.uploadChunk(httpClientIndex, parameters.resourceUrl, () => fs.createReadStream(uploadFilePath, {
-                        start,
-                        end,
-                        autoClose: false
-                    }), start, end, uploadFileSize, isGzip, totalFileSize);
-                    if (!result) {
-                        // Chunk failed to upload, report as failed and do not continue uploading any more chunks for the file. It is possible that part of a chunk was
-                        // successfully uploaded so the server may report a different size for what was uploaded
-                        isUploadSuccessful = false;
-                        failedChunkSizes += chunkSize;
-                        core.warning(`Aborting upload for ${parameters.file} due to failure`);
-                        abortFileUpload = true;
-                    }
-                }
-                // Delete the temporary file that was created as part of the upload. If the temp file does not get manually deleted by
-                // calling cleanup, it gets removed when the node process exits. For more info see: https://www.npmjs.com/package/tmp-promise#about
-                yield tempFile.cleanup();
-                return {
-                    isSuccess: isUploadSuccessful,
-                    successfulUploadSize: uploadFileSize - failedChunkSizes,
-                    totalSize: totalFileSize
-                };
-            }
-        });
-    }
-    /**
-     * Uploads a chunk of an individual file to the specified resourceUrl. If the upload fails and the status code
-     * indicates a retryable status, we try to upload the chunk as well
-     * @param {number} httpClientIndex The index of the httpClient being used to make all the necessary calls
-     * @param {string} resourceUrl Url of the resource that the chunk will be uploaded to
-     * @param {NodeJS.ReadableStream} openStream Stream of the file that will be uploaded
-     * @param {number} start Starting byte index of file that the chunk belongs to
-     * @param {number} end Ending byte index of file that the chunk belongs to
-     * @param {number} uploadFileSize Total size of the file in bytes that is being uploaded
-     * @param {boolean} isGzip Denotes if we are uploading a Gzip compressed stream
-     * @param {number} totalFileSize Original total size of the file that is being uploaded
-     * @returns if the chunk was successfully uploaded
-     */
-    uploadChunk(httpClientIndex, resourceUrl, openStream, start, end, uploadFileSize, isGzip, totalFileSize) {
-        return __awaiter(this, void 0, void 0, function* () {
-            // prepare all the necessary headers before making any http call
-            const headers = utils_1.getUploadHeaders('application/octet-stream', true, isGzip, totalFileSize, end - start + 1, utils_1.getContentRange(start, end, uploadFileSize));
-            const uploadChunkRequest = () => __awaiter(this, void 0, void 0, function* () {
-                const client = this.uploadHttpManager.getClient(httpClientIndex);
-                return yield client.sendStream('PUT', resourceUrl, openStream(), headers);
-            });
-            let retryCount = 0;
-            const retryLimit = config_variables_1.getRetryLimit();
-            // Increments the current retry count and then checks if the retry limit has been reached
-            // If there have been too many retries, fail so the download stops
-            const incrementAndCheckRetryLimit = (response) => {
-                retryCount++;
-                if (retryCount > retryLimit) {
-                    if (response) {
-                        utils_1.displayHttpDiagnostics(response);
-                    }
-                    core.info(`Retry limit has been reached for chunk at offset ${start} to ${resourceUrl}`);
-                    return true;
-                }
-                return false;
-            };
-            const backOff = (retryAfterValue) => __awaiter(this, void 0, void 0, function* () {
-                this.uploadHttpManager.disposeAndReplaceClient(httpClientIndex);
-                if (retryAfterValue) {
-                    core.info(`Backoff due to too many requests, retry #${retryCount}. Waiting for ${retryAfterValue} milliseconds before continuing the upload`);
-                    yield utils_1.sleep(retryAfterValue);
-                }
-                else {
-                    const backoffTime = utils_1.getExponentialRetryTimeInMilliseconds(retryCount);
-                    core.info(`Exponential backoff for retry #${retryCount}. Waiting for ${backoffTime} milliseconds before continuing the upload at offset ${start}`);
-                    yield utils_1.sleep(backoffTime);
-                }
-                core.info(`Finished backoff for retry #${retryCount}, continuing with upload`);
-                return;
-            });
-            // allow for failed chunks to be retried multiple times
-            while (retryCount <= retryLimit) {
-                let response;
-                try {
-                    response = yield uploadChunkRequest();
-                }
-                catch (error) {
-                    // if an error is caught, it is usually indicative of a timeout so retry the upload
-                    core.info(`An error has been caught http-client index ${httpClientIndex}, retrying the upload`);
-                    // eslint-disable-next-line no-console
-                    console.log(error);
-                    if (incrementAndCheckRetryLimit()) {
-                        return false;
-                    }
-                    yield backOff();
-                    continue;
-                }
-                // Always read the body of the response. There is potential for a resource leak if the body is not read which will
-                // result in the connection remaining open along with unintended consequences when trying to dispose of the client
-                yield response.readBody();
-                if (utils_1.isSuccessStatusCode(response.message.statusCode)) {
-                    return true;
-                }
-                else if (utils_1.isRetryableStatusCode(response.message.statusCode)) {
-                    core.info(`A ${response.message.statusCode} status code has been received, will attempt to retry the upload`);
-                    if (incrementAndCheckRetryLimit(response)) {
-                        return false;
-                    }
-                    utils_1.isThrottledStatusCode(response.message.statusCode)
-                        ? yield backOff(utils_1.tryGetRetryAfterValueTimeInMilliseconds(response.message.headers))
-                        : yield backOff();
-                }
-                else {
-                    core.error(`Unexpected response. Unable to upload chunk to ${resourceUrl}`);
-                    utils_1.displayHttpDiagnostics(response);
-                    return false;
-                }
-            }
-            return false;
-        });
-    }
-    /**
-     * Updates the size of the artifact from -1 which was initially set when the container was first created for the artifact.
-     * Updating the size indicates that we are done uploading all the contents of the artifact
-     */
-    patchArtifactSize(size, artifactName) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const resourceUrl = new url_1.URL(utils_1.getArtifactUrl());
-            resourceUrl.searchParams.append('artifactName', artifactName);
-            const parameters = { Size: size };
-            const data = JSON.stringify(parameters, null, 2);
-            core.debug(`URL is ${resourceUrl.toString()}`);
-            // use the first client from the httpManager, `keep-alive` is not used so the connection will close immediately
-            const client = this.uploadHttpManager.getClient(0);
-            const headers = utils_1.getUploadHeaders('application/json', false);
-            // Extra information to display when a particular HTTP code is returned
-            const customErrorMessages = new Map([
-                [
-                    http_client_1.HttpCodes.NotFound,
-                    `An Artifact with the name ${artifactName} was not found`
-                ]
-            ]);
-            // TODO retry for all possible response codes, the artifact upload is pretty much complete so it at all costs we should try to finish this
-            const response = yield requestUtils_1.retryHttpClientRequest('Finalize artifact upload', () => __awaiter(this, void 0, void 0, function* () { return client.patch(resourceUrl.toString(), data, headers); }), customErrorMessages);
-            yield response.readBody();
-            core.debug(`Artifact ${artifactName} has been successfully uploaded, total size in bytes: ${size}`);
-        });
-    }
-}
-exports.UploadHttpClient = UploadHttpClient;
-//# sourceMappingURL=upload-http-client.js.map
-
-/***/ }),
-
-/***/ 183:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const fs = __importStar(__nccwpck_require__(5747));
-const core_1 = __nccwpck_require__(2186);
-const path_1 = __nccwpck_require__(5622);
-const utils_1 = __nccwpck_require__(6327);
-/**
- * Creates a specification that describes how each file that is part of the artifact will be uploaded
- * @param artifactName the name of the artifact being uploaded. Used during upload to denote where the artifact is stored on the server
- * @param rootDirectory an absolute file path that denotes the path that should be removed from the beginning of each artifact file
- * @param artifactFiles a list of absolute file paths that denote what should be uploaded as part of the artifact
- */
-function getUploadSpecification(artifactName, rootDirectory, artifactFiles) {
-    utils_1.checkArtifactName(artifactName);
-    const specifications = [];
-    if (!fs.existsSync(rootDirectory)) {
-        throw new Error(`Provided rootDirectory ${rootDirectory} does not exist`);
-    }
-    if (!fs.lstatSync(rootDirectory).isDirectory()) {
-        throw new Error(`Provided rootDirectory ${rootDirectory} is not a valid directory`);
-    }
-    // Normalize and resolve, this allows for either absolute or relative paths to be used
-    rootDirectory = path_1.normalize(rootDirectory);
-    rootDirectory = path_1.resolve(rootDirectory);
-    /*
-       Example to demonstrate behavior
-       
-       Input:
-         artifactName: my-artifact
-         rootDirectory: '/home/user/files/plz-upload'
-         artifactFiles: [
-           '/home/user/files/plz-upload/file1.txt',
-           '/home/user/files/plz-upload/file2.txt',
-           '/home/user/files/plz-upload/dir/file3.txt'
-         ]
-       
-       Output:
-         specifications: [
-           ['/home/user/files/plz-upload/file1.txt', 'my-artifact/file1.txt'],
-           ['/home/user/files/plz-upload/file1.txt', 'my-artifact/file2.txt'],
-           ['/home/user/files/plz-upload/file1.txt', 'my-artifact/dir/file3.txt']
-         ]
-    */
-    for (let file of artifactFiles) {
-        if (!fs.existsSync(file)) {
-            throw new Error(`File ${file} does not exist`);
-        }
-        if (!fs.lstatSync(file).isDirectory()) {
-            // Normalize and resolve, this allows for either absolute or relative paths to be used
-            file = path_1.normalize(file);
-            file = path_1.resolve(file);
-            if (!file.startsWith(rootDirectory)) {
-                throw new Error(`The rootDirectory: ${rootDirectory} is not a parent directory of the file: ${file}`);
-            }
-            // Check for forbidden characters in file paths that will be rejected during upload
-            const uploadPath = file.replace(rootDirectory, '');
-            utils_1.checkArtifactFilePath(uploadPath);
-            /*
-              uploadFilePath denotes where the file will be uploaded in the file container on the server. During a run, if multiple artifacts are uploaded, they will all
-              be saved in the same container. The artifact name is used as the root directory in the container to separate and distinguish uploaded artifacts
-      
-              path.join handles all the following cases and would return 'artifact-name/file-to-upload.txt
-                join('artifact-name/', 'file-to-upload.txt')
-                join('artifact-name/', '/file-to-upload.txt')
-                join('artifact-name', 'file-to-upload.txt')
-                join('artifact-name', '/file-to-upload.txt')
-            */
-            specifications.push({
-                absoluteFilePath: file,
-                uploadFilePath: path_1.join(artifactName, uploadPath)
-            });
-        }
-        else {
-            // Directories are rejected by the server during upload
-            core_1.debug(`Removing ${file} from rawSearchResults because it is a directory`);
-        }
-    }
-    return specifications;
-}
-exports.getUploadSpecification = getUploadSpecification;
-//# sourceMappingURL=upload-specification.js.map
-
-/***/ }),
-
-/***/ 6327:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core_1 = __nccwpck_require__(2186);
-const fs_1 = __nccwpck_require__(5747);
-const http_client_1 = __nccwpck_require__(9925);
-const auth_1 = __nccwpck_require__(3702);
-const config_variables_1 = __nccwpck_require__(2222);
-/**
- * Returns a retry time in milliseconds that exponentially gets larger
- * depending on the amount of retries that have been attempted
- */
-function getExponentialRetryTimeInMilliseconds(retryCount) {
-    if (retryCount < 0) {
-        throw new Error('RetryCount should not be negative');
-    }
-    else if (retryCount === 0) {
-        return config_variables_1.getInitialRetryIntervalInMilliseconds();
-    }
-    const minTime = config_variables_1.getInitialRetryIntervalInMilliseconds() * config_variables_1.getRetryMultiplier() * retryCount;
-    const maxTime = minTime * config_variables_1.getRetryMultiplier();
-    // returns a random number between the minTime (inclusive) and the maxTime (exclusive)
-    return Math.random() * (maxTime - minTime) + minTime;
-}
-exports.getExponentialRetryTimeInMilliseconds = getExponentialRetryTimeInMilliseconds;
-/**
- * Parses a env variable that is a number
- */
-function parseEnvNumber(key) {
-    const value = Number(process.env[key]);
-    if (Number.isNaN(value) || value < 0) {
-        return undefined;
-    }
-    return value;
-}
-exports.parseEnvNumber = parseEnvNumber;
-/**
- * Various utility functions to help with the necessary API calls
- */
-function getApiVersion() {
-    return '6.0-preview';
-}
-exports.getApiVersion = getApiVersion;
-function isSuccessStatusCode(statusCode) {
-    if (!statusCode) {
-        return false;
-    }
-    return statusCode >= 200 && statusCode < 300;
-}
-exports.isSuccessStatusCode = isSuccessStatusCode;
-function isForbiddenStatusCode(statusCode) {
-    if (!statusCode) {
-        return false;
-    }
-    return statusCode === http_client_1.HttpCodes.Forbidden;
-}
-exports.isForbiddenStatusCode = isForbiddenStatusCode;
-function isRetryableStatusCode(statusCode) {
-    if (!statusCode) {
-        return false;
-    }
-    const retryableStatusCodes = [
-        http_client_1.HttpCodes.BadGateway,
-        http_client_1.HttpCodes.GatewayTimeout,
-        http_client_1.HttpCodes.InternalServerError,
-        http_client_1.HttpCodes.ServiceUnavailable,
-        http_client_1.HttpCodes.TooManyRequests,
-        413 // Payload Too Large
-    ];
-    return retryableStatusCodes.includes(statusCode);
-}
-exports.isRetryableStatusCode = isRetryableStatusCode;
-function isThrottledStatusCode(statusCode) {
-    if (!statusCode) {
-        return false;
-    }
-    return statusCode === http_client_1.HttpCodes.TooManyRequests;
-}
-exports.isThrottledStatusCode = isThrottledStatusCode;
-/**
- * Attempts to get the retry-after value from a set of http headers. The retry time
- * is originally denoted in seconds, so if present, it is converted to milliseconds
- * @param headers all the headers received when making an http call
- */
-function tryGetRetryAfterValueTimeInMilliseconds(headers) {
-    if (headers['retry-after']) {
-        const retryTime = Number(headers['retry-after']);
-        if (!isNaN(retryTime)) {
-            core_1.info(`Retry-After header is present with a value of ${retryTime}`);
-            return retryTime * 1000;
-        }
-        core_1.info(`Returned retry-after header value: ${retryTime} is non-numeric and cannot be used`);
-        return undefined;
-    }
-    core_1.info(`No retry-after header was found. Dumping all headers for diagnostic purposes`);
-    // eslint-disable-next-line no-console
-    console.log(headers);
-    return undefined;
-}
-exports.tryGetRetryAfterValueTimeInMilliseconds = tryGetRetryAfterValueTimeInMilliseconds;
-function getContentRange(start, end, total) {
-    // Format: `bytes start-end/fileSize
-    // start and end are inclusive
-    // For a 200 byte chunk starting at byte 0:
-    // Content-Range: bytes 0-199/200
-    return `bytes ${start}-${end}/${total}`;
-}
-exports.getContentRange = getContentRange;
-/**
- * Sets all the necessary headers when downloading an artifact
- * @param {string} contentType the type of content being uploaded
- * @param {boolean} isKeepAlive is the same connection being used to make multiple calls
- * @param {boolean} acceptGzip can we accept a gzip encoded response
- * @param {string} acceptType the type of content that we can accept
- * @returns appropriate headers to make a specific http call during artifact download
- */
-function getDownloadHeaders(contentType, isKeepAlive, acceptGzip) {
-    const requestOptions = {};
-    if (contentType) {
-        requestOptions['Content-Type'] = contentType;
-    }
-    if (isKeepAlive) {
-        requestOptions['Connection'] = 'Keep-Alive';
-        // keep alive for at least 10 seconds before closing the connection
-        requestOptions['Keep-Alive'] = '10';
-    }
-    if (acceptGzip) {
-        // if we are expecting a response with gzip encoding, it should be using an octet-stream in the accept header
-        requestOptions['Accept-Encoding'] = 'gzip';
-        requestOptions['Accept'] = `application/octet-stream;api-version=${getApiVersion()}`;
-    }
-    else {
-        // default to application/json if we are not working with gzip content
-        requestOptions['Accept'] = `application/json;api-version=${getApiVersion()}`;
-    }
-    return requestOptions;
-}
-exports.getDownloadHeaders = getDownloadHeaders;
-/**
- * Sets all the necessary headers when uploading an artifact
- * @param {string} contentType the type of content being uploaded
- * @param {boolean} isKeepAlive is the same connection being used to make multiple calls
- * @param {boolean} isGzip is the connection being used to upload GZip compressed content
- * @param {number} uncompressedLength the original size of the content if something is being uploaded that has been compressed
- * @param {number} contentLength the length of the content that is being uploaded
- * @param {string} contentRange the range of the content that is being uploaded
- * @returns appropriate headers to make a specific http call during artifact upload
- */
-function getUploadHeaders(contentType, isKeepAlive, isGzip, uncompressedLength, contentLength, contentRange) {
-    const requestOptions = {};
-    requestOptions['Accept'] = `application/json;api-version=${getApiVersion()}`;
-    if (contentType) {
-        requestOptions['Content-Type'] = contentType;
-    }
-    if (isKeepAlive) {
-        requestOptions['Connection'] = 'Keep-Alive';
-        // keep alive for at least 10 seconds before closing the connection
-        requestOptions['Keep-Alive'] = '10';
-    }
-    if (isGzip) {
-        requestOptions['Content-Encoding'] = 'gzip';
-        requestOptions['x-tfs-filelength'] = uncompressedLength;
-    }
-    if (contentLength) {
-        requestOptions['Content-Length'] = contentLength;
-    }
-    if (contentRange) {
-        requestOptions['Content-Range'] = contentRange;
-    }
-    return requestOptions;
-}
-exports.getUploadHeaders = getUploadHeaders;
-function createHttpClient(userAgent) {
-    return new http_client_1.HttpClient(userAgent, [
-        new auth_1.BearerCredentialHandler(config_variables_1.getRuntimeToken())
-    ]);
-}
-exports.createHttpClient = createHttpClient;
-function getArtifactUrl() {
-    const artifactUrl = `${config_variables_1.getRuntimeUrl()}_apis/pipelines/workflows/${config_variables_1.getWorkFlowRunId()}/artifacts?api-version=${getApiVersion()}`;
-    core_1.debug(`Artifact Url: ${artifactUrl}`);
-    return artifactUrl;
-}
-exports.getArtifactUrl = getArtifactUrl;
-/**
- * Uh oh! Something might have gone wrong during either upload or download. The IHtttpClientResponse object contains information
- * about the http call that was made by the actions http client. This information might be useful to display for diagnostic purposes, but
- * this entire object is really big and most of the information is not really useful. This function takes the response object and displays only
- * the information that we want.
- *
- * Certain information such as the TLSSocket and the Readable state are not really useful for diagnostic purposes so they can be avoided.
- * Other information such as the headers, the response code and message might be useful, so this is displayed.
- */
-function displayHttpDiagnostics(response) {
-    core_1.info(`##### Begin Diagnostic HTTP information #####
-Status Code: ${response.message.statusCode}
-Status Message: ${response.message.statusMessage}
-Header Information: ${JSON.stringify(response.message.headers, undefined, 2)}
-###### End Diagnostic HTTP information ######`);
-}
-exports.displayHttpDiagnostics = displayHttpDiagnostics;
-/**
- * Invalid characters that cannot be in the artifact name or an uploaded file. Will be rejected
- * from the server if attempted to be sent over. These characters are not allowed due to limitations with certain
- * file systems such as NTFS. To maintain platform-agnostic behavior, all characters that are not supported by an
- * individual filesystem/platform will not be supported on all fileSystems/platforms
- *
- * FilePaths can include characters such as \ and / which are not permitted in the artifact name alone
- */
-const invalidArtifactFilePathCharacters = ['"', ':', '<', '>', '|', '*', '?'];
-const invalidArtifactNameCharacters = [
-    ...invalidArtifactFilePathCharacters,
-    '\\',
-    '/'
-];
-/**
- * Scans the name of the artifact to make sure there are no illegal characters
- */
-function checkArtifactName(name) {
-    if (!name) {
-        throw new Error(`Artifact name: ${name}, is incorrectly provided`);
-    }
-    for (const invalidChar of invalidArtifactNameCharacters) {
-        if (name.includes(invalidChar)) {
-            throw new Error(`Artifact name is not valid: ${name}. Contains character: "${invalidChar}". Invalid artifact name characters include: ${invalidArtifactNameCharacters.toString()}.`);
-        }
-    }
-}
-exports.checkArtifactName = checkArtifactName;
-/**
- * Scans the name of the filePath used to make sure there are no illegal characters
- */
-function checkArtifactFilePath(path) {
-    if (!path) {
-        throw new Error(`Artifact path: ${path}, is incorrectly provided`);
-    }
-    for (const invalidChar of invalidArtifactFilePathCharacters) {
-        if (path.includes(invalidChar)) {
-            throw new Error(`Artifact path is not valid: ${path}. Contains character: "${invalidChar}". Invalid characters include: ${invalidArtifactFilePathCharacters.toString()}.`);
-        }
-    }
-}
-exports.checkArtifactFilePath = checkArtifactFilePath;
-function createDirectoriesForArtifact(directories) {
-    return __awaiter(this, void 0, void 0, function* () {
-        for (const directory of directories) {
-            yield fs_1.promises.mkdir(directory, {
-                recursive: true
-            });
-        }
-    });
-}
-exports.createDirectoriesForArtifact = createDirectoriesForArtifact;
-function createEmptyFilesForArtifact(emptyFilesToCreate) {
-    return __awaiter(this, void 0, void 0, function* () {
-        for (const filePath of emptyFilesToCreate) {
-            yield (yield fs_1.promises.open(filePath, 'w')).close();
-        }
-    });
-}
-exports.createEmptyFilesForArtifact = createEmptyFilesForArtifact;
-function getFileSize(filePath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const stats = yield fs_1.promises.stat(filePath);
-        core_1.debug(`${filePath} size:(${stats.size}) blksize:(${stats.blksize}) blocks:(${stats.blocks})`);
-        return stats.size;
-    });
-}
-exports.getFileSize = getFileSize;
-function rmFile(filePath) {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield fs_1.promises.unlink(filePath);
-    });
-}
-exports.rmFile = rmFile;
-function getProperRetention(retentionInput, retentionSetting) {
-    if (retentionInput < 0) {
-        throw new Error('Invalid retention, minimum value is 1.');
-    }
-    let retention = retentionInput;
-    if (retentionSetting) {
-        const maxRetention = parseInt(retentionSetting);
-        if (!isNaN(maxRetention) && maxRetention < retention) {
-            core_1.warning(`Retention days is greater than the max value allowed by the repository setting, reduce retention to ${maxRetention} days`);
-            retention = maxRetention;
-        }
-    }
-    return retention;
-}
-exports.getProperRetention = getProperRetention;
-function sleep(milliseconds) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return new Promise(resolve => setTimeout(resolve, milliseconds));
-    });
-}
-exports.sleep = sleep;
-//# sourceMappingURL=utils.js.map
+module.exports = JSON.parse('{"_from":"@saucelabs/zap@^0.3.1","_id":"@saucelabs/zap@0.3.1","_inBundle":false,"_integrity":"sha512-iEajWMOgYeUzSeOIYMw3JTtAHWXQClvQOQAEJ9a6U+zhuvb+JorlTHTwzVnD3X/rlffVsYtald9SBYT4uhrx3A==","_location":"/@saucelabs/zap","_phantomChildren":{"argparse":"2.0.1"},"_requested":{"type":"range","registry":true,"raw":"@saucelabs/zap@^0.3.1","name":"@saucelabs/zap","escapedName":"@saucelabs%2fzap","scope":"@saucelabs","rawSpec":"^0.3.1","saveSpec":null,"fetchSpec":"^0.3.1"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/@saucelabs/zap/-/zap-0.3.1.tgz","_shasum":"b15873e5c7466f3e64027e6e91015aaef38a5bc8","_spec":"@saucelabs/zap@^0.3.1","_where":"/Users/christianbromann/Sites/SauceLabs/projects/sauce-security-action","author":{"name":"Christian Bromann","email":"christian@saucelabs.com"},"bin":{"zap":"bin/zap"},"bugs":{"url":"https://github.com/saucelabs/node-zap/issues"},"bundleDependencies":false,"contributors":[{"name":"christian-bromann","email":"christian@saucelabs.com"}],"dependencies":{"change-case":"^4.1.1","ejs":"^3.1.6","form-data":"^4.0.0","got":"^11.7.0","js-yaml":"^4.1.0","tar":"^6.1.2","tmp-promise":"^3.0.2","tunnel":"0.0.6","yargs":"^16.0.3"},"deprecated":false,"description":"OWASP ZapProxy bindings for Node.js","devDependencies":{"@types/jest":"^26.0.23","@types/tar":"^4.0.5","@types/tunnel":"0.0.2","@typescript-eslint/eslint-plugin":"^4.28.0","@typescript-eslint/parser":"^4.28.0","eslint":"^7.29.0","eslint-plugin-import":"^2.23.4","jest":"^27.0.5","npm-run-all":"^4.1.5","openapi-types":"^9.0.3","release-it":"^14.10.0","rimraf":"^3.0.2","source-map-support":"^0.5.19","swagger-typescript-codegen":"^3.2.3","ts-jest":"^27.0.3","ts-node":"^10.0.0","typescript":"^4.3.4"},"homepage":"https://github.com/saucelabs/node-zap","license":"Apache-2.0","main":"./build/index","name":"@saucelabs/zap","publishConfig":{"access":"public"},"repository":{"type":"git","url":"git://github.com/saucelabs/node-zap.git"},"scripts":{"build":"NODE_ENV=dev run-s clean compile postinstall","clean":"rimraf tsconfig.tsbuildinfo ./build ./coverage","compile":"tsc -p ./tsconfig.json","eslint":"eslint -c ./.eslintrc.js ./src/**/*.ts ./tests/**/*.ts","postinstall":"./scripts/setup.js","prepublishOnly":"NODE_ENV=production run-s build","release":"release-it --github.release","release:ci":"npm run release -- --ci --npm.skipChecks --no-git.requireCleanWorkingDir","release:major":"npm run release -- major","release:minor":"npm run release -- minor","release:patch":"npm run release -- patch","test":"run-s build eslint test:unit","test:unit":"cp -r build/api src/api && jest --coverage","watch":"npm run compile -- --watch"},"typings":"./build/index.d.ts","version":"0.3.1"}');
 
 /***/ }),
 
@@ -2214,682 +523,6 @@ exports.toCommandProperties = toCommandProperties;
 
 /***/ }),
 
-/***/ 3702:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-class BasicCredentialHandler {
-    constructor(username, password) {
-        this.username = username;
-        this.password = password;
-    }
-    prepareRequest(options) {
-        options.headers['Authorization'] =
-            'Basic ' +
-                Buffer.from(this.username + ':' + this.password).toString('base64');
-    }
-    // This handler cannot handle 401
-    canHandleAuthentication(response) {
-        return false;
-    }
-    handleAuthentication(httpClient, requestInfo, objs) {
-        return null;
-    }
-}
-exports.BasicCredentialHandler = BasicCredentialHandler;
-class BearerCredentialHandler {
-    constructor(token) {
-        this.token = token;
-    }
-    // currently implements pre-authorization
-    // TODO: support preAuth = false where it hooks on 401
-    prepareRequest(options) {
-        options.headers['Authorization'] = 'Bearer ' + this.token;
-    }
-    // This handler cannot handle 401
-    canHandleAuthentication(response) {
-        return false;
-    }
-    handleAuthentication(httpClient, requestInfo, objs) {
-        return null;
-    }
-}
-exports.BearerCredentialHandler = BearerCredentialHandler;
-class PersonalAccessTokenCredentialHandler {
-    constructor(token) {
-        this.token = token;
-    }
-    // currently implements pre-authorization
-    // TODO: support preAuth = false where it hooks on 401
-    prepareRequest(options) {
-        options.headers['Authorization'] =
-            'Basic ' + Buffer.from('PAT:' + this.token).toString('base64');
-    }
-    // This handler cannot handle 401
-    canHandleAuthentication(response) {
-        return false;
-    }
-    handleAuthentication(httpClient, requestInfo, objs) {
-        return null;
-    }
-}
-exports.PersonalAccessTokenCredentialHandler = PersonalAccessTokenCredentialHandler;
-
-
-/***/ }),
-
-/***/ 9925:
-/***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const http = __nccwpck_require__(8605);
-const https = __nccwpck_require__(7211);
-const pm = __nccwpck_require__(6443);
-let tunnel;
-var HttpCodes;
-(function (HttpCodes) {
-    HttpCodes[HttpCodes["OK"] = 200] = "OK";
-    HttpCodes[HttpCodes["MultipleChoices"] = 300] = "MultipleChoices";
-    HttpCodes[HttpCodes["MovedPermanently"] = 301] = "MovedPermanently";
-    HttpCodes[HttpCodes["ResourceMoved"] = 302] = "ResourceMoved";
-    HttpCodes[HttpCodes["SeeOther"] = 303] = "SeeOther";
-    HttpCodes[HttpCodes["NotModified"] = 304] = "NotModified";
-    HttpCodes[HttpCodes["UseProxy"] = 305] = "UseProxy";
-    HttpCodes[HttpCodes["SwitchProxy"] = 306] = "SwitchProxy";
-    HttpCodes[HttpCodes["TemporaryRedirect"] = 307] = "TemporaryRedirect";
-    HttpCodes[HttpCodes["PermanentRedirect"] = 308] = "PermanentRedirect";
-    HttpCodes[HttpCodes["BadRequest"] = 400] = "BadRequest";
-    HttpCodes[HttpCodes["Unauthorized"] = 401] = "Unauthorized";
-    HttpCodes[HttpCodes["PaymentRequired"] = 402] = "PaymentRequired";
-    HttpCodes[HttpCodes["Forbidden"] = 403] = "Forbidden";
-    HttpCodes[HttpCodes["NotFound"] = 404] = "NotFound";
-    HttpCodes[HttpCodes["MethodNotAllowed"] = 405] = "MethodNotAllowed";
-    HttpCodes[HttpCodes["NotAcceptable"] = 406] = "NotAcceptable";
-    HttpCodes[HttpCodes["ProxyAuthenticationRequired"] = 407] = "ProxyAuthenticationRequired";
-    HttpCodes[HttpCodes["RequestTimeout"] = 408] = "RequestTimeout";
-    HttpCodes[HttpCodes["Conflict"] = 409] = "Conflict";
-    HttpCodes[HttpCodes["Gone"] = 410] = "Gone";
-    HttpCodes[HttpCodes["TooManyRequests"] = 429] = "TooManyRequests";
-    HttpCodes[HttpCodes["InternalServerError"] = 500] = "InternalServerError";
-    HttpCodes[HttpCodes["NotImplemented"] = 501] = "NotImplemented";
-    HttpCodes[HttpCodes["BadGateway"] = 502] = "BadGateway";
-    HttpCodes[HttpCodes["ServiceUnavailable"] = 503] = "ServiceUnavailable";
-    HttpCodes[HttpCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
-})(HttpCodes = exports.HttpCodes || (exports.HttpCodes = {}));
-var Headers;
-(function (Headers) {
-    Headers["Accept"] = "accept";
-    Headers["ContentType"] = "content-type";
-})(Headers = exports.Headers || (exports.Headers = {}));
-var MediaTypes;
-(function (MediaTypes) {
-    MediaTypes["ApplicationJson"] = "application/json";
-})(MediaTypes = exports.MediaTypes || (exports.MediaTypes = {}));
-/**
- * Returns the proxy URL, depending upon the supplied url and proxy environment variables.
- * @param serverUrl  The server URL where the request will be sent. For example, https://api.github.com
- */
-function getProxyUrl(serverUrl) {
-    let proxyUrl = pm.getProxyUrl(new URL(serverUrl));
-    return proxyUrl ? proxyUrl.href : '';
-}
-exports.getProxyUrl = getProxyUrl;
-const HttpRedirectCodes = [
-    HttpCodes.MovedPermanently,
-    HttpCodes.ResourceMoved,
-    HttpCodes.SeeOther,
-    HttpCodes.TemporaryRedirect,
-    HttpCodes.PermanentRedirect
-];
-const HttpResponseRetryCodes = [
-    HttpCodes.BadGateway,
-    HttpCodes.ServiceUnavailable,
-    HttpCodes.GatewayTimeout
-];
-const RetryableHttpVerbs = ['OPTIONS', 'GET', 'DELETE', 'HEAD'];
-const ExponentialBackoffCeiling = 10;
-const ExponentialBackoffTimeSlice = 5;
-class HttpClientError extends Error {
-    constructor(message, statusCode) {
-        super(message);
-        this.name = 'HttpClientError';
-        this.statusCode = statusCode;
-        Object.setPrototypeOf(this, HttpClientError.prototype);
-    }
-}
-exports.HttpClientError = HttpClientError;
-class HttpClientResponse {
-    constructor(message) {
-        this.message = message;
-    }
-    readBody() {
-        return new Promise(async (resolve, reject) => {
-            let output = Buffer.alloc(0);
-            this.message.on('data', (chunk) => {
-                output = Buffer.concat([output, chunk]);
-            });
-            this.message.on('end', () => {
-                resolve(output.toString());
-            });
-        });
-    }
-}
-exports.HttpClientResponse = HttpClientResponse;
-function isHttps(requestUrl) {
-    let parsedUrl = new URL(requestUrl);
-    return parsedUrl.protocol === 'https:';
-}
-exports.isHttps = isHttps;
-class HttpClient {
-    constructor(userAgent, handlers, requestOptions) {
-        this._ignoreSslError = false;
-        this._allowRedirects = true;
-        this._allowRedirectDowngrade = false;
-        this._maxRedirects = 50;
-        this._allowRetries = false;
-        this._maxRetries = 1;
-        this._keepAlive = false;
-        this._disposed = false;
-        this.userAgent = userAgent;
-        this.handlers = handlers || [];
-        this.requestOptions = requestOptions;
-        if (requestOptions) {
-            if (requestOptions.ignoreSslError != null) {
-                this._ignoreSslError = requestOptions.ignoreSslError;
-            }
-            this._socketTimeout = requestOptions.socketTimeout;
-            if (requestOptions.allowRedirects != null) {
-                this._allowRedirects = requestOptions.allowRedirects;
-            }
-            if (requestOptions.allowRedirectDowngrade != null) {
-                this._allowRedirectDowngrade = requestOptions.allowRedirectDowngrade;
-            }
-            if (requestOptions.maxRedirects != null) {
-                this._maxRedirects = Math.max(requestOptions.maxRedirects, 0);
-            }
-            if (requestOptions.keepAlive != null) {
-                this._keepAlive = requestOptions.keepAlive;
-            }
-            if (requestOptions.allowRetries != null) {
-                this._allowRetries = requestOptions.allowRetries;
-            }
-            if (requestOptions.maxRetries != null) {
-                this._maxRetries = requestOptions.maxRetries;
-            }
-        }
-    }
-    options(requestUrl, additionalHeaders) {
-        return this.request('OPTIONS', requestUrl, null, additionalHeaders || {});
-    }
-    get(requestUrl, additionalHeaders) {
-        return this.request('GET', requestUrl, null, additionalHeaders || {});
-    }
-    del(requestUrl, additionalHeaders) {
-        return this.request('DELETE', requestUrl, null, additionalHeaders || {});
-    }
-    post(requestUrl, data, additionalHeaders) {
-        return this.request('POST', requestUrl, data, additionalHeaders || {});
-    }
-    patch(requestUrl, data, additionalHeaders) {
-        return this.request('PATCH', requestUrl, data, additionalHeaders || {});
-    }
-    put(requestUrl, data, additionalHeaders) {
-        return this.request('PUT', requestUrl, data, additionalHeaders || {});
-    }
-    head(requestUrl, additionalHeaders) {
-        return this.request('HEAD', requestUrl, null, additionalHeaders || {});
-    }
-    sendStream(verb, requestUrl, stream, additionalHeaders) {
-        return this.request(verb, requestUrl, stream, additionalHeaders);
-    }
-    /**
-     * Gets a typed object from an endpoint
-     * Be aware that not found returns a null.  Other errors (4xx, 5xx) reject the promise
-     */
-    async getJson(requestUrl, additionalHeaders = {}) {
-        additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
-        let res = await this.get(requestUrl, additionalHeaders);
-        return this._processResponse(res, this.requestOptions);
-    }
-    async postJson(requestUrl, obj, additionalHeaders = {}) {
-        let data = JSON.stringify(obj, null, 2);
-        additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
-        additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
-        let res = await this.post(requestUrl, data, additionalHeaders);
-        return this._processResponse(res, this.requestOptions);
-    }
-    async putJson(requestUrl, obj, additionalHeaders = {}) {
-        let data = JSON.stringify(obj, null, 2);
-        additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
-        additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
-        let res = await this.put(requestUrl, data, additionalHeaders);
-        return this._processResponse(res, this.requestOptions);
-    }
-    async patchJson(requestUrl, obj, additionalHeaders = {}) {
-        let data = JSON.stringify(obj, null, 2);
-        additionalHeaders[Headers.Accept] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.Accept, MediaTypes.ApplicationJson);
-        additionalHeaders[Headers.ContentType] = this._getExistingOrDefaultHeader(additionalHeaders, Headers.ContentType, MediaTypes.ApplicationJson);
-        let res = await this.patch(requestUrl, data, additionalHeaders);
-        return this._processResponse(res, this.requestOptions);
-    }
-    /**
-     * Makes a raw http request.
-     * All other methods such as get, post, patch, and request ultimately call this.
-     * Prefer get, del, post and patch
-     */
-    async request(verb, requestUrl, data, headers) {
-        if (this._disposed) {
-            throw new Error('Client has already been disposed.');
-        }
-        let parsedUrl = new URL(requestUrl);
-        let info = this._prepareRequest(verb, parsedUrl, headers);
-        // Only perform retries on reads since writes may not be idempotent.
-        let maxTries = this._allowRetries && RetryableHttpVerbs.indexOf(verb) != -1
-            ? this._maxRetries + 1
-            : 1;
-        let numTries = 0;
-        let response;
-        while (numTries < maxTries) {
-            response = await this.requestRaw(info, data);
-            // Check if it's an authentication challenge
-            if (response &&
-                response.message &&
-                response.message.statusCode === HttpCodes.Unauthorized) {
-                let authenticationHandler;
-                for (let i = 0; i < this.handlers.length; i++) {
-                    if (this.handlers[i].canHandleAuthentication(response)) {
-                        authenticationHandler = this.handlers[i];
-                        break;
-                    }
-                }
-                if (authenticationHandler) {
-                    return authenticationHandler.handleAuthentication(this, info, data);
-                }
-                else {
-                    // We have received an unauthorized response but have no handlers to handle it.
-                    // Let the response return to the caller.
-                    return response;
-                }
-            }
-            let redirectsRemaining = this._maxRedirects;
-            while (HttpRedirectCodes.indexOf(response.message.statusCode) != -1 &&
-                this._allowRedirects &&
-                redirectsRemaining > 0) {
-                const redirectUrl = response.message.headers['location'];
-                if (!redirectUrl) {
-                    // if there's no location to redirect to, we won't
-                    break;
-                }
-                let parsedRedirectUrl = new URL(redirectUrl);
-                if (parsedUrl.protocol == 'https:' &&
-                    parsedUrl.protocol != parsedRedirectUrl.protocol &&
-                    !this._allowRedirectDowngrade) {
-                    throw new Error('Redirect from HTTPS to HTTP protocol. This downgrade is not allowed for security reasons. If you want to allow this behavior, set the allowRedirectDowngrade option to true.');
-                }
-                // we need to finish reading the response before reassigning response
-                // which will leak the open socket.
-                await response.readBody();
-                // strip authorization header if redirected to a different hostname
-                if (parsedRedirectUrl.hostname !== parsedUrl.hostname) {
-                    for (let header in headers) {
-                        // header names are case insensitive
-                        if (header.toLowerCase() === 'authorization') {
-                            delete headers[header];
-                        }
-                    }
-                }
-                // let's make the request with the new redirectUrl
-                info = this._prepareRequest(verb, parsedRedirectUrl, headers);
-                response = await this.requestRaw(info, data);
-                redirectsRemaining--;
-            }
-            if (HttpResponseRetryCodes.indexOf(response.message.statusCode) == -1) {
-                // If not a retry code, return immediately instead of retrying
-                return response;
-            }
-            numTries += 1;
-            if (numTries < maxTries) {
-                await response.readBody();
-                await this._performExponentialBackoff(numTries);
-            }
-        }
-        return response;
-    }
-    /**
-     * Needs to be called if keepAlive is set to true in request options.
-     */
-    dispose() {
-        if (this._agent) {
-            this._agent.destroy();
-        }
-        this._disposed = true;
-    }
-    /**
-     * Raw request.
-     * @param info
-     * @param data
-     */
-    requestRaw(info, data) {
-        return new Promise((resolve, reject) => {
-            let callbackForResult = function (err, res) {
-                if (err) {
-                    reject(err);
-                }
-                resolve(res);
-            };
-            this.requestRawWithCallback(info, data, callbackForResult);
-        });
-    }
-    /**
-     * Raw request with callback.
-     * @param info
-     * @param data
-     * @param onResult
-     */
-    requestRawWithCallback(info, data, onResult) {
-        let socket;
-        if (typeof data === 'string') {
-            info.options.headers['Content-Length'] = Buffer.byteLength(data, 'utf8');
-        }
-        let callbackCalled = false;
-        let handleResult = (err, res) => {
-            if (!callbackCalled) {
-                callbackCalled = true;
-                onResult(err, res);
-            }
-        };
-        let req = info.httpModule.request(info.options, (msg) => {
-            let res = new HttpClientResponse(msg);
-            handleResult(null, res);
-        });
-        req.on('socket', sock => {
-            socket = sock;
-        });
-        // If we ever get disconnected, we want the socket to timeout eventually
-        req.setTimeout(this._socketTimeout || 3 * 60000, () => {
-            if (socket) {
-                socket.end();
-            }
-            handleResult(new Error('Request timeout: ' + info.options.path), null);
-        });
-        req.on('error', function (err) {
-            // err has statusCode property
-            // res should have headers
-            handleResult(err, null);
-        });
-        if (data && typeof data === 'string') {
-            req.write(data, 'utf8');
-        }
-        if (data && typeof data !== 'string') {
-            data.on('close', function () {
-                req.end();
-            });
-            data.pipe(req);
-        }
-        else {
-            req.end();
-        }
-    }
-    /**
-     * Gets an http agent. This function is useful when you need an http agent that handles
-     * routing through a proxy server - depending upon the url and proxy environment variables.
-     * @param serverUrl  The server URL where the request will be sent. For example, https://api.github.com
-     */
-    getAgent(serverUrl) {
-        let parsedUrl = new URL(serverUrl);
-        return this._getAgent(parsedUrl);
-    }
-    _prepareRequest(method, requestUrl, headers) {
-        const info = {};
-        info.parsedUrl = requestUrl;
-        const usingSsl = info.parsedUrl.protocol === 'https:';
-        info.httpModule = usingSsl ? https : http;
-        const defaultPort = usingSsl ? 443 : 80;
-        info.options = {};
-        info.options.host = info.parsedUrl.hostname;
-        info.options.port = info.parsedUrl.port
-            ? parseInt(info.parsedUrl.port)
-            : defaultPort;
-        info.options.path =
-            (info.parsedUrl.pathname || '') + (info.parsedUrl.search || '');
-        info.options.method = method;
-        info.options.headers = this._mergeHeaders(headers);
-        if (this.userAgent != null) {
-            info.options.headers['user-agent'] = this.userAgent;
-        }
-        info.options.agent = this._getAgent(info.parsedUrl);
-        // gives handlers an opportunity to participate
-        if (this.handlers) {
-            this.handlers.forEach(handler => {
-                handler.prepareRequest(info.options);
-            });
-        }
-        return info;
-    }
-    _mergeHeaders(headers) {
-        const lowercaseKeys = obj => Object.keys(obj).reduce((c, k) => ((c[k.toLowerCase()] = obj[k]), c), {});
-        if (this.requestOptions && this.requestOptions.headers) {
-            return Object.assign({}, lowercaseKeys(this.requestOptions.headers), lowercaseKeys(headers));
-        }
-        return lowercaseKeys(headers || {});
-    }
-    _getExistingOrDefaultHeader(additionalHeaders, header, _default) {
-        const lowercaseKeys = obj => Object.keys(obj).reduce((c, k) => ((c[k.toLowerCase()] = obj[k]), c), {});
-        let clientHeader;
-        if (this.requestOptions && this.requestOptions.headers) {
-            clientHeader = lowercaseKeys(this.requestOptions.headers)[header];
-        }
-        return additionalHeaders[header] || clientHeader || _default;
-    }
-    _getAgent(parsedUrl) {
-        let agent;
-        let proxyUrl = pm.getProxyUrl(parsedUrl);
-        let useProxy = proxyUrl && proxyUrl.hostname;
-        if (this._keepAlive && useProxy) {
-            agent = this._proxyAgent;
-        }
-        if (this._keepAlive && !useProxy) {
-            agent = this._agent;
-        }
-        // if agent is already assigned use that agent.
-        if (!!agent) {
-            return agent;
-        }
-        const usingSsl = parsedUrl.protocol === 'https:';
-        let maxSockets = 100;
-        if (!!this.requestOptions) {
-            maxSockets = this.requestOptions.maxSockets || http.globalAgent.maxSockets;
-        }
-        if (useProxy) {
-            // If using proxy, need tunnel
-            if (!tunnel) {
-                tunnel = __nccwpck_require__(4294);
-            }
-            const agentOptions = {
-                maxSockets: maxSockets,
-                keepAlive: this._keepAlive,
-                proxy: {
-                    ...((proxyUrl.username || proxyUrl.password) && {
-                        proxyAuth: `${proxyUrl.username}:${proxyUrl.password}`
-                    }),
-                    host: proxyUrl.hostname,
-                    port: proxyUrl.port
-                }
-            };
-            let tunnelAgent;
-            const overHttps = proxyUrl.protocol === 'https:';
-            if (usingSsl) {
-                tunnelAgent = overHttps ? tunnel.httpsOverHttps : tunnel.httpsOverHttp;
-            }
-            else {
-                tunnelAgent = overHttps ? tunnel.httpOverHttps : tunnel.httpOverHttp;
-            }
-            agent = tunnelAgent(agentOptions);
-            this._proxyAgent = agent;
-        }
-        // if reusing agent across request and tunneling agent isn't assigned create a new agent
-        if (this._keepAlive && !agent) {
-            const options = { keepAlive: this._keepAlive, maxSockets: maxSockets };
-            agent = usingSsl ? new https.Agent(options) : new http.Agent(options);
-            this._agent = agent;
-        }
-        // if not using private agent and tunnel agent isn't setup then use global agent
-        if (!agent) {
-            agent = usingSsl ? https.globalAgent : http.globalAgent;
-        }
-        if (usingSsl && this._ignoreSslError) {
-            // we don't want to set NODE_TLS_REJECT_UNAUTHORIZED=0 since that will affect request for entire process
-            // http.RequestOptions doesn't expose a way to modify RequestOptions.agent.options
-            // we have to cast it to any and change it directly
-            agent.options = Object.assign(agent.options || {}, {
-                rejectUnauthorized: false
-            });
-        }
-        return agent;
-    }
-    _performExponentialBackoff(retryNumber) {
-        retryNumber = Math.min(ExponentialBackoffCeiling, retryNumber);
-        const ms = ExponentialBackoffTimeSlice * Math.pow(2, retryNumber);
-        return new Promise(resolve => setTimeout(() => resolve(), ms));
-    }
-    static dateTimeDeserializer(key, value) {
-        if (typeof value === 'string') {
-            let a = new Date(value);
-            if (!isNaN(a.valueOf())) {
-                return a;
-            }
-        }
-        return value;
-    }
-    async _processResponse(res, options) {
-        return new Promise(async (resolve, reject) => {
-            const statusCode = res.message.statusCode;
-            const response = {
-                statusCode: statusCode,
-                result: null,
-                headers: {}
-            };
-            // not found leads to null obj returned
-            if (statusCode == HttpCodes.NotFound) {
-                resolve(response);
-            }
-            let obj;
-            let contents;
-            // get the result from the body
-            try {
-                contents = await res.readBody();
-                if (contents && contents.length > 0) {
-                    if (options && options.deserializeDates) {
-                        obj = JSON.parse(contents, HttpClient.dateTimeDeserializer);
-                    }
-                    else {
-                        obj = JSON.parse(contents);
-                    }
-                    response.result = obj;
-                }
-                response.headers = res.message.headers;
-            }
-            catch (err) {
-                // Invalid resource (contents not json);  leaving result obj null
-            }
-            // note that 3xx redirects are handled by the http layer.
-            if (statusCode > 299) {
-                let msg;
-                // if exception/error in body, attempt to get better error
-                if (obj && obj.message) {
-                    msg = obj.message;
-                }
-                else if (contents && contents.length > 0) {
-                    // it may be the case that the exception is in the body message as string
-                    msg = contents;
-                }
-                else {
-                    msg = 'Failed request: (' + statusCode + ')';
-                }
-                let err = new HttpClientError(msg, statusCode);
-                err.result = response.result;
-                reject(err);
-            }
-            else {
-                resolve(response);
-            }
-        });
-    }
-}
-exports.HttpClient = HttpClient;
-
-
-/***/ }),
-
-/***/ 6443:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-function getProxyUrl(reqUrl) {
-    let usingSsl = reqUrl.protocol === 'https:';
-    let proxyUrl;
-    if (checkBypass(reqUrl)) {
-        return proxyUrl;
-    }
-    let proxyVar;
-    if (usingSsl) {
-        proxyVar = process.env['https_proxy'] || process.env['HTTPS_PROXY'];
-    }
-    else {
-        proxyVar = process.env['http_proxy'] || process.env['HTTP_PROXY'];
-    }
-    if (proxyVar) {
-        proxyUrl = new URL(proxyVar);
-    }
-    return proxyUrl;
-}
-exports.getProxyUrl = getProxyUrl;
-function checkBypass(reqUrl) {
-    if (!reqUrl.hostname) {
-        return false;
-    }
-    let noProxy = process.env['no_proxy'] || process.env['NO_PROXY'] || '';
-    if (!noProxy) {
-        return false;
-    }
-    // Determine the request port
-    let reqPort;
-    if (reqUrl.port) {
-        reqPort = Number(reqUrl.port);
-    }
-    else if (reqUrl.protocol === 'http:') {
-        reqPort = 80;
-    }
-    else if (reqUrl.protocol === 'https:') {
-        reqPort = 443;
-    }
-    // Format the request hostname and hostname with port
-    let upperReqHosts = [reqUrl.hostname.toUpperCase()];
-    if (typeof reqPort === 'number') {
-        upperReqHosts.push(`${upperReqHosts[0]}:${reqPort}`);
-    }
-    // Compare request host against noproxy
-    for (let upperNoProxyItem of noProxy
-        .split(',')
-        .map(x => x.trim().toUpperCase())
-        .filter(x => x)) {
-        if (upperReqHosts.some(x => x === upperNoProxyItem)) {
-            return true;
-        }
-    }
-    return false;
-}
-exports.checkBypass = checkBypass;
-
-
-/***/ }),
-
 /***/ 9281:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -2906,7 +539,7 @@ const { version } = __nccwpck_require__(7838);
 exports.BINDING_VERSION_NOTE = `node-zap v${version}`;
 const protocols = [
     __nccwpck_require__(3791),
-    __nccwpck_require__(6963)
+    __nccwpck_require__(5483)
 ];
 exports.API_DOMAINS = new Set();
 const protocolFlattened = new Map();
@@ -3038,7 +671,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const fs_1 = __importDefault(__nccwpck_require__(5747));
 const got_1 = __importDefault(__nccwpck_require__(3061));
 const tar_1 = __importDefault(__nccwpck_require__(4674));
-const tmp_promise_1 = __importDefault(__nccwpck_require__(3560));
+const tmp_promise_1 = __importDefault(__nccwpck_require__(8065));
 const tunnel_1 = __importDefault(__nccwpck_require__(4294));
 const form_data_1 = __importDefault(__nccwpck_require__(4334));
 const change_case_1 = __nccwpck_require__(9091);
@@ -3332,1218 +965,6 @@ async function asyncFilter(arr, callback) {
         : fail))).filter((i) => i !== fail);
 }
 exports.asyncFilter = asyncFilter;
-
-
-/***/ }),
-
-/***/ 4976:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const assert = __nccwpck_require__(2357)
-const path = __nccwpck_require__(5622)
-const fs = __nccwpck_require__(5747)
-let glob = undefined
-try {
-  glob = __nccwpck_require__(1957)
-} catch (_err) {
-  // treat glob as optional.
-}
-
-const defaultGlobOpts = {
-  nosort: true,
-  silent: true
-}
-
-// for EMFILE handling
-let timeout = 0
-
-const isWindows = (process.platform === "win32")
-
-const defaults = options => {
-  const methods = [
-    'unlink',
-    'chmod',
-    'stat',
-    'lstat',
-    'rmdir',
-    'readdir'
-  ]
-  methods.forEach(m => {
-    options[m] = options[m] || fs[m]
-    m = m + 'Sync'
-    options[m] = options[m] || fs[m]
-  })
-
-  options.maxBusyTries = options.maxBusyTries || 3
-  options.emfileWait = options.emfileWait || 1000
-  if (options.glob === false) {
-    options.disableGlob = true
-  }
-  if (options.disableGlob !== true && glob === undefined) {
-    throw Error('glob dependency not found, set `options.disableGlob = true` if intentional')
-  }
-  options.disableGlob = options.disableGlob || false
-  options.glob = options.glob || defaultGlobOpts
-}
-
-const rimraf = (p, options, cb) => {
-  if (typeof options === 'function') {
-    cb = options
-    options = {}
-  }
-
-  assert(p, 'rimraf: missing path')
-  assert.equal(typeof p, 'string', 'rimraf: path should be a string')
-  assert.equal(typeof cb, 'function', 'rimraf: callback function required')
-  assert(options, 'rimraf: invalid options argument provided')
-  assert.equal(typeof options, 'object', 'rimraf: options should be object')
-
-  defaults(options)
-
-  let busyTries = 0
-  let errState = null
-  let n = 0
-
-  const next = (er) => {
-    errState = errState || er
-    if (--n === 0)
-      cb(errState)
-  }
-
-  const afterGlob = (er, results) => {
-    if (er)
-      return cb(er)
-
-    n = results.length
-    if (n === 0)
-      return cb()
-
-    results.forEach(p => {
-      const CB = (er) => {
-        if (er) {
-          if ((er.code === "EBUSY" || er.code === "ENOTEMPTY" || er.code === "EPERM") &&
-              busyTries < options.maxBusyTries) {
-            busyTries ++
-            // try again, with the same exact callback as this one.
-            return setTimeout(() => rimraf_(p, options, CB), busyTries * 100)
-          }
-
-          // this one won't happen if graceful-fs is used.
-          if (er.code === "EMFILE" && timeout < options.emfileWait) {
-            return setTimeout(() => rimraf_(p, options, CB), timeout ++)
-          }
-
-          // already gone
-          if (er.code === "ENOENT") er = null
-        }
-
-        timeout = 0
-        next(er)
-      }
-      rimraf_(p, options, CB)
-    })
-  }
-
-  if (options.disableGlob || !glob.hasMagic(p))
-    return afterGlob(null, [p])
-
-  options.lstat(p, (er, stat) => {
-    if (!er)
-      return afterGlob(null, [p])
-
-    glob(p, options.glob, afterGlob)
-  })
-
-}
-
-// Two possible strategies.
-// 1. Assume it's a file.  unlink it, then do the dir stuff on EPERM or EISDIR
-// 2. Assume it's a directory.  readdir, then do the file stuff on ENOTDIR
-//
-// Both result in an extra syscall when you guess wrong.  However, there
-// are likely far more normal files in the world than directories.  This
-// is based on the assumption that a the average number of files per
-// directory is >= 1.
-//
-// If anyone ever complains about this, then I guess the strategy could
-// be made configurable somehow.  But until then, YAGNI.
-const rimraf_ = (p, options, cb) => {
-  assert(p)
-  assert(options)
-  assert(typeof cb === 'function')
-
-  // sunos lets the root user unlink directories, which is... weird.
-  // so we have to lstat here and make sure it's not a dir.
-  options.lstat(p, (er, st) => {
-    if (er && er.code === "ENOENT")
-      return cb(null)
-
-    // Windows can EPERM on stat.  Life is suffering.
-    if (er && er.code === "EPERM" && isWindows)
-      fixWinEPERM(p, options, er, cb)
-
-    if (st && st.isDirectory())
-      return rmdir(p, options, er, cb)
-
-    options.unlink(p, er => {
-      if (er) {
-        if (er.code === "ENOENT")
-          return cb(null)
-        if (er.code === "EPERM")
-          return (isWindows)
-            ? fixWinEPERM(p, options, er, cb)
-            : rmdir(p, options, er, cb)
-        if (er.code === "EISDIR")
-          return rmdir(p, options, er, cb)
-      }
-      return cb(er)
-    })
-  })
-}
-
-const fixWinEPERM = (p, options, er, cb) => {
-  assert(p)
-  assert(options)
-  assert(typeof cb === 'function')
-
-  options.chmod(p, 0o666, er2 => {
-    if (er2)
-      cb(er2.code === "ENOENT" ? null : er)
-    else
-      options.stat(p, (er3, stats) => {
-        if (er3)
-          cb(er3.code === "ENOENT" ? null : er)
-        else if (stats.isDirectory())
-          rmdir(p, options, er, cb)
-        else
-          options.unlink(p, cb)
-      })
-  })
-}
-
-const fixWinEPERMSync = (p, options, er) => {
-  assert(p)
-  assert(options)
-
-  try {
-    options.chmodSync(p, 0o666)
-  } catch (er2) {
-    if (er2.code === "ENOENT")
-      return
-    else
-      throw er
-  }
-
-  let stats
-  try {
-    stats = options.statSync(p)
-  } catch (er3) {
-    if (er3.code === "ENOENT")
-      return
-    else
-      throw er
-  }
-
-  if (stats.isDirectory())
-    rmdirSync(p, options, er)
-  else
-    options.unlinkSync(p)
-}
-
-const rmdir = (p, options, originalEr, cb) => {
-  assert(p)
-  assert(options)
-  assert(typeof cb === 'function')
-
-  // try to rmdir first, and only readdir on ENOTEMPTY or EEXIST (SunOS)
-  // if we guessed wrong, and it's not a directory, then
-  // raise the original error.
-  options.rmdir(p, er => {
-    if (er && (er.code === "ENOTEMPTY" || er.code === "EEXIST" || er.code === "EPERM"))
-      rmkids(p, options, cb)
-    else if (er && er.code === "ENOTDIR")
-      cb(originalEr)
-    else
-      cb(er)
-  })
-}
-
-const rmkids = (p, options, cb) => {
-  assert(p)
-  assert(options)
-  assert(typeof cb === 'function')
-
-  options.readdir(p, (er, files) => {
-    if (er)
-      return cb(er)
-    let n = files.length
-    if (n === 0)
-      return options.rmdir(p, cb)
-    let errState
-    files.forEach(f => {
-      rimraf(path.join(p, f), options, er => {
-        if (errState)
-          return
-        if (er)
-          return cb(errState = er)
-        if (--n === 0)
-          options.rmdir(p, cb)
-      })
-    })
-  })
-}
-
-// this looks simpler, and is strictly *faster*, but will
-// tie up the JavaScript thread and fail on excessively
-// deep directory trees.
-const rimrafSync = (p, options) => {
-  options = options || {}
-  defaults(options)
-
-  assert(p, 'rimraf: missing path')
-  assert.equal(typeof p, 'string', 'rimraf: path should be a string')
-  assert(options, 'rimraf: missing options')
-  assert.equal(typeof options, 'object', 'rimraf: options should be object')
-
-  let results
-
-  if (options.disableGlob || !glob.hasMagic(p)) {
-    results = [p]
-  } else {
-    try {
-      options.lstatSync(p)
-      results = [p]
-    } catch (er) {
-      results = glob.sync(p, options.glob)
-    }
-  }
-
-  if (!results.length)
-    return
-
-  for (let i = 0; i < results.length; i++) {
-    const p = results[i]
-
-    let st
-    try {
-      st = options.lstatSync(p)
-    } catch (er) {
-      if (er.code === "ENOENT")
-        return
-
-      // Windows can EPERM on stat.  Life is suffering.
-      if (er.code === "EPERM" && isWindows)
-        fixWinEPERMSync(p, options, er)
-    }
-
-    try {
-      // sunos lets the root user unlink directories, which is... weird.
-      if (st && st.isDirectory())
-        rmdirSync(p, options, null)
-      else
-        options.unlinkSync(p)
-    } catch (er) {
-      if (er.code === "ENOENT")
-        return
-      if (er.code === "EPERM")
-        return isWindows ? fixWinEPERMSync(p, options, er) : rmdirSync(p, options, er)
-      if (er.code !== "EISDIR")
-        throw er
-
-      rmdirSync(p, options, er)
-    }
-  }
-}
-
-const rmdirSync = (p, options, originalEr) => {
-  assert(p)
-  assert(options)
-
-  try {
-    options.rmdirSync(p)
-  } catch (er) {
-    if (er.code === "ENOENT")
-      return
-    if (er.code === "ENOTDIR")
-      throw originalEr
-    if (er.code === "ENOTEMPTY" || er.code === "EEXIST" || er.code === "EPERM")
-      rmkidsSync(p, options)
-  }
-}
-
-const rmkidsSync = (p, options) => {
-  assert(p)
-  assert(options)
-  options.readdirSync(p).forEach(f => rimrafSync(path.join(p, f), options))
-
-  // We only end up here once we got ENOTEMPTY at least once, and
-  // at this point, we are guaranteed to have removed all the kids.
-  // So, we know that it won't be ENOENT or ENOTDIR or anything else.
-  // try really hard to delete stuff on windows, because it has a
-  // PROFOUNDLY annoying habit of not closing handles promptly when
-  // files are deleted, resulting in spurious ENOTEMPTY errors.
-  const retries = isWindows ? 100 : 1
-  let i = 0
-  do {
-    let threw = true
-    try {
-      const ret = options.rmdirSync(p, options)
-      threw = false
-      return ret
-    } finally {
-      if (++i < retries && threw)
-        continue
-    }
-  } while (true)
-}
-
-module.exports = rimraf
-rimraf.sync = rimrafSync
-
-
-/***/ }),
-
-/***/ 3560:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-
-const { promisify } = __nccwpck_require__(1669);
-const tmp = __nccwpck_require__(8564);
-
-// file
-module.exports.fileSync = tmp.fileSync;
-const fileWithOptions = promisify((options, cb) =>
-  tmp.file(options, (err, path, fd, cleanup) =>
-    err ? cb(err) : cb(undefined, { path, fd, cleanup: promisify(cleanup) })
-  )
-);
-module.exports.file = async (options) => fileWithOptions(options);
-
-module.exports.withFile = async function withFile(fn, options) {
-  const { path, fd, cleanup } = await module.exports.file(options);
-  try {
-    return await fn({ path, fd });
-  } finally {
-    await cleanup();
-  }
-};
-
-
-// directory
-module.exports.dirSync = tmp.dirSync;
-const dirWithOptions = promisify((options, cb) =>
-  tmp.dir(options, (err, path, cleanup) =>
-    err ? cb(err) : cb(undefined, { path, cleanup: promisify(cleanup) })
-  )
-);
-module.exports.dir = async (options) => dirWithOptions(options);
-
-module.exports.withDir = async function withDir(fn, options) {
-  const { path, cleanup } = await module.exports.dir(options);
-  try {
-    return await fn({ path });
-  } finally {
-    await cleanup();
-  }
-};
-
-
-// name generation
-module.exports.tmpNameSync = tmp.tmpNameSync;
-module.exports.tmpName = promisify(tmp.tmpName);
-
-module.exports.tmpdir = tmp.tmpdir;
-
-module.exports.setGracefulCleanup = tmp.setGracefulCleanup;
-
-
-/***/ }),
-
-/***/ 8564:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-/*!
- * Tmp
- *
- * Copyright (c) 2011-2017 KARASZI Istvan <github@spam.raszi.hu>
- *
- * MIT Licensed
- */
-
-/*
- * Module dependencies.
- */
-const fs = __nccwpck_require__(5747);
-const os = __nccwpck_require__(2087);
-const path = __nccwpck_require__(5622);
-const crypto = __nccwpck_require__(6417);
-const _c = { fs: fs.constants, os: os.constants };
-const rimraf = __nccwpck_require__(4976);
-
-/*
- * The working inner variables.
- */
-const
-  // the random characters to choose from
-  RANDOM_CHARS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
-
-  TEMPLATE_PATTERN = /XXXXXX/,
-
-  DEFAULT_TRIES = 3,
-
-  CREATE_FLAGS = (_c.O_CREAT || _c.fs.O_CREAT) | (_c.O_EXCL || _c.fs.O_EXCL) | (_c.O_RDWR || _c.fs.O_RDWR),
-
-  // constants are off on the windows platform and will not match the actual errno codes
-  IS_WIN32 = os.platform() === 'win32',
-  EBADF = _c.EBADF || _c.os.errno.EBADF,
-  ENOENT = _c.ENOENT || _c.os.errno.ENOENT,
-
-  DIR_MODE = 0o700 /* 448 */,
-  FILE_MODE = 0o600 /* 384 */,
-
-  EXIT = 'exit',
-
-  // this will hold the objects need to be removed on exit
-  _removeObjects = [],
-
-  // API change in fs.rmdirSync leads to error when passing in a second parameter, e.g. the callback
-  FN_RMDIR_SYNC = fs.rmdirSync.bind(fs),
-  FN_RIMRAF_SYNC = rimraf.sync;
-
-let
-  _gracefulCleanup = false;
-
-/**
- * Gets a temporary file name.
- *
- * @param {(Options|tmpNameCallback)} options options or callback
- * @param {?tmpNameCallback} callback the callback function
- */
-function tmpName(options, callback) {
-  const
-    args = _parseArguments(options, callback),
-    opts = args[0],
-    cb = args[1];
-
-  try {
-    _assertAndSanitizeOptions(opts);
-  } catch (err) {
-    return cb(err);
-  }
-
-  let tries = opts.tries;
-  (function _getUniqueName() {
-    try {
-      const name = _generateTmpName(opts);
-
-      // check whether the path exists then retry if needed
-      fs.stat(name, function (err) {
-        /* istanbul ignore else */
-        if (!err) {
-          /* istanbul ignore else */
-          if (tries-- > 0) return _getUniqueName();
-
-          return cb(new Error('Could not get a unique tmp filename, max tries reached ' + name));
-        }
-
-        cb(null, name);
-      });
-    } catch (err) {
-      cb(err);
-    }
-  }());
-}
-
-/**
- * Synchronous version of tmpName.
- *
- * @param {Object} options
- * @returns {string} the generated random name
- * @throws {Error} if the options are invalid or could not generate a filename
- */
-function tmpNameSync(options) {
-  const
-    args = _parseArguments(options),
-    opts = args[0];
-
-  _assertAndSanitizeOptions(opts);
-
-  let tries = opts.tries;
-  do {
-    const name = _generateTmpName(opts);
-    try {
-      fs.statSync(name);
-    } catch (e) {
-      return name;
-    }
-  } while (tries-- > 0);
-
-  throw new Error('Could not get a unique tmp filename, max tries reached');
-}
-
-/**
- * Creates and opens a temporary file.
- *
- * @param {(Options|null|undefined|fileCallback)} options the config options or the callback function or null or undefined
- * @param {?fileCallback} callback
- */
-function file(options, callback) {
-  const
-    args = _parseArguments(options, callback),
-    opts = args[0],
-    cb = args[1];
-
-  // gets a temporary filename
-  tmpName(opts, function _tmpNameCreated(err, name) {
-    /* istanbul ignore else */
-    if (err) return cb(err);
-
-    // create and open the file
-    fs.open(name, CREATE_FLAGS, opts.mode || FILE_MODE, function _fileCreated(err, fd) {
-      /* istanbu ignore else */
-      if (err) return cb(err);
-
-      if (opts.discardDescriptor) {
-        return fs.close(fd, function _discardCallback(possibleErr) {
-          // the chance of getting an error on close here is rather low and might occur in the most edgiest cases only
-          return cb(possibleErr, name, undefined, _prepareTmpFileRemoveCallback(name, -1, opts, false));
-        });
-      } else {
-        // detachDescriptor passes the descriptor whereas discardDescriptor closes it, either way, we no longer care
-        // about the descriptor
-        const discardOrDetachDescriptor = opts.discardDescriptor || opts.detachDescriptor;
-        cb(null, name, fd, _prepareTmpFileRemoveCallback(name, discardOrDetachDescriptor ? -1 : fd, opts, false));
-      }
-    });
-  });
-}
-
-/**
- * Synchronous version of file.
- *
- * @param {Options} options
- * @returns {FileSyncObject} object consists of name, fd and removeCallback
- * @throws {Error} if cannot create a file
- */
-function fileSync(options) {
-  const
-    args = _parseArguments(options),
-    opts = args[0];
-
-  const discardOrDetachDescriptor = opts.discardDescriptor || opts.detachDescriptor;
-  const name = tmpNameSync(opts);
-  var fd = fs.openSync(name, CREATE_FLAGS, opts.mode || FILE_MODE);
-  /* istanbul ignore else */
-  if (opts.discardDescriptor) {
-    fs.closeSync(fd);
-    fd = undefined;
-  }
-
-  return {
-    name: name,
-    fd: fd,
-    removeCallback: _prepareTmpFileRemoveCallback(name, discardOrDetachDescriptor ? -1 : fd, opts, true)
-  };
-}
-
-/**
- * Creates a temporary directory.
- *
- * @param {(Options|dirCallback)} options the options or the callback function
- * @param {?dirCallback} callback
- */
-function dir(options, callback) {
-  const
-    args = _parseArguments(options, callback),
-    opts = args[0],
-    cb = args[1];
-
-  // gets a temporary filename
-  tmpName(opts, function _tmpNameCreated(err, name) {
-    /* istanbul ignore else */
-    if (err) return cb(err);
-
-    // create the directory
-    fs.mkdir(name, opts.mode || DIR_MODE, function _dirCreated(err) {
-      /* istanbul ignore else */
-      if (err) return cb(err);
-
-      cb(null, name, _prepareTmpDirRemoveCallback(name, opts, false));
-    });
-  });
-}
-
-/**
- * Synchronous version of dir.
- *
- * @param {Options} options
- * @returns {DirSyncObject} object consists of name and removeCallback
- * @throws {Error} if it cannot create a directory
- */
-function dirSync(options) {
-  const
-    args = _parseArguments(options),
-    opts = args[0];
-
-  const name = tmpNameSync(opts);
-  fs.mkdirSync(name, opts.mode || DIR_MODE);
-
-  return {
-    name: name,
-    removeCallback: _prepareTmpDirRemoveCallback(name, opts, true)
-  };
-}
-
-/**
- * Removes files asynchronously.
- *
- * @param {Object} fdPath
- * @param {Function} next
- * @private
- */
-function _removeFileAsync(fdPath, next) {
-  const _handler = function (err) {
-    if (err && !_isENOENT(err)) {
-      // reraise any unanticipated error
-      return next(err);
-    }
-    next();
-  };
-
-  if (0 <= fdPath[0])
-    fs.close(fdPath[0], function () {
-      fs.unlink(fdPath[1], _handler);
-    });
-  else fs.unlink(fdPath[1], _handler);
-}
-
-/**
- * Removes files synchronously.
- *
- * @param {Object} fdPath
- * @private
- */
-function _removeFileSync(fdPath) {
-  let rethrownException = null;
-  try {
-    if (0 <= fdPath[0]) fs.closeSync(fdPath[0]);
-  } catch (e) {
-    // reraise any unanticipated error
-    if (!_isEBADF(e) && !_isENOENT(e)) throw e;
-  } finally {
-    try {
-      fs.unlinkSync(fdPath[1]);
-    }
-    catch (e) {
-      // reraise any unanticipated error
-      if (!_isENOENT(e)) rethrownException = e;
-    }
-  }
-  if (rethrownException !== null) {
-    throw rethrownException;
-  }
-}
-
-/**
- * Prepares the callback for removal of the temporary file.
- *
- * Returns either a sync callback or a async callback depending on whether
- * fileSync or file was called, which is expressed by the sync parameter.
- *
- * @param {string} name the path of the file
- * @param {number} fd file descriptor
- * @param {Object} opts
- * @param {boolean} sync
- * @returns {fileCallback | fileCallbackSync}
- * @private
- */
-function _prepareTmpFileRemoveCallback(name, fd, opts, sync) {
-  const removeCallbackSync = _prepareRemoveCallback(_removeFileSync, [fd, name], sync);
-  const removeCallback = _prepareRemoveCallback(_removeFileAsync, [fd, name], sync, removeCallbackSync);
-
-  if (!opts.keep) _removeObjects.unshift(removeCallbackSync);
-
-  return sync ? removeCallbackSync : removeCallback;
-}
-
-/**
- * Prepares the callback for removal of the temporary directory.
- *
- * Returns either a sync callback or a async callback depending on whether
- * tmpFileSync or tmpFile was called, which is expressed by the sync parameter.
- *
- * @param {string} name
- * @param {Object} opts
- * @param {boolean} sync
- * @returns {Function} the callback
- * @private
- */
-function _prepareTmpDirRemoveCallback(name, opts, sync) {
-  const removeFunction = opts.unsafeCleanup ? rimraf : fs.rmdir.bind(fs);
-  const removeFunctionSync = opts.unsafeCleanup ? FN_RIMRAF_SYNC : FN_RMDIR_SYNC;
-  const removeCallbackSync = _prepareRemoveCallback(removeFunctionSync, name, sync);
-  const removeCallback = _prepareRemoveCallback(removeFunction, name, sync, removeCallbackSync);
-  if (!opts.keep) _removeObjects.unshift(removeCallbackSync);
-
-  return sync ? removeCallbackSync : removeCallback;
-}
-
-/**
- * Creates a guarded function wrapping the removeFunction call.
- *
- * The cleanup callback is save to be called multiple times.
- * Subsequent invocations will be ignored.
- *
- * @param {Function} removeFunction
- * @param {string} fileOrDirName
- * @param {boolean} sync
- * @param {cleanupCallbackSync?} cleanupCallbackSync
- * @returns {cleanupCallback | cleanupCallbackSync}
- * @private
- */
-function _prepareRemoveCallback(removeFunction, fileOrDirName, sync, cleanupCallbackSync) {
-  let called = false;
-
-  // if sync is true, the next parameter will be ignored
-  return function _cleanupCallback(next) {
-
-    /* istanbul ignore else */
-    if (!called) {
-      // remove cleanupCallback from cache
-      const toRemove = cleanupCallbackSync || _cleanupCallback;
-      const index = _removeObjects.indexOf(toRemove);
-      /* istanbul ignore else */
-      if (index >= 0) _removeObjects.splice(index, 1);
-
-      called = true;
-      if (sync || removeFunction === FN_RMDIR_SYNC || removeFunction === FN_RIMRAF_SYNC) {
-        return removeFunction(fileOrDirName);
-      } else {
-        return removeFunction(fileOrDirName, next || function() {});
-      }
-    }
-  };
-}
-
-/**
- * The garbage collector.
- *
- * @private
- */
-function _garbageCollector() {
-  /* istanbul ignore else */
-  if (!_gracefulCleanup) return;
-
-  // the function being called removes itself from _removeObjects,
-  // loop until _removeObjects is empty
-  while (_removeObjects.length) {
-    try {
-      _removeObjects[0]();
-    } catch (e) {
-      // already removed?
-    }
-  }
-}
-
-/**
- * Random name generator based on crypto.
- * Adapted from http://blog.tompawlak.org/how-to-generate-random-values-nodejs-javascript
- *
- * @param {number} howMany
- * @returns {string} the generated random name
- * @private
- */
-function _randomChars(howMany) {
-  let
-    value = [],
-    rnd = null;
-
-  // make sure that we do not fail because we ran out of entropy
-  try {
-    rnd = crypto.randomBytes(howMany);
-  } catch (e) {
-    rnd = crypto.pseudoRandomBytes(howMany);
-  }
-
-  for (var i = 0; i < howMany; i++) {
-    value.push(RANDOM_CHARS[rnd[i] % RANDOM_CHARS.length]);
-  }
-
-  return value.join('');
-}
-
-/**
- * Helper which determines whether a string s is blank, that is undefined, or empty or null.
- *
- * @private
- * @param {string} s
- * @returns {Boolean} true whether the string s is blank, false otherwise
- */
-function _isBlank(s) {
-  return s === null || _isUndefined(s) || !s.trim();
-}
-
-/**
- * Checks whether the `obj` parameter is defined or not.
- *
- * @param {Object} obj
- * @returns {boolean} true if the object is undefined
- * @private
- */
-function _isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
- * Parses the function arguments.
- *
- * This function helps to have optional arguments.
- *
- * @param {(Options|null|undefined|Function)} options
- * @param {?Function} callback
- * @returns {Array} parsed arguments
- * @private
- */
-function _parseArguments(options, callback) {
-  /* istanbul ignore else */
-  if (typeof options === 'function') {
-    return [{}, options];
-  }
-
-  /* istanbul ignore else */
-  if (_isUndefined(options)) {
-    return [{}, callback];
-  }
-
-  // copy options so we do not leak the changes we make internally
-  const actualOptions = {};
-  for (const key of Object.getOwnPropertyNames(options)) {
-    actualOptions[key] = options[key];
-  }
-
-  return [actualOptions, callback];
-}
-
-/**
- * Generates a new temporary name.
- *
- * @param {Object} opts
- * @returns {string} the new random name according to opts
- * @private
- */
-function _generateTmpName(opts) {
-
-  const tmpDir = opts.tmpdir;
-
-  /* istanbul ignore else */
-  if (!_isUndefined(opts.name))
-    return path.join(tmpDir, opts.dir, opts.name);
-
-  /* istanbul ignore else */
-  if (!_isUndefined(opts.template))
-    return path.join(tmpDir, opts.dir, opts.template).replace(TEMPLATE_PATTERN, _randomChars(6));
-
-  // prefix and postfix
-  const name = [
-    opts.prefix ? opts.prefix : 'tmp',
-    '-',
-    process.pid,
-    '-',
-    _randomChars(12),
-    opts.postfix ? '-' + opts.postfix : ''
-  ].join('');
-
-  return path.join(tmpDir, opts.dir, name);
-}
-
-/**
- * Asserts whether the specified options are valid, also sanitizes options and provides sane defaults for missing
- * options.
- *
- * @param {Options} options
- * @private
- */
-function _assertAndSanitizeOptions(options) {
-
-  options.tmpdir = _getTmpDir(options);
-
-  const tmpDir = options.tmpdir;
-
-  /* istanbul ignore else */
-  if (!_isUndefined(options.name))
-    _assertIsRelative(options.name, 'name', tmpDir);
-  /* istanbul ignore else */
-  if (!_isUndefined(options.dir))
-    _assertIsRelative(options.dir, 'dir', tmpDir);
-  /* istanbul ignore else */
-  if (!_isUndefined(options.template)) {
-    _assertIsRelative(options.template, 'template', tmpDir);
-    if (!options.template.match(TEMPLATE_PATTERN))
-      throw new Error(`Invalid template, found "${options.template}".`);
-  }
-  /* istanbul ignore else */
-  if (!_isUndefined(options.tries) && isNaN(options.tries) || options.tries < 0)
-    throw new Error(`Invalid tries, found "${options.tries}".`);
-
-  // if a name was specified we will try once
-  options.tries = _isUndefined(options.name) ? options.tries || DEFAULT_TRIES : 1;
-  options.keep = !!options.keep;
-  options.detachDescriptor = !!options.detachDescriptor;
-  options.discardDescriptor = !!options.discardDescriptor;
-  options.unsafeCleanup = !!options.unsafeCleanup;
-
-  // sanitize dir, also keep (multiple) blanks if the user, purportedly sane, requests us to
-  options.dir = _isUndefined(options.dir) ? '' : path.relative(tmpDir, _resolvePath(options.dir, tmpDir));
-  options.template = _isUndefined(options.template) ? undefined : path.relative(tmpDir, _resolvePath(options.template, tmpDir));
-  // sanitize further if template is relative to options.dir
-  options.template = _isBlank(options.template) ? undefined : path.relative(options.dir, options.template);
-
-  // for completeness' sake only, also keep (multiple) blanks if the user, purportedly sane, requests us to
-  options.name = _isUndefined(options.name) ? undefined : _sanitizeName(options.name);
-  options.prefix = _isUndefined(options.prefix) ? '' : options.prefix;
-  options.postfix = _isUndefined(options.postfix) ? '' : options.postfix;
-}
-
-/**
- * Resolve the specified path name in respect to tmpDir.
- *
- * The specified name might include relative path components, e.g. ../
- * so we need to resolve in order to be sure that is is located inside tmpDir
- *
- * @param name
- * @param tmpDir
- * @returns {string}
- * @private
- */
-function _resolvePath(name, tmpDir) {
-  const sanitizedName = _sanitizeName(name);
-  if (sanitizedName.startsWith(tmpDir)) {
-    return path.resolve(sanitizedName);
-  } else {
-    return path.resolve(path.join(tmpDir, sanitizedName));
-  }
-}
-
-/**
- * Sanitize the specified path name by removing all quote characters.
- *
- * @param name
- * @returns {string}
- * @private
- */
-function _sanitizeName(name) {
-  if (_isBlank(name)) {
-    return name;
-  }
-  return name.replace(/["']/g, '');
-}
-
-/**
- * Asserts whether specified name is relative to the specified tmpDir.
- *
- * @param {string} name
- * @param {string} option
- * @param {string} tmpDir
- * @throws {Error}
- * @private
- */
-function _assertIsRelative(name, option, tmpDir) {
-  if (option === 'name') {
-    // assert that name is not absolute and does not contain a path
-    if (path.isAbsolute(name))
-      throw new Error(`${option} option must not contain an absolute path, found "${name}".`);
-    // must not fail on valid .<name> or ..<name> or similar such constructs
-    let basename = path.basename(name);
-    if (basename === '..' || basename === '.' || basename !== name)
-      throw new Error(`${option} option must not contain a path, found "${name}".`);
-  }
-  else { // if (option === 'dir' || option === 'template') {
-    // assert that dir or template are relative to tmpDir
-    if (path.isAbsolute(name) && !name.startsWith(tmpDir)) {
-      throw new Error(`${option} option must be relative to "${tmpDir}", found "${name}".`);
-    }
-    let resolvedPath = _resolvePath(name, tmpDir);
-    if (!resolvedPath.startsWith(tmpDir))
-      throw new Error(`${option} option must be relative to "${tmpDir}", found "${resolvedPath}".`);
-  }
-}
-
-/**
- * Helper for testing against EBADF to compensate changes made to Node 7.x under Windows.
- *
- * @private
- */
-function _isEBADF(error) {
-  return _isExpectedError(error, -EBADF, 'EBADF');
-}
-
-/**
- * Helper for testing against ENOENT to compensate changes made to Node 7.x under Windows.
- *
- * @private
- */
-function _isENOENT(error) {
-  return _isExpectedError(error, -ENOENT, 'ENOENT');
-}
-
-/**
- * Helper to determine whether the expected error code matches the actual code and errno,
- * which will differ between the supported node versions.
- *
- * - Node >= 7.0:
- *   error.code {string}
- *   error.errno {number} any numerical value will be negated
- *
- * CAVEAT
- *
- * On windows, the errno for EBADF is -4083 but os.constants.errno.EBADF is different and we must assume that ENOENT
- * is no different here.
- *
- * @param {SystemError} error
- * @param {number} errno
- * @param {string} code
- * @private
- */
-function _isExpectedError(error, errno, code) {
-  return IS_WIN32 ? error.code === code : error.code === code && error.errno === errno;
-}
-
-/**
- * Sets the graceful cleanup.
- *
- * If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
- * temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
- * object removals.
- */
-function setGracefulCleanup() {
-  _gracefulCleanup = true;
-}
-
-/**
- * Returns the currently configured tmp dir from os.tmpdir().
- *
- * @private
- * @param {?Options} options
- * @returns {string} the currently configured tmp dir
- */
-function _getTmpDir(options) {
-  return path.resolve(_sanitizeName(options && options.tmpdir || os.tmpdir()));
-}
-
-// Install process exit listener
-process.addListener(EXIT, _garbageCollector);
-
-/**
- * Configuration options.
- *
- * @typedef {Object} Options
- * @property {?boolean} keep the temporary object (file or dir) will not be garbage collected
- * @property {?number} tries the number of tries before give up the name generation
- * @property (?int) mode the access mode, defaults are 0o700 for directories and 0o600 for files
- * @property {?string} template the "mkstemp" like filename template
- * @property {?string} name fixed name relative to tmpdir or the specified dir option
- * @property {?string} dir tmp directory relative to the root tmp directory in use
- * @property {?string} prefix prefix for the generated name
- * @property {?string} postfix postfix for the generated name
- * @property {?string} tmpdir the root tmp directory which overrides the os tmpdir
- * @property {?boolean} unsafeCleanup recursively removes the created temporary directory, even when it's not empty
- * @property {?boolean} detachDescriptor detaches the file descriptor, caller is responsible for closing the file, tmp will no longer try closing the file during garbage collection
- * @property {?boolean} discardDescriptor discards the file descriptor (closes file, fd is -1), tmp will no longer try closing the file during garbage collection
- */
-
-/**
- * @typedef {Object} FileSyncObject
- * @property {string} name the name of the file
- * @property {string} fd the file descriptor or -1 if the fd has been discarded
- * @property {fileCallback} removeCallback the callback function to remove the file
- */
-
-/**
- * @typedef {Object} DirSyncObject
- * @property {string} name the name of the directory
- * @property {fileCallback} removeCallback the callback function to remove the directory
- */
-
-/**
- * @callback tmpNameCallback
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- */
-
-/**
- * @callback fileCallback
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- * @param {number} fd the file descriptor or -1 if the fd had been discarded
- * @param {cleanupCallback} fn the cleanup callback function
- */
-
-/**
- * @callback fileCallbackSync
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- * @param {number} fd the file descriptor or -1 if the fd had been discarded
- * @param {cleanupCallbackSync} fn the cleanup callback function
- */
-
-/**
- * @callback dirCallback
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- * @param {cleanupCallback} fn the cleanup callback function
- */
-
-/**
- * @callback dirCallbackSync
- * @param {?Error} err the error object if anything goes wrong
- * @param {string} name the temporary file name
- * @param {cleanupCallbackSync} fn the cleanup callback function
- */
-
-/**
- * Removes the temporary created file or directory.
- *
- * @callback cleanupCallback
- * @param {simpleCallback} [next] function to call whenever the tmp object needs to be removed
- */
-
-/**
- * Removes the temporary created file or directory.
- *
- * @callback cleanupCallbackSync
- */
-
-/**
- * Callback function for function composition.
- * @see {@link https://github.com/raszi/node-tmp/issues/57|raszi/node-tmp#57}
- *
- * @callback simpleCallback
- */
-
-// exporting all the needed methods
-
-// evaluate _getTmpDir() lazily, mainly for simplifying testing but it also will
-// allow users to reconfigure the temporary directory
-Object.defineProperty(module.exports, "tmpdir", ({
-  enumerable: true,
-  configurable: false,
-  get: function () {
-    return _getTmpDir();
-  }
-}));
-
-module.exports.dir = dir;
-module.exports.dirSync = dirSync;
-
-module.exports.file = file;
-module.exports.fileSync = fileSync;
-
-module.exports.tmpName = tmpName;
-module.exports.tmpNameSync = tmpNameSync;
-
-module.exports.setGracefulCleanup = setGracefulCleanup;
 
 
 /***/ }),
@@ -19236,32 +15657,28 @@ module.exports = Response;
 /***/ 4959:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-module.exports = rimraf
-rimraf.sync = rimrafSync
-
-var assert = __nccwpck_require__(2357)
-var path = __nccwpck_require__(5622)
-var fs = __nccwpck_require__(5747)
-var glob = undefined
+const assert = __nccwpck_require__(2357)
+const path = __nccwpck_require__(5622)
+const fs = __nccwpck_require__(5747)
+let glob = undefined
 try {
   glob = __nccwpck_require__(1957)
 } catch (_err) {
   // treat glob as optional.
 }
-var _0666 = parseInt('666', 8)
 
-var defaultGlobOpts = {
+const defaultGlobOpts = {
   nosort: true,
   silent: true
 }
 
 // for EMFILE handling
-var timeout = 0
+let timeout = 0
 
-var isWindows = (process.platform === "win32")
+const isWindows = (process.platform === "win32")
 
-function defaults (options) {
-  var methods = [
+const defaults = options => {
+  const methods = [
     'unlink',
     'chmod',
     'stat',
@@ -19269,7 +15686,7 @@ function defaults (options) {
     'rmdir',
     'readdir'
   ]
-  methods.forEach(function(m) {
+  methods.forEach(m => {
     options[m] = options[m] || fs[m]
     m = m + 'Sync'
     options[m] = options[m] || fs[m]
@@ -19287,7 +15704,7 @@ function defaults (options) {
   options.glob = options.glob || defaultGlobOpts
 }
 
-function rimraf (p, options, cb) {
+const rimraf = (p, options, cb) => {
   if (typeof options === 'function') {
     cb = options
     options = {}
@@ -19301,27 +15718,17 @@ function rimraf (p, options, cb) {
 
   defaults(options)
 
-  var busyTries = 0
-  var errState = null
-  var n = 0
+  let busyTries = 0
+  let errState = null
+  let n = 0
 
-  if (options.disableGlob || !glob.hasMagic(p))
-    return afterGlob(null, [p])
-
-  options.lstat(p, function (er, stat) {
-    if (!er)
-      return afterGlob(null, [p])
-
-    glob(p, options.glob, afterGlob)
-  })
-
-  function next (er) {
+  const next = (er) => {
     errState = errState || er
     if (--n === 0)
       cb(errState)
   }
 
-  function afterGlob (er, results) {
+  const afterGlob = (er, results) => {
     if (er)
       return cb(er)
 
@@ -19329,24 +15736,19 @@ function rimraf (p, options, cb) {
     if (n === 0)
       return cb()
 
-    results.forEach(function (p) {
-      rimraf_(p, options, function CB (er) {
+    results.forEach(p => {
+      const CB = (er) => {
         if (er) {
           if ((er.code === "EBUSY" || er.code === "ENOTEMPTY" || er.code === "EPERM") &&
               busyTries < options.maxBusyTries) {
             busyTries ++
-            var time = busyTries * 100
             // try again, with the same exact callback as this one.
-            return setTimeout(function () {
-              rimraf_(p, options, CB)
-            }, time)
+            return setTimeout(() => rimraf_(p, options, CB), busyTries * 100)
           }
 
           // this one won't happen if graceful-fs is used.
           if (er.code === "EMFILE" && timeout < options.emfileWait) {
-            return setTimeout(function () {
-              rimraf_(p, options, CB)
-            }, timeout ++)
+            return setTimeout(() => rimraf_(p, options, CB), timeout ++)
           }
 
           // already gone
@@ -19355,9 +15757,21 @@ function rimraf (p, options, cb) {
 
         timeout = 0
         next(er)
-      })
+      }
+      rimraf_(p, options, CB)
     })
   }
+
+  if (options.disableGlob || !glob.hasMagic(p))
+    return afterGlob(null, [p])
+
+  options.lstat(p, (er, stat) => {
+    if (!er)
+      return afterGlob(null, [p])
+
+    glob(p, options.glob, afterGlob)
+  })
+
 }
 
 // Two possible strategies.
@@ -19371,14 +15785,14 @@ function rimraf (p, options, cb) {
 //
 // If anyone ever complains about this, then I guess the strategy could
 // be made configurable somehow.  But until then, YAGNI.
-function rimraf_ (p, options, cb) {
+const rimraf_ = (p, options, cb) => {
   assert(p)
   assert(options)
   assert(typeof cb === 'function')
 
   // sunos lets the root user unlink directories, which is... weird.
   // so we have to lstat here and make sure it's not a dir.
-  options.lstat(p, function (er, st) {
+  options.lstat(p, (er, st) => {
     if (er && er.code === "ENOENT")
       return cb(null)
 
@@ -19389,7 +15803,7 @@ function rimraf_ (p, options, cb) {
     if (st && st.isDirectory())
       return rmdir(p, options, er, cb)
 
-    options.unlink(p, function (er) {
+    options.unlink(p, er => {
       if (er) {
         if (er.code === "ENOENT")
           return cb(null)
@@ -19405,18 +15819,16 @@ function rimraf_ (p, options, cb) {
   })
 }
 
-function fixWinEPERM (p, options, er, cb) {
+const fixWinEPERM = (p, options, er, cb) => {
   assert(p)
   assert(options)
   assert(typeof cb === 'function')
-  if (er)
-    assert(er instanceof Error)
 
-  options.chmod(p, _0666, function (er2) {
+  options.chmod(p, 0o666, er2 => {
     if (er2)
       cb(er2.code === "ENOENT" ? null : er)
     else
-      options.stat(p, function(er3, stats) {
+      options.stat(p, (er3, stats) => {
         if (er3)
           cb(er3.code === "ENOENT" ? null : er)
         else if (stats.isDirectory())
@@ -19427,14 +15839,12 @@ function fixWinEPERM (p, options, er, cb) {
   })
 }
 
-function fixWinEPERMSync (p, options, er) {
+const fixWinEPERMSync = (p, options, er) => {
   assert(p)
   assert(options)
-  if (er)
-    assert(er instanceof Error)
 
   try {
-    options.chmodSync(p, _0666)
+    options.chmodSync(p, 0o666)
   } catch (er2) {
     if (er2.code === "ENOENT")
       return
@@ -19442,8 +15852,9 @@ function fixWinEPERMSync (p, options, er) {
       throw er
   }
 
+  let stats
   try {
-    var stats = options.statSync(p)
+    stats = options.statSync(p)
   } catch (er3) {
     if (er3.code === "ENOENT")
       return
@@ -19457,17 +15868,15 @@ function fixWinEPERMSync (p, options, er) {
     options.unlinkSync(p)
 }
 
-function rmdir (p, options, originalEr, cb) {
+const rmdir = (p, options, originalEr, cb) => {
   assert(p)
   assert(options)
-  if (originalEr)
-    assert(originalEr instanceof Error)
   assert(typeof cb === 'function')
 
   // try to rmdir first, and only readdir on ENOTEMPTY or EEXIST (SunOS)
   // if we guessed wrong, and it's not a directory, then
   // raise the original error.
-  options.rmdir(p, function (er) {
+  options.rmdir(p, er => {
     if (er && (er.code === "ENOTEMPTY" || er.code === "EEXIST" || er.code === "EPERM"))
       rmkids(p, options, cb)
     else if (er && er.code === "ENOTDIR")
@@ -19477,20 +15886,20 @@ function rmdir (p, options, originalEr, cb) {
   })
 }
 
-function rmkids(p, options, cb) {
+const rmkids = (p, options, cb) => {
   assert(p)
   assert(options)
   assert(typeof cb === 'function')
 
-  options.readdir(p, function (er, files) {
+  options.readdir(p, (er, files) => {
     if (er)
       return cb(er)
-    var n = files.length
+    let n = files.length
     if (n === 0)
       return options.rmdir(p, cb)
-    var errState
-    files.forEach(function (f) {
-      rimraf(path.join(p, f), options, function (er) {
+    let errState
+    files.forEach(f => {
+      rimraf(path.join(p, f), options, er => {
         if (errState)
           return
         if (er)
@@ -19505,7 +15914,7 @@ function rmkids(p, options, cb) {
 // this looks simpler, and is strictly *faster*, but will
 // tie up the JavaScript thread and fail on excessively
 // deep directory trees.
-function rimrafSync (p, options) {
+const rimrafSync = (p, options) => {
   options = options || {}
   defaults(options)
 
@@ -19514,7 +15923,7 @@ function rimrafSync (p, options) {
   assert(options, 'rimraf: missing options')
   assert.equal(typeof options, 'object', 'rimraf: options should be object')
 
-  var results
+  let results
 
   if (options.disableGlob || !glob.hasMagic(p)) {
     results = [p]
@@ -19530,11 +15939,12 @@ function rimrafSync (p, options) {
   if (!results.length)
     return
 
-  for (var i = 0; i < results.length; i++) {
-    var p = results[i]
+  for (let i = 0; i < results.length; i++) {
+    const p = results[i]
 
+    let st
     try {
-      var st = options.lstatSync(p)
+      st = options.lstatSync(p)
     } catch (er) {
       if (er.code === "ENOENT")
         return
@@ -19563,11 +15973,9 @@ function rimrafSync (p, options) {
   }
 }
 
-function rmdirSync (p, options, originalEr) {
+const rmdirSync = (p, options, originalEr) => {
   assert(p)
   assert(options)
-  if (originalEr)
-    assert(originalEr instanceof Error)
 
   try {
     options.rmdirSync(p)
@@ -19581,12 +15989,10 @@ function rmdirSync (p, options, originalEr) {
   }
 }
 
-function rmkidsSync (p, options) {
+const rmkidsSync = (p, options) => {
   assert(p)
   assert(options)
-  options.readdirSync(p).forEach(function (f) {
-    rimrafSync(path.join(p, f), options)
-  })
+  options.readdirSync(p).forEach(f => rimrafSync(path.join(p, f), options))
 
   // We only end up here once we got ENOTEMPTY at least once, and
   // at this point, we are guaranteed to have removed all the kids.
@@ -19594,12 +16000,12 @@ function rmkidsSync (p, options) {
   // try really hard to delete stuff on windows, because it has a
   // PROFOUNDLY annoying habit of not closing handles promptly when
   // files are deleted, resulting in spurious ENOTEMPTY errors.
-  var retries = isWindows ? 100 : 1
-  var i = 0
+  const retries = isWindows ? 100 : 1
+  let i = 0
   do {
-    var threw = true
+    let threw = true
     try {
-      var ret = options.rmdirSync(p, options)
+      const ret = options.rmdirSync(p, options)
       threw = false
       return ret
     } finally {
@@ -19608,6 +16014,9 @@ function rmkidsSync (p, options) {
     }
   } while (true)
 }
+
+module.exports = rimraf
+rimraf.sync = rimrafSync
 
 
 /***/ }),
@@ -23962,7 +20371,10 @@ module.exports = WriteEntry
 /***/ 8065:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
-const {promisify} = __nccwpck_require__(1669);
+"use strict";
+
+
+const { promisify } = __nccwpck_require__(1669);
 const tmp = __nccwpck_require__(8517);
 
 // file
@@ -24032,9 +20444,7 @@ const fs = __nccwpck_require__(5747);
 const os = __nccwpck_require__(2087);
 const path = __nccwpck_require__(5622);
 const crypto = __nccwpck_require__(6417);
-const _c = fs.constants && os.constants ?
-  { fs: fs.constants, os: os.constants } :
-  process.binding('constants');
+const _c = { fs: fs.constants, os: os.constants };
 const rimraf = __nccwpck_require__(4959);
 
 /*
@@ -24050,127 +20460,25 @@ const
 
   CREATE_FLAGS = (_c.O_CREAT || _c.fs.O_CREAT) | (_c.O_EXCL || _c.fs.O_EXCL) | (_c.O_RDWR || _c.fs.O_RDWR),
 
+  // constants are off on the windows platform and will not match the actual errno codes
+  IS_WIN32 = os.platform() === 'win32',
   EBADF = _c.EBADF || _c.os.errno.EBADF,
   ENOENT = _c.ENOENT || _c.os.errno.ENOENT,
 
-  DIR_MODE = 448 /* 0o700 */,
-  FILE_MODE = 384 /* 0o600 */,
+  DIR_MODE = 0o700 /* 448 */,
+  FILE_MODE = 0o600 /* 384 */,
 
   EXIT = 'exit',
 
-  SIGINT = 'SIGINT',
-
   // this will hold the objects need to be removed on exit
-  _removeObjects = [];
+  _removeObjects = [],
 
-var
+  // API change in fs.rmdirSync leads to error when passing in a second parameter, e.g. the callback
+  FN_RMDIR_SYNC = fs.rmdirSync.bind(fs),
+  FN_RIMRAF_SYNC = rimraf.sync;
+
+let
   _gracefulCleanup = false;
-
-/**
- * Random name generator based on crypto.
- * Adapted from http://blog.tompawlak.org/how-to-generate-random-values-nodejs-javascript
- *
- * @param {number} howMany
- * @returns {string} the generated random name
- * @private
- */
-function _randomChars(howMany) {
-  var
-    value = [],
-    rnd = null;
-
-  // make sure that we do not fail because we ran out of entropy
-  try {
-    rnd = crypto.randomBytes(howMany);
-  } catch (e) {
-    rnd = crypto.pseudoRandomBytes(howMany);
-  }
-
-  for (var i = 0; i < howMany; i++) {
-    value.push(RANDOM_CHARS[rnd[i] % RANDOM_CHARS.length]);
-  }
-
-  return value.join('');
-}
-
-/**
- * Checks whether the `obj` parameter is defined or not.
- *
- * @param {Object} obj
- * @returns {boolean} true if the object is undefined
- * @private
- */
-function _isUndefined(obj) {
-  return typeof obj === 'undefined';
-}
-
-/**
- * Parses the function arguments.
- *
- * This function helps to have optional arguments.
- *
- * @param {(Options|Function)} options
- * @param {Function} callback
- * @returns {Array} parsed arguments
- * @private
- */
-function _parseArguments(options, callback) {
-  /* istanbul ignore else */
-  if (typeof options === 'function') {
-    return [{}, options];
-  }
-
-  /* istanbul ignore else */
-  if (_isUndefined(options)) {
-    return [{}, callback];
-  }
-
-  return [options, callback];
-}
-
-/**
- * Generates a new temporary name.
- *
- * @param {Object} opts
- * @returns {string} the new random name according to opts
- * @private
- */
-function _generateTmpName(opts) {
-
-  const tmpDir = _getTmpDir();
-
-  // fail early on missing tmp dir
-  if (isBlank(opts.dir) && isBlank(tmpDir)) {
-    throw new Error('No tmp dir specified');
-  }
-
-  /* istanbul ignore else */
-  if (!isBlank(opts.name)) {
-    return path.join(opts.dir || tmpDir, opts.name);
-  }
-
-  // mkstemps like template
-  // opts.template has already been guarded in tmpName() below
-  /* istanbul ignore else */
-  if (opts.template) {
-    var template = opts.template;
-    // make sure that we prepend the tmp path if none was given
-    /* istanbul ignore else */
-    if (path.basename(template) === template)
-      template = path.join(opts.dir || tmpDir, template);
-    return template.replace(TEMPLATE_PATTERN, _randomChars(6));
-  }
-
-  // prefix and postfix
-  const name = [
-    (isBlank(opts.prefix) ? 'tmp-' : opts.prefix),
-    process.pid,
-    _randomChars(12),
-    (opts.postfix ? opts.postfix : '')
-  ].join('');
-
-  return path.join(opts.dir || tmpDir, name);
-}
 
 /**
  * Gets a temporary file name.
@@ -24179,20 +20487,18 @@ function _generateTmpName(opts) {
  * @param {?tmpNameCallback} callback the callback function
  */
 function tmpName(options, callback) {
-  var
+  const
     args = _parseArguments(options, callback),
     opts = args[0],
-    cb = args[1],
-    tries = !isBlank(opts.name) ? 1 : opts.tries || DEFAULT_TRIES;
+    cb = args[1];
 
-  /* istanbul ignore else */
-  if (isNaN(tries) || tries < 0)
-    return cb(new Error('Invalid tries'));
+  try {
+    _assertAndSanitizeOptions(opts);
+  } catch (err) {
+    return cb(err);
+  }
 
-  /* istanbul ignore else */
-  if (opts.template && !opts.template.match(TEMPLATE_PATTERN))
-    return cb(new Error('Invalid template provided'));
-
+  let tries = opts.tries;
   (function _getUniqueName() {
     try {
       const name = _generateTmpName(opts);
@@ -24223,19 +20529,13 @@ function tmpName(options, callback) {
  * @throws {Error} if the options are invalid or could not generate a filename
  */
 function tmpNameSync(options) {
-  var
+  const
     args = _parseArguments(options),
-    opts = args[0],
-    tries = !isBlank(opts.name) ? 1 : opts.tries || DEFAULT_TRIES;
+    opts = args[0];
 
-  /* istanbul ignore else */
-  if (isNaN(tries) || tries < 0)
-    throw new Error('Invalid tries');
+  _assertAndSanitizeOptions(opts);
 
-  /* istanbul ignore else */
-  if (opts.template && !opts.template.match(TEMPLATE_PATTERN))
-    throw new Error('Invalid template provided');
-
+  let tries = opts.tries;
   do {
     const name = _generateTmpName(opts);
     try {
@@ -24251,11 +20551,11 @@ function tmpNameSync(options) {
 /**
  * Creates and opens a temporary file.
  *
- * @param {(Options|fileCallback)} options the config options or the callback function
+ * @param {(Options|null|undefined|fileCallback)} options the config options or the callback function or null or undefined
  * @param {?fileCallback} callback
  */
 function file(options, callback) {
-  var
+  const
     args = _parseArguments(options, callback),
     opts = args[0],
     cb = args[1];
@@ -24267,34 +20567,20 @@ function file(options, callback) {
 
     // create and open the file
     fs.open(name, CREATE_FLAGS, opts.mode || FILE_MODE, function _fileCreated(err, fd) {
-      /* istanbul ignore else */
+      /* istanbu ignore else */
       if (err) return cb(err);
 
       if (opts.discardDescriptor) {
-        return fs.close(fd, function _discardCallback(err) {
-          /* istanbul ignore else */
-          if (err) {
-            // Low probability, and the file exists, so this could be
-            // ignored.  If it isn't we certainly need to unlink the
-            // file, and if that fails too its error is more
-            // important.
-            try {
-              fs.unlinkSync(name);
-            } catch (e) {
-              if (!isENOENT(e)) {
-                err = e;
-              }
-            }
-            return cb(err);
-          }
-          cb(null, name, undefined, _prepareTmpFileRemoveCallback(name, -1, opts));
+        return fs.close(fd, function _discardCallback(possibleErr) {
+          // the chance of getting an error on close here is rather low and might occur in the most edgiest cases only
+          return cb(possibleErr, name, undefined, _prepareTmpFileRemoveCallback(name, -1, opts, false));
         });
+      } else {
+        // detachDescriptor passes the descriptor whereas discardDescriptor closes it, either way, we no longer care
+        // about the descriptor
+        const discardOrDetachDescriptor = opts.discardDescriptor || opts.detachDescriptor;
+        cb(null, name, fd, _prepareTmpFileRemoveCallback(name, discardOrDetachDescriptor ? -1 : fd, opts, false));
       }
-      /* istanbul ignore else */
-      if (opts.detachDescriptor) {
-        return cb(null, name, fd, _prepareTmpFileRemoveCallback(name, -1, opts));
-      }
-      cb(null, name, fd, _prepareTmpFileRemoveCallback(name, fd, opts));
     });
   });
 }
@@ -24307,7 +20593,7 @@ function file(options, callback) {
  * @throws {Error} if cannot create a file
  */
 function fileSync(options) {
-  var
+  const
     args = _parseArguments(options),
     opts = args[0];
 
@@ -24323,7 +20609,7 @@ function fileSync(options) {
   return {
     name: name,
     fd: fd,
-    removeCallback: _prepareTmpFileRemoveCallback(name, discardOrDetachDescriptor ? -1 : fd, opts)
+    removeCallback: _prepareTmpFileRemoveCallback(name, discardOrDetachDescriptor ? -1 : fd, opts, true)
   };
 }
 
@@ -24334,7 +20620,7 @@ function fileSync(options) {
  * @param {?dirCallback} callback
  */
 function dir(options, callback) {
-  var
+  const
     args = _parseArguments(options, callback),
     opts = args[0],
     cb = args[1];
@@ -24349,7 +20635,7 @@ function dir(options, callback) {
       /* istanbul ignore else */
       if (err) return cb(err);
 
-      cb(null, name, _prepareTmpDirRemoveCallback(name, opts));
+      cb(null, name, _prepareTmpDirRemoveCallback(name, opts, false));
     });
   });
 }
@@ -24362,7 +20648,7 @@ function dir(options, callback) {
  * @throws {Error} if it cannot create a directory
  */
 function dirSync(options) {
-  var
+  const
     args = _parseArguments(options),
     opts = args[0];
 
@@ -24371,7 +20657,7 @@ function dirSync(options) {
 
   return {
     name: name,
-    removeCallback: _prepareTmpDirRemoveCallback(name, opts)
+    removeCallback: _prepareTmpDirRemoveCallback(name, opts, true)
   };
 }
 
@@ -24384,15 +20670,15 @@ function dirSync(options) {
  */
 function _removeFileAsync(fdPath, next) {
   const _handler = function (err) {
-    if (err && !isENOENT(err)) {
+    if (err && !_isENOENT(err)) {
       // reraise any unanticipated error
       return next(err);
     }
     next();
-  }
+  };
 
   if (0 <= fdPath[0])
-    fs.close(fdPath[0], function (err) {
+    fs.close(fdPath[0], function () {
       fs.unlink(fdPath[1], _handler);
     });
   else fs.unlink(fdPath[1], _handler);
@@ -24405,117 +20691,104 @@ function _removeFileAsync(fdPath, next) {
  * @private
  */
 function _removeFileSync(fdPath) {
+  let rethrownException = null;
   try {
     if (0 <= fdPath[0]) fs.closeSync(fdPath[0]);
   } catch (e) {
     // reraise any unanticipated error
-    if (!isEBADF(e) && !isENOENT(e)) throw e;
+    if (!_isEBADF(e) && !_isENOENT(e)) throw e;
   } finally {
     try {
       fs.unlinkSync(fdPath[1]);
     }
     catch (e) {
       // reraise any unanticipated error
-      if (!isENOENT(e)) throw e;
+      if (!_isENOENT(e)) rethrownException = e;
     }
+  }
+  if (rethrownException !== null) {
+    throw rethrownException;
   }
 }
 
 /**
  * Prepares the callback for removal of the temporary file.
  *
+ * Returns either a sync callback or a async callback depending on whether
+ * fileSync or file was called, which is expressed by the sync parameter.
+ *
  * @param {string} name the path of the file
  * @param {number} fd file descriptor
  * @param {Object} opts
- * @returns {fileCallback}
+ * @param {boolean} sync
+ * @returns {fileCallback | fileCallbackSync}
  * @private
  */
-function _prepareTmpFileRemoveCallback(name, fd, opts) {
-  const removeCallbackSync = _prepareRemoveCallback(_removeFileSync, [fd, name]);
-  const removeCallback = _prepareRemoveCallback(_removeFileAsync, [fd, name], removeCallbackSync);
+function _prepareTmpFileRemoveCallback(name, fd, opts, sync) {
+  const removeCallbackSync = _prepareRemoveCallback(_removeFileSync, [fd, name], sync);
+  const removeCallback = _prepareRemoveCallback(_removeFileAsync, [fd, name], sync, removeCallbackSync);
 
   if (!opts.keep) _removeObjects.unshift(removeCallbackSync);
 
-  return removeCallback;
-}
-
-/**
- * Simple wrapper for rimraf.
- *
- * @param {string} dirPath
- * @param {Function} next
- * @private
- */
-function _rimrafRemoveDirWrapper(dirPath, next) {
-  rimraf(dirPath, next);
-}
-
-/**
- * Simple wrapper for rimraf.sync.
- *
- * @param {string} dirPath
- * @private
- */
-function _rimrafRemoveDirSyncWrapper(dirPath, next) {
-  try {
-    return next(null, rimraf.sync(dirPath));
-  } catch (err) {
-    return next(err);
-  }
+  return sync ? removeCallbackSync : removeCallback;
 }
 
 /**
  * Prepares the callback for removal of the temporary directory.
  *
+ * Returns either a sync callback or a async callback depending on whether
+ * tmpFileSync or tmpFile was called, which is expressed by the sync parameter.
+ *
  * @param {string} name
  * @param {Object} opts
+ * @param {boolean} sync
  * @returns {Function} the callback
  * @private
  */
-function _prepareTmpDirRemoveCallback(name, opts) {
-  const removeFunction = opts.unsafeCleanup ? _rimrafRemoveDirWrapper : fs.rmdir.bind(fs);
-  const removeFunctionSync = opts.unsafeCleanup ? _rimrafRemoveDirSyncWrapper : fs.rmdirSync.bind(fs);
-  const removeCallbackSync = _prepareRemoveCallback(removeFunctionSync, name);
-  const removeCallback = _prepareRemoveCallback(removeFunction, name, removeCallbackSync);
+function _prepareTmpDirRemoveCallback(name, opts, sync) {
+  const removeFunction = opts.unsafeCleanup ? rimraf : fs.rmdir.bind(fs);
+  const removeFunctionSync = opts.unsafeCleanup ? FN_RIMRAF_SYNC : FN_RMDIR_SYNC;
+  const removeCallbackSync = _prepareRemoveCallback(removeFunctionSync, name, sync);
+  const removeCallback = _prepareRemoveCallback(removeFunction, name, sync, removeCallbackSync);
   if (!opts.keep) _removeObjects.unshift(removeCallbackSync);
 
-  return removeCallback;
+  return sync ? removeCallbackSync : removeCallback;
 }
 
 /**
  * Creates a guarded function wrapping the removeFunction call.
  *
+ * The cleanup callback is save to be called multiple times.
+ * Subsequent invocations will be ignored.
+ *
  * @param {Function} removeFunction
- * @param {Object} arg
- * @returns {Function}
+ * @param {string} fileOrDirName
+ * @param {boolean} sync
+ * @param {cleanupCallbackSync?} cleanupCallbackSync
+ * @returns {cleanupCallback | cleanupCallbackSync}
  * @private
  */
-function _prepareRemoveCallback(removeFunction, arg, cleanupCallbackSync) {
-  var called = false;
+function _prepareRemoveCallback(removeFunction, fileOrDirName, sync, cleanupCallbackSync) {
+  let called = false;
 
+  // if sync is true, the next parameter will be ignored
   return function _cleanupCallback(next) {
-    next = next || function () {};
+
+    /* istanbul ignore else */
     if (!called) {
+      // remove cleanupCallback from cache
       const toRemove = cleanupCallbackSync || _cleanupCallback;
       const index = _removeObjects.indexOf(toRemove);
       /* istanbul ignore else */
       if (index >= 0) _removeObjects.splice(index, 1);
 
       called = true;
-      // sync?
-      if (removeFunction.length === 1) {
-        try {
-          removeFunction(arg);
-          return next(null);
-        }
-        catch (err) {
-          // if no next is provided and since we are
-          // in silent cleanup mode on process exit,
-          // we will ignore the error
-          return next(err);
-        }
-      } else return removeFunction(arg, next);
-    } else return next(new Error('cleanup callback has already been called'));
+      if (sync || removeFunction === FN_RMDIR_SYNC || removeFunction === FN_RIMRAF_SYNC) {
+        return removeFunction(fileOrDirName);
+      } else {
+        return removeFunction(fileOrDirName, next || function() {});
+      }
+    }
   };
 }
 
@@ -24540,41 +20813,30 @@ function _garbageCollector() {
 }
 
 /**
- * Helper for testing against EBADF to compensate changes made to Node 7.x under Windows.
+ * Random name generator based on crypto.
+ * Adapted from http://blog.tompawlak.org/how-to-generate-random-values-nodejs-javascript
+ *
+ * @param {number} howMany
+ * @returns {string} the generated random name
+ * @private
  */
-function isEBADF(error) {
-  return isExpectedError(error, -EBADF, 'EBADF');
-}
+function _randomChars(howMany) {
+  let
+    value = [],
+    rnd = null;
 
-/**
- * Helper for testing against ENOENT to compensate changes made to Node 7.x under Windows.
- */
-function isENOENT(error) {
-  return isExpectedError(error, -ENOENT, 'ENOENT');
-}
+  // make sure that we do not fail because we ran out of entropy
+  try {
+    rnd = crypto.randomBytes(howMany);
+  } catch (e) {
+    rnd = crypto.pseudoRandomBytes(howMany);
+  }
 
-/**
- * Helper to determine whether the expected error code matches the actual code and errno,
- * which will differ between the supported node versions.
- *
- * - Node >= 7.0:
- *   error.code {string}
- *   error.errno {string|number} any numerical value will be negated
- *
- * - Node >= 6.0 < 7.0:
- *   error.code {string}
- *   error.errno {number} negated
- *
- * - Node >= 4.0 < 6.0: introduces SystemError
- *   error.code {string}
- *   error.errno {number} negated
- *
- * - Node >= 0.10 < 4.0:
- *   error.code {number} negated
- *   error.errno n/a
- */
-function isExpectedError(error, code, errno) {
-  return error.code === code || error.code === errno;
+  for (var i = 0; i < howMany; i++) {
+    value.push(RANDOM_CHARS[rnd[i] % RANDOM_CHARS.length]);
+  }
+
+  return value.join('');
 }
 
 /**
@@ -24584,12 +20846,241 @@ function isExpectedError(error, code, errno) {
  * @param {string} s
  * @returns {Boolean} true whether the string s is blank, false otherwise
  */
-function isBlank(s) {
-  return s === null || s === undefined || !s.trim();
+function _isBlank(s) {
+  return s === null || _isUndefined(s) || !s.trim();
+}
+
+/**
+ * Checks whether the `obj` parameter is defined or not.
+ *
+ * @param {Object} obj
+ * @returns {boolean} true if the object is undefined
+ * @private
+ */
+function _isUndefined(obj) {
+  return typeof obj === 'undefined';
+}
+
+/**
+ * Parses the function arguments.
+ *
+ * This function helps to have optional arguments.
+ *
+ * @param {(Options|null|undefined|Function)} options
+ * @param {?Function} callback
+ * @returns {Array} parsed arguments
+ * @private
+ */
+function _parseArguments(options, callback) {
+  /* istanbul ignore else */
+  if (typeof options === 'function') {
+    return [{}, options];
+  }
+
+  /* istanbul ignore else */
+  if (_isUndefined(options)) {
+    return [{}, callback];
+  }
+
+  // copy options so we do not leak the changes we make internally
+  const actualOptions = {};
+  for (const key of Object.getOwnPropertyNames(options)) {
+    actualOptions[key] = options[key];
+  }
+
+  return [actualOptions, callback];
+}
+
+/**
+ * Generates a new temporary name.
+ *
+ * @param {Object} opts
+ * @returns {string} the new random name according to opts
+ * @private
+ */
+function _generateTmpName(opts) {
+
+  const tmpDir = opts.tmpdir;
+
+  /* istanbul ignore else */
+  if (!_isUndefined(opts.name))
+    return path.join(tmpDir, opts.dir, opts.name);
+
+  /* istanbul ignore else */
+  if (!_isUndefined(opts.template))
+    return path.join(tmpDir, opts.dir, opts.template).replace(TEMPLATE_PATTERN, _randomChars(6));
+
+  // prefix and postfix
+  const name = [
+    opts.prefix ? opts.prefix : 'tmp',
+    '-',
+    process.pid,
+    '-',
+    _randomChars(12),
+    opts.postfix ? '-' + opts.postfix : ''
+  ].join('');
+
+  return path.join(tmpDir, opts.dir, name);
+}
+
+/**
+ * Asserts whether the specified options are valid, also sanitizes options and provides sane defaults for missing
+ * options.
+ *
+ * @param {Options} options
+ * @private
+ */
+function _assertAndSanitizeOptions(options) {
+
+  options.tmpdir = _getTmpDir(options);
+
+  const tmpDir = options.tmpdir;
+
+  /* istanbul ignore else */
+  if (!_isUndefined(options.name))
+    _assertIsRelative(options.name, 'name', tmpDir);
+  /* istanbul ignore else */
+  if (!_isUndefined(options.dir))
+    _assertIsRelative(options.dir, 'dir', tmpDir);
+  /* istanbul ignore else */
+  if (!_isUndefined(options.template)) {
+    _assertIsRelative(options.template, 'template', tmpDir);
+    if (!options.template.match(TEMPLATE_PATTERN))
+      throw new Error(`Invalid template, found "${options.template}".`);
+  }
+  /* istanbul ignore else */
+  if (!_isUndefined(options.tries) && isNaN(options.tries) || options.tries < 0)
+    throw new Error(`Invalid tries, found "${options.tries}".`);
+
+  // if a name was specified we will try once
+  options.tries = _isUndefined(options.name) ? options.tries || DEFAULT_TRIES : 1;
+  options.keep = !!options.keep;
+  options.detachDescriptor = !!options.detachDescriptor;
+  options.discardDescriptor = !!options.discardDescriptor;
+  options.unsafeCleanup = !!options.unsafeCleanup;
+
+  // sanitize dir, also keep (multiple) blanks if the user, purportedly sane, requests us to
+  options.dir = _isUndefined(options.dir) ? '' : path.relative(tmpDir, _resolvePath(options.dir, tmpDir));
+  options.template = _isUndefined(options.template) ? undefined : path.relative(tmpDir, _resolvePath(options.template, tmpDir));
+  // sanitize further if template is relative to options.dir
+  options.template = _isBlank(options.template) ? undefined : path.relative(options.dir, options.template);
+
+  // for completeness' sake only, also keep (multiple) blanks if the user, purportedly sane, requests us to
+  options.name = _isUndefined(options.name) ? undefined : _sanitizeName(options.name);
+  options.prefix = _isUndefined(options.prefix) ? '' : options.prefix;
+  options.postfix = _isUndefined(options.postfix) ? '' : options.postfix;
+}
+
+/**
+ * Resolve the specified path name in respect to tmpDir.
+ *
+ * The specified name might include relative path components, e.g. ../
+ * so we need to resolve in order to be sure that is is located inside tmpDir
+ *
+ * @param name
+ * @param tmpDir
+ * @returns {string}
+ * @private
+ */
+function _resolvePath(name, tmpDir) {
+  const sanitizedName = _sanitizeName(name);
+  if (sanitizedName.startsWith(tmpDir)) {
+    return path.resolve(sanitizedName);
+  } else {
+    return path.resolve(path.join(tmpDir, sanitizedName));
+  }
+}
+
+/**
+ * Sanitize the specified path name by removing all quote characters.
+ *
+ * @param name
+ * @returns {string}
+ * @private
+ */
+function _sanitizeName(name) {
+  if (_isBlank(name)) {
+    return name;
+  }
+  return name.replace(/["']/g, '');
+}
+
+/**
+ * Asserts whether specified name is relative to the specified tmpDir.
+ *
+ * @param {string} name
+ * @param {string} option
+ * @param {string} tmpDir
+ * @throws {Error}
+ * @private
+ */
+function _assertIsRelative(name, option, tmpDir) {
+  if (option === 'name') {
+    // assert that name is not absolute and does not contain a path
+    if (path.isAbsolute(name))
+      throw new Error(`${option} option must not contain an absolute path, found "${name}".`);
+    // must not fail on valid .<name> or ..<name> or similar such constructs
+    let basename = path.basename(name);
+    if (basename === '..' || basename === '.' || basename !== name)
+      throw new Error(`${option} option must not contain a path, found "${name}".`);
+  }
+  else { // if (option === 'dir' || option === 'template') {
+    // assert that dir or template are relative to tmpDir
+    if (path.isAbsolute(name) && !name.startsWith(tmpDir)) {
+      throw new Error(`${option} option must be relative to "${tmpDir}", found "${name}".`);
+    }
+    let resolvedPath = _resolvePath(name, tmpDir);
+    if (!resolvedPath.startsWith(tmpDir))
+      throw new Error(`${option} option must be relative to "${tmpDir}", found "${resolvedPath}".`);
+  }
+}
+
+/**
+ * Helper for testing against EBADF to compensate changes made to Node 7.x under Windows.
+ *
+ * @private
+ */
+function _isEBADF(error) {
+  return _isExpectedError(error, -EBADF, 'EBADF');
+}
+
+/**
+ * Helper for testing against ENOENT to compensate changes made to Node 7.x under Windows.
+ *
+ * @private
+ */
+function _isENOENT(error) {
+  return _isExpectedError(error, -ENOENT, 'ENOENT');
+}
+
+/**
+ * Helper to determine whether the expected error code matches the actual code and errno,
+ * which will differ between the supported node versions.
+ *
+ * - Node >= 7.0:
+ *   error.code {string}
+ *   error.errno {number} any numerical value will be negated
+ *
+ * CAVEAT
+ *
+ * On windows, the errno for EBADF is -4083 but os.constants.errno.EBADF is different and we must assume that ENOENT
+ * is no different here.
+ *
+ * @param {SystemError} error
+ * @param {number} errno
+ * @param {string} code
+ * @private
+ */
+function _isExpectedError(error, errno, code) {
+  return IS_WIN32 ? error.code === code : error.code === code && error.errno === errno;
 }
 
 /**
  * Sets the graceful cleanup.
+ *
+ * If graceful cleanup is set, tmp will remove all controlled temporary objects on process exit, otherwise the
+ * temporary objects will remain in place, waiting to be cleaned up on system restart or otherwise scheduled temporary
+ * object removals.
  */
 function setGracefulCleanup() {
   _gracefulCleanup = true;
@@ -24599,120 +21090,38 @@ function setGracefulCleanup() {
  * Returns the currently configured tmp dir from os.tmpdir().
  *
  * @private
+ * @param {?Options} options
  * @returns {string} the currently configured tmp dir
  */
-function _getTmpDir() {
-  return os.tmpdir();
+function _getTmpDir(options) {
+  return path.resolve(_sanitizeName(options && options.tmpdir || os.tmpdir()));
 }
 
-/**
- * If there are multiple different versions of tmp in place, make sure that
- * we recognize the old listeners.
- *
- * @param {Function} listener
- * @private
- * @returns {Boolean} true whether listener is a legacy listener
- */
-function _is_legacy_listener(listener) {
-  return (listener.name === '_exit' || listener.name === '_uncaughtExceptionThrown')
-    && listener.toString().indexOf('_garbageCollector();') > -1;
-}
-
-/**
- * Safely install SIGINT listener.
- *
- * NOTE: this will only work on OSX and Linux.
- *
- * @private
- */
-function _safely_install_sigint_listener() {
-
-  const listeners = process.listeners(SIGINT);
-  const existingListeners = [];
-  for (let i = 0, length = listeners.length; i < length; i++) {
-    const lstnr = listeners[i];
-    /* istanbul ignore else */
-    if (lstnr.name === '_tmp$sigint_listener') {
-      existingListeners.push(lstnr);
-      process.removeListener(SIGINT, lstnr);
-    }
-  }
-  process.on(SIGINT, function _tmp$sigint_listener(doExit) {
-    for (let i = 0, length = existingListeners.length; i < length; i++) {
-      // let the existing listener do the garbage collection (e.g. jest sandbox)
-      try {
-        existingListeners[i](false);
-      } catch (err) {
-        // ignore
-      }
-    }
-    try {
-      // force the garbage collector even it is called again in the exit listener
-      _garbageCollector();
-    } finally {
-      if (!!doExit) {
-        process.exit(0);
-      }
-    }
-  });
-}
-
-/**
- * Safely install process exit listener.
- *
- * @private
- */
-function _safely_install_exit_listener() {
-  const listeners = process.listeners(EXIT);
-
-  // collect any existing listeners
-  const existingListeners = [];
-  for (let i = 0, length = listeners.length; i < length; i++) {
-    const lstnr = listeners[i];
-    /* istanbul ignore else */
-    // TODO: remove support for legacy listeners once release 1.0.0 is out
-    if (lstnr.name === '_tmp$safe_listener' || _is_legacy_listener(lstnr)) {
-      // we must forget about the uncaughtException listener, hopefully it is ours
-      if (lstnr.name !== '_uncaughtExceptionThrown') {
-        existingListeners.push(lstnr);
-      }
-      process.removeListener(EXIT, lstnr);
-    }
-  }
-  // TODO: what was the data parameter good for?
-  process.addListener(EXIT, function _tmp$safe_listener(data) {
-    for (let i = 0, length = existingListeners.length; i < length; i++) {
-      // let the existing listener do the garbage collection (e.g. jest sandbox)
-      try {
-        existingListeners[i](data);
-      } catch (err) {
-        // ignore
-      }
-    }
-    _garbageCollector();
-  });
-}
-
-_safely_install_exit_listener();
-_safely_install_sigint_listener();
+// Install process exit listener
+process.addListener(EXIT, _garbageCollector);
 
 /**
  * Configuration options.
  *
  * @typedef {Object} Options
+ * @property {?boolean} keep the temporary object (file or dir) will not be garbage collected
  * @property {?number} tries the number of tries before give up the name generation
+ * @property (?int) mode the access mode, defaults are 0o700 for directories and 0o600 for files
  * @property {?string} template the "mkstemp" like filename template
- * @property {?string} name fix name
- * @property {?string} dir the tmp directory to use
+ * @property {?string} name fixed name relative to tmpdir or the specified dir option
+ * @property {?string} dir tmp directory relative to the root tmp directory in use
  * @property {?string} prefix prefix for the generated name
  * @property {?string} postfix postfix for the generated name
+ * @property {?string} tmpdir the root tmp directory which overrides the os tmpdir
  * @property {?boolean} unsafeCleanup recursively removes the created temporary directory, even when it's not empty
+ * @property {?boolean} detachDescriptor detaches the file descriptor, caller is responsible for closing the file, tmp will no longer try closing the file during garbage collection
+ * @property {?boolean} discardDescriptor discards the file descriptor (closes file, fd is -1), tmp will no longer try closing the file during garbage collection
  */
 
 /**
  * @typedef {Object} FileSyncObject
  * @property {string} name the name of the file
- * @property {string} fd the file descriptor
+ * @property {string} fd the file descriptor or -1 if the fd has been discarded
  * @property {fileCallback} removeCallback the callback function to remove the file
  */
 
@@ -24732,8 +21141,16 @@ _safely_install_sigint_listener();
  * @callback fileCallback
  * @param {?Error} err the error object if anything goes wrong
  * @param {string} name the temporary file name
- * @param {number} fd the file descriptor
+ * @param {number} fd the file descriptor or -1 if the fd had been discarded
  * @param {cleanupCallback} fn the cleanup callback function
+ */
+
+/**
+ * @callback fileCallbackSync
+ * @param {?Error} err the error object if anything goes wrong
+ * @param {string} name the temporary file name
+ * @param {number} fd the file descriptor or -1 if the fd had been discarded
+ * @param {cleanupCallbackSync} fn the cleanup callback function
  */
 
 /**
@@ -24744,10 +21161,23 @@ _safely_install_sigint_listener();
  */
 
 /**
+ * @callback dirCallbackSync
+ * @param {?Error} err the error object if anything goes wrong
+ * @param {string} name the temporary file name
+ * @param {cleanupCallbackSync} fn the cleanup callback function
+ */
+
+/**
  * Removes the temporary created file or directory.
  *
  * @callback cleanupCallback
- * @param {simpleCallback} [next] function to call after entry was removed
+ * @param {simpleCallback} [next] function to call whenever the tmp object needs to be removed
+ */
+
+/**
+ * Removes the temporary created file or directory.
+ *
+ * @callback cleanupCallbackSync
  */
 
 /**
@@ -24759,7 +21189,7 @@ _safely_install_sigint_listener();
 
 // exporting all the needed methods
 
-// evaluate os.tmpdir() lazily, mainly for simplifying testing but it also will
+// evaluate _getTmpDir() lazily, mainly for simplifying testing but it also will
 // allow users to reconfigure the temporary directory
 Object.defineProperty(module.exports, "tmpdir", ({
   enumerable: true,
@@ -25940,6 +22370,14 @@ try {
 
 /***/ }),
 
+/***/ 5483:
+/***/ ((module) => {
+
+module.exports = eval("require")("../build/api/sauce.json");
+
+
+/***/ }),
+
 /***/ 3313:
 /***/ ((module) => {
 
@@ -26041,14 +22479,6 @@ module.exports = require("os");
 
 "use strict";
 module.exports = require("path");
-
-/***/ }),
-
-/***/ 630:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("perf_hooks");
 
 /***/ }),
 
@@ -26182,16 +22612,25 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+// ESM COMPAT FLAG
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(5747);
-/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(fs__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(5622);
-/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(path__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2186);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _actions_artifact__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(2605);
-/* harmony import */ var _saucelabs_zap__WEBPACK_IMPORTED_MODULE_4__ = __nccwpck_require__(5227);
-/* harmony import */ var _saucelabs_zap__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__nccwpck_require__.n(_saucelabs_zap__WEBPACK_IMPORTED_MODULE_4__);
+
+// EXTERNAL MODULE: external "fs"
+var external_fs_ = __nccwpck_require__(5747);
+var external_fs_default = /*#__PURE__*/__nccwpck_require__.n(external_fs_);
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(5622);
+var external_path_default = /*#__PURE__*/__nccwpck_require__.n(external_path_);
+// EXTERNAL MODULE: ./node_modules/@actions/core/lib/core.js
+var core = __nccwpck_require__(2186);
+// EXTERNAL MODULE: ./node_modules/@saucelabs/zap/build/index.js
+var build = __nccwpck_require__(5227);
+var build_default = /*#__PURE__*/__nccwpck_require__.n(build);
+;// CONCATENATED MODULE: ./src/constants.ts
+const REPORT_EXTENSIONS = ['html', 'xml', 'json', 'md'];
+const JOB_ASSETS = ['session.json', 'zap.log', 'session.tar.gz'];
+
+;// CONCATENATED MODULE: ./src/main.ts
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -26212,21 +22651,23 @@ let teardown = () => { };
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         const startTime = Date.now();
-        const username = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('username') || process.env.SAUCE_USERNAME;
-        const accessKey = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('accessKey') || process.env.SAUCE_ACCESS_KEY;
-        const urlToScan = (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('url');
-        const asv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('allowedSevereVulnerabilties'), 10) || 0;
-        const amv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('allowedMediumVulnerabilties'), 10) || 0;
-        const alv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('allowedLowVulnerabilties'), 10) || 0;
-        const aiv = parseInt((0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput)('allowedInformationalVulnerabilties'), 10) || -1;
+        const username = (0,core.getInput)('username') || process.env.SAUCE_USERNAME;
+        const accessKey = (0,core.getInput)('accessKey') || process.env.SAUCE_ACCESS_KEY;
+        const urlToScan = (0,core.getInput)('url');
+        const downloadReports = Boolean((0,core.getInput)('downloadReports'));
+        const downloadJobAssets = Boolean((0,core.getInput)('downloadJobAssets'));
+        const asv = parseInt((0,core.getInput)('allowedSevereVulnerabilties'), 10) || 0;
+        const amv = parseInt((0,core.getInput)('allowedMediumVulnerabilties'), 10) || 0;
+        const alv = parseInt((0,core.getInput)('allowedLowVulnerabilties'), 10) || 0;
+        const aiv = parseInt((0,core.getInput)('allowedInformationalVulnerabilties'), 10) || -1;
         if (!username || !accessKey) {
-            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)('Missing "username" or "accessKey" GitHub Action parameter');
+            return (0,core.setFailed)('Missing "username" or "accessKey" GitHub Action parameter');
         }
         if (!urlToScan) {
-            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)('Missing GitHub Action parameter "url"');
+            return (0,core.setFailed)('Missing GitHub Action parameter "url"');
         }
         // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
-        const zaproxy = new (_saucelabs_zap__WEBPACK_IMPORTED_MODULE_4___default())({
+        const zaproxy = new (build_default())({
             user: username,
             key: accessKey
         });
@@ -26236,7 +22677,7 @@ function run() {
         yield zaproxy.session.newSession({ commandTimeout: 1000 * 60 });
         teardown = () => __awaiter(this, void 0, void 0, function* () { return zaproxy.session.deleteSession(); });
         const { scan } = yield zaproxy.spider.scan({ url: urlToScan });
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)(`Exploring application ${urlToScan} ...`);
+        (0,core.info)(`Exploring application ${urlToScan} ...`);
         while (true) {
             const { status } = yield zaproxy.spider.status({
                 scanId: parseInt(scan, 10)
@@ -26246,7 +22687,7 @@ function run() {
             }
             yield sleep();
         }
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)('Start analyzing application ...');
+        (0,core.info)('Start analyzing application ...');
         const { scan: ascan } = yield zaproxy.ascan.scan({
             url: urlToScan,
             scanPolicyName: 'Default Policy'
@@ -26260,63 +22701,82 @@ function run() {
             }
             yield sleep();
         }
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)('Computing vulnerabilities ...');
+        (0,core.info)('Computing vulnerabilities ...');
         const { alerts } = yield zaproxy.alert.alerts();
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)(`\nComputed scan results after ${(Date.now() - startTime) / 1000}s`);
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.startGroup)(`Vulnerability results`);
+        (0,core.info)(`\nComputed scan results after ${(Date.now() - startTime) / 1000}s`);
+        (0,core.startGroup)(`Vulnerability results`);
         for (const alert of alerts) {
             const url = new URL(alert.url);
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)(`${urlToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
+            (0,core.info)(`${urlToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
                 `Description: ${alert.description.trim()}\n` +
                 `Solution: ${alert.solution.trim()}\n\n`);
         }
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.endGroup)();
+        (0,core.endGroup)();
         const severeVulnerabilities = getAlertByRisk(alerts, 'severe');
         const mediumVulnerabilities = getAlertByRisk(alerts, 'medium');
         const lowVulnerabilities = getAlertByRisk(alerts, 'low');
         const informationalVulnerabilities = getAlertByRisk(alerts, 'informational');
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)('\nVulnerabilities found:\n' +
+        (0,core.info)('\nVulnerabilities found:\n' +
             `Severe: ${severeVulnerabilities.length}\n` +
             `Medium: ${mediumVulnerabilities.length}\n` +
             `Low: ${lowVulnerabilities.length}\n` +
             `Informational: ${informationalVulnerabilities.length}\n`);
         if (asv !== -1 && severeVulnerabilities.length > asv)
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`Found ${severeVulnerabilities.length} severe vulnerabilities, allowed are ${asv}`);
+            (0,core.setFailed)(`Found ${severeVulnerabilities.length} severe vulnerabilities, allowed are ${asv}`);
         if (amv !== -1 && mediumVulnerabilities.length > amv)
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`Found ${mediumVulnerabilities.length} medium vulnerabilities, allowed are ${amv}`);
+            (0,core.setFailed)(`Found ${mediumVulnerabilities.length} medium vulnerabilities, allowed are ${amv}`);
         if (alv !== -1 && lowVulnerabilities.length > alv)
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`Found ${lowVulnerabilities.length} low vulnerabilities, allowed are ${alv}`);
+            (0,core.setFailed)(`Found ${lowVulnerabilities.length} low vulnerabilities, allowed are ${alv}`);
         if (aiv !== -1 && informationalVulnerabilities.length > aiv)
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`Found ${informationalVulnerabilities.length} informational vulnerabilities, allowed are ${aiv}`);
+            (0,core.setFailed)(`Found ${informationalVulnerabilities.length} informational vulnerabilities, allowed are ${aiv}`);
         /**
-         * Store HTML artifact if desired
+         * Store Zap report if desired
          */
-        (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)('Uploading Zap Report ...');
-        const artifactClient = (0,_actions_artifact__WEBPACK_IMPORTED_MODULE_3__/* .create */ .U)();
-        const options = {
-            continueOnError: false,
-            retentionDays: 30
-        };
-        try {
-            const report = yield zaproxy.core.htmlreport();
-            const reportName = 'report.html';
-            yield fs__WEBPACK_IMPORTED_MODULE_0___default().promises.writeFile(path__WEBPACK_IMPORTED_MODULE_1___default().join(__dirname, reportName), report.toString(), 'utf-8');
-            const uploadResponse = yield artifactClient.uploadArtifact('zap-report.html', [path__WEBPACK_IMPORTED_MODULE_1___default().join(__dirname, reportName)], __dirname, options);
-            if (uploadResponse.failedItems.length > 0) {
-                return (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`An error was encountered when uploading ${uploadResponse.artifactName}.`);
+        if (downloadReports) {
+            try {
+                (0,core.info)('Downloading Zap Reports ...');
+                const reportPath = external_path_default().join(process.cwd(), '__zap-reports__');
+                yield external_fs_default().promises.mkdir(reportPath);
+                yield Promise.all(REPORT_EXTENSIONS.map(ext => () => __awaiter(this, void 0, void 0, function* () {
+                    const report = yield zaproxy.core[`${ext}report`]();
+                    const reportName = `report.${ext}`;
+                    yield external_fs_default().promises.writeFile(external_path_default().join(reportPath, reportName), report.toString(), 'utf-8');
+                })));
+                (0,core.setOutput)('reports-folder-path', reportPath);
+                (0,core.info)('Zap Reports Downloaded!');
             }
-            (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.info)('Zap Report Uploaded!');
-        }
-        catch (err) {
-            return (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(`An error was encountered when uploading: ${err.message}.`);
+            catch (err) {
+                return (0,core.setFailed)(`An error was encountered when downloading: ${err.message}.`);
+            }
         }
         yield zaproxy.session.deleteSession();
         teardown = () => { };
+        /**
+         * Store Zap session if desired
+         */
+        if (downloadJobAssets) {
+            try {
+                (0,core.info)('Downloading Sauce Job Assets ...');
+                const assetPath = external_path_default().join(process.cwd(), '__sauce-assets__');
+                yield external_fs_default().promises.mkdir(assetPath);
+                yield Promise.all(JOB_ASSETS.map(asset => () => __awaiter(this, void 0, void 0, function* () {
+                    const assetBuffer = yield zaproxy.session.getAsset({
+                        name: asset
+                    });
+                    yield external_fs_default().promises.writeFile(external_path_default().join(assetPath, asset), assetBuffer, 'utf-8');
+                })));
+                (0,core.setOutput)('assets-folder-path', assetPath);
+                (0,core.info)('Sauce Job Assets Downloaded!');
+            }
+            catch (err) {
+                return (0,core.setFailed)(`An error was encountered when downloading: ${err.message}.`);
+            }
+        }
     });
 }
 // eslint-disable-next-line github/no-then
 run().catch((error) => __awaiter(void 0, void 0, void 0, function* () {
-    (0,_actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed)(error.message);
+    (0,core.setFailed)(error.message);
     return teardown();
 }));
 
