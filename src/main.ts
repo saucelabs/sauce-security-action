@@ -1,4 +1,8 @@
+import fs from 'fs'
+import path from 'path'
+
 import {getInput, setFailed, info, startGroup, endGroup} from '@actions/core'
+import {create, UploadOptions} from '@actions/artifact'
 import SauceZap from '@saucelabs/zap'
 
 const sleep = async (time = 100) =>
@@ -87,9 +91,6 @@ async function run(): Promise<void> {
     }
     endGroup()
 
-    await zaproxy.session.deleteSession()
-    teardown = () => {}
-
     const severeVulnerabilities = getAlertByRisk(alerts, 'severe')
     const mediumVulnerabilities = getAlertByRisk(alerts, 'medium')
     const lowVulnerabilities = getAlertByRisk(alerts, 'low')
@@ -118,6 +119,47 @@ async function run(): Promise<void> {
         setFailed(
             `Found ${informationalVulnerabilities.length} informational vulnerabilities, allowed are ${aiv}`
         )
+
+    /**
+     * Store HTML artifact if desired
+     */
+    info('Uploading Zap Report ...')
+    const artifactClient = create()
+    const options: UploadOptions = {
+        continueOnError: false,
+        retentionDays: 30
+    }
+
+    try {
+        const report = await zaproxy.core.htmlreport()
+        const reportName = 'report.html'
+        await fs.promises.writeFile(
+            path.join(__dirname, reportName),
+            report.toString(),
+            'utf-8'
+        )
+        const uploadResponse = await artifactClient.uploadArtifact(
+            'zap-report.html',
+            [reportName],
+            __dirname,
+            options
+        )
+
+        if (uploadResponse.failedItems.length > 0) {
+            return setFailed(
+                `An error was encountered when uploading ${uploadResponse.artifactName}.`
+            )
+        }
+
+        info('Zap Report Uploaded!')
+    } catch (err) {
+        return setFailed(
+            `An error was encountered when uploading: ${err.message}.`
+        )
+    }
+
+    await zaproxy.session.deleteSession()
+    teardown = () => {}
 }
 
 // eslint-disable-next-line github/no-then
