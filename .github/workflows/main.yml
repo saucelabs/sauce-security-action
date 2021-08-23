@@ -8,7 +8,8 @@ jobs:
         steps:
             - uses: actions/checkout@v1
 
-            - uses: ./
+            - id: sauce-security-test
+              uses: ./
               with:
                 username: ${{ secrets.SAUCE_USERNAME }}
                 accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}

@@ -11,7 +11,7 @@ jobs:
         name: Action Test
         steps:
             # ...
-            - name: sauce-security-test
+            - id: sauce-security-test
               uses: saucelabs/sauce-security-action@v1
               with:
                   username: ${{ secrets.SAUCE_USERNAME }}

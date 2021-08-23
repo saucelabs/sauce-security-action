@@ -22742,8 +22742,8 @@ function run() {
                     const reportName = `report.${ext}`;
                     yield external_fs_default().promises.writeFile(external_path_default().join(reportPath, reportName), report.toString(), 'utf-8');
                 })));
+                (0,core.info)(`Zap reports downloaded to ${reportPath}`);
                 (0,core.setOutput)('reports-folder-path', reportPath);
-                (0,core.info)('Zap Reports Downloaded!');
             }
             catch (err) {
                 return (0,core.setFailed)(`An error was encountered when downloading: ${err.message}.`);
@@ -22765,8 +22765,8 @@ function run() {
                     });
                     yield external_fs_default().promises.writeFile(external_path_default().join(assetPath, asset), assetBuffer, 'utf-8');
                 })));
+                (0,core.info)(`Sauce job assets downloaded to ${assetPath}`);
                 (0,core.setOutput)('assets-folder-path', assetPath);
-                (0,core.info)('Sauce Job Assets Downloaded!');
             }
             catch (err) {
                 return (0,core.setFailed)(`An error was encountered when downloading: ${err.message}.`);
