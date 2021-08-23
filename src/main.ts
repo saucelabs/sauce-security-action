@@ -9,6 +9,7 @@ import {
     endGroup,
     setOutput
 } from '@actions/core'
+import { exec } from '@actions/exec'
 import SauceZap from '@saucelabs/zap'
 
 import {REPORT_EXTENSIONS, JOB_ASSETS} from './constants'
@@ -155,6 +156,7 @@ async function run(): Promise<void> {
                 })
             )
             info(`Zap reports downloaded to ${reportPath}`)
+            await exec('ls', ['-la', reportPath])
             setOutput('reports-folder-path', reportPath)
         } catch (err) {
             return setFailed(
@@ -189,6 +191,7 @@ async function run(): Promise<void> {
             )
             info(`Sauce job assets downloaded to ${assetPath}`)
             setOutput('assets-folder-path', assetPath)
+            await exec('ls', ['-la', assetPath])
         } catch (err) {
             return setFailed(
                 `An error was encountered when downloading: ${err.message}.`
