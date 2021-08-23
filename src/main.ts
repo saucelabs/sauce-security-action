@@ -9,7 +9,6 @@ import {
     endGroup,
     setOutput
 } from '@actions/core'
-import { exec } from '@actions/exec'
 import SauceZap from '@saucelabs/zap'
 
 import {REPORT_EXTENSIONS, JOB_ASSETS} from './constants'
