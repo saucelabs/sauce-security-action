@@ -136,7 +136,7 @@ async function run(): Promise<void> {
      */
     if (downloadReports) {
         try {
-            info('Downloading Zap Reports ...')
+            info('\nDownloading Zap Reports ...')
             const reportPath = path.join(process.cwd(), '__zap-reports__')
             await fs.promises.mkdir(reportPath)
 
@@ -171,7 +171,7 @@ async function run(): Promise<void> {
      */
     if (downloadJobAssets) {
         try {
-            info('Downloading Sauce Job Assets ...')
+            info('\nDownloading Sauce Job Assets ...')
             const assetPath = path.join(process.cwd(), '__sauce-assets__')
             await fs.promises.mkdir(assetPath)
 

@@ -16,7 +16,7 @@ jobs:
                 # expected number of vulnerabilities
                 allowedMediumVulnerabilties: 10
                 allowedLowVulnerabilties: 14
-                allowedInformationalVulnerabilties: 20
+                allowedInformationalVulnerabilties: 21
                 # download all assets
                 downloadReports: true
                 downloadJobAssets: true
