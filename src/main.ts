@@ -5,6 +5,7 @@ import {
     endGroup,
     getInput,
     info,
+    error,
     setFailed,
     setOutput,
     startGroup
@@ -154,7 +155,7 @@ async function run(): Promise<void> {
             info(`Zap reports downloaded to ${reportPath}`)
             setOutput('reports-folder-path', reportPath)
         } catch (err: any) {
-            return setFailed(
+            return error(
                 `An error was encountered when downloading: ${err.message}.`
             )
         }
@@ -184,7 +185,7 @@ async function run(): Promise<void> {
             info(`Sauce job assets downloaded to ${assetPath}`)
             setOutput('assets-folder-path', assetPath)
         } catch (err: any) {
-            return setFailed(
+            return error(
                 `An error was encountered when downloading: ${err.message}.`
             )
         }
@@ -195,7 +196,7 @@ async function run(): Promise<void> {
 }
 
 // eslint-disable-next-line github/no-then
-run().catch(async error => {
-    setFailed(error.message)
+run().catch(async err => {
+    setFailed(err.message)
     return teardown()
 })
