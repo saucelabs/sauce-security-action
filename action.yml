@@ -12,9 +12,15 @@ inputs:
     accessKey:
         description: Sauce Labs API Key.
         required: true
-    url:
+    target:
         description: Url to the application under test.
         required: true
+    openapi:
+        description: An url to an OpenAPI specification to help scan the full API.
+        required: false
+    graphql:
+        description: An url to a graphql schema to help scan the full API.
+        required: false
     allowedSevereVulnerabilties:
         description: "Amount of severe vulnerabilities that are allowed to be discovered - if set to `-1` these will be ignored. (Default: 0)"
         required: false

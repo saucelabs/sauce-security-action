@@ -4,6 +4,8 @@ A GitHub action to run security scans on your applications.
 
 ## Example
 
+In order to explore and scan a web application you can run the following:
+
 ```yaml
 jobs:
     test:
@@ -27,6 +29,24 @@ jobs:
             # ...
 ```
 
+### API Testing
+
+To run API scans, make sure to provide either an OpenAPI spec or a reference to a GraphQL endpoint, e.g.:
+
+```yaml
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        name: Action Test
+        steps:
+            - id: sauce-api-test-openapi
+              uses: saucelabs/sauce-security-action@v1
+              with:
+                username: ${{ secrets.SAUCE_USERNAME }}
+                accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+                target: https://api.apac-southeast-1.saucelabs.com/v1/security
+                openapi: https://api.apac-southeast-1.saucelabs.com/v1/security/openapi
+
 ## Inputs
 
 ### `username`:
@@ -40,6 +60,14 @@ jobs:
 ### `target`:
 
 Url to the application under test.
+
+### `openapi`:
+
+An url to an OpenAPI specification to help scan the full API.
+
+### `graphql`:
+
+An url to a graphql schema to help scan the full API.
 
 ### `allowedSevereVulnerabilties`:
 

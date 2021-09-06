@@ -16,9 +16,9 @@ jobs:
                 target: https://gql.thatcopy.pw
                 graphql: https://gql.thatcopy.pw
                 # expected number of vulnerabilities
-                allowedMediumVulnerabilties: 5
+                allowedMediumVulnerabilties: 9
                 allowedLowVulnerabilties: 3
-                allowedInformationalVulnerabilties: 2
+                allowedInformationalVulnerabilties: 0
                 # download all assets
                 downloadReports: true
                 downloadJobAssets: true
