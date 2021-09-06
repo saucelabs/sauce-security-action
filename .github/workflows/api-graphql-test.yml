@@ -1,4 +1,4 @@
-name: "PR Checks"
+name: "API Test - GraphQL"
 on: [push, pull_request]
 
 jobs:
@@ -8,16 +8,17 @@ jobs:
         steps:
             - uses: actions/checkout@v1
 
-            - id: sauce-security-test
+            - id: sauce-api-test-graphql
               uses: ./
               with:
                 username: ${{ secrets.SAUCE_USERNAME }}
                 accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-                url: https://www.saucedemo.com/
+                target: https://gql.thatcopy.pw
+                graphql: https://gql.thatcopy.pw
                 # expected number of vulnerabilities
-                allowedMediumVulnerabilties: 10
-                allowedLowVulnerabilties: 14
-                allowedInformationalVulnerabilties: 21
+                allowedMediumVulnerabilties: 5
+                allowedLowVulnerabilties: 3
+                allowedInformationalVulnerabilties: 2
                 # download all assets
                 downloadReports: true
                 downloadJobAssets: true
@@ -26,8 +27,8 @@ jobs:
             - uses: actions/upload-artifact@v2
               with:
                 name: reports
-                path: ${{ steps.sauce-security-test.outputs.reports-folder-path }}
+                path: ${{ steps.sauce-api-test-graphql.outputs.reports-folder-path }}
             - uses: actions/upload-artifact@v2
               with:
                 name: assets
-                path: ${{ steps.sauce-security-test.outputs.assets-folder-path }}
+                path: ${{ steps.sauce-api-test-graphql.outputs.assets-folder-path }}

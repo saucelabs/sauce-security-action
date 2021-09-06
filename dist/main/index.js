@@ -17,11 +17,19 @@ module.exports = JSON.parse('{"openapi":"3.0.2","info":{"title":"ZAP API","descr
 
 /***/ }),
 
+/***/ 7474:
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"openapi":"3.0.2","info":{"title":"OWASP ZAP Add-ons","description":"Endpoints from ZAP extensions","contact":{"name":"Open Source Program Office","url":"https://opensource.saucelabs.com","email":"opensource@saucelabs.com"},"license":{"name":"Apache 2.0","url":"https://www.apache.org/licenses/LICENSE-2.0.html"},"version":"Dev Build"},"servers":[{"url":"http://zap","description":"The URL while proxying through ZAP."}],"components":{"securitySchemes":{"apiKeyHeader":{"type":"apiKey","name":"X-ZAP-API-Key","in":"header"},"apiKeyQuery":{"type":"apiKey","name":"apikey","in":"query"}},"schemas":{"Error":{"type":"object","required":["message","code"],"properties":{"message":{"type":"string"},"code":{"type":"integer","minimum":100,"maximum":600}}}}},"security":[{"apiKeyHeader":[]},{"apiKeyQuery":[]}],"paths":{"/JSON/soap/action/importFile/":{"get":{"description":"Import a WSDL definition from local file.","operationId":"soapActionImportFile","tags":["soap"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"file","in":"query","required":false,"deprecated":false,"description":"","schema":{"type":"string"}}]},"/JSON/soap/action/importUrl/":{"get":{"description":"Import a WSDL definition from a URL.","operationId":"soapActionImportUrl","tags":["soap"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"url","in":"query","required":false,"deprecated":false,"description":"","schema":{"type":"string"}}]},"/JSON/openapi/action/importFile/":{"get":{"description":"Imports an OpenAPI definition from a local file.","operationId":"openapiActionImportFile","tags":["openapi"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"file","in":"query","required":false,"deprecated":false,"description":"","schema":{"type":"string"}}]},"/JSON/openapi/action/importUrl/":{"get":{"description":"Imports an OpenAPI definition from a URL.","operationId":"openapiActionImportUrl","tags":["openapi"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"url","in":"query","required":false,"deprecated":false,"description":"","schema":{"type":"string"}}]},"/JSON/graphql/view/optionArgsType/":{"get":{"description":"Returns how arguments are currently specified.","operationId":"graphqlViewOptionArgsType","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionLenientMaxQueryDepthEnabled/":{"get":{"description":"Returns whether or not lenient maximum query generation depth is enabled.","operationId":"graphqlViewOptionLenientMaxQueryDepthEnabled","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionMaxAdditionalQueryDepth/":{"get":{"description":"Returns the current maximum additional query generation depth.","operationId":"graphqlViewOptionMaxAdditionalQueryDepth","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionMaxArgsDepth/":{"get":{"description":"Returns the current maximum arguments generation depth.","operationId":"graphqlViewOptionMaxArgsDepth","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionMaxQueryDepth/":{"get":{"description":"Returns the current maximum query generation depth.","operationId":"graphqlViewOptionMaxQueryDepth","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionOptionalArgsEnabled/":{"get":{"description":"Returns whether or not optional arguments are currently specified.","operationId":"graphqlViewOptionOptionalArgsEnabled","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionQuerySplitType/":{"get":{"description":"Returns the current level for which a single query is generated.","operationId":"graphqlViewOptionQuerySplitType","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/view/optionRequestMethod/":{"get":{"description":"Returns the current request method.","operationId":"graphqlViewOptionRequestMethod","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}}},"/JSON/graphql/action/importFile/":{"get":{"description":"Imports a GraphQL Schema from a File.","operationId":"graphqlActionImportFile","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"endurl","in":"query","required":false,"deprecated":false,"description":"The Endpoint URL.","schema":{"type":"string"}},{"name":"file","in":"query","required":false,"deprecated":false,"description":"The File That Contains the GraphQL Schema.","schema":{"type":"string"}}]},"/JSON/graphql/action/importUrl/":{"get":{"description":"Imports a GraphQL Schema from a URL.","operationId":"graphqlActionImportUrl","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"endurl","in":"query","required":false,"deprecated":false,"description":"The Endpoint URL.","schema":{"type":"string"}},{"name":"url","in":"query","required":false,"deprecated":false,"description":"The URL Locating the GraphQL Schema.","schema":{"type":"string"}}]},"/JSON/graphql/action/setOptionArgsType/":{"get":{"description":"Sets how arguments are specified.","operationId":"graphqlActionSetOptionArgsType","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"String","in":"query","required":false,"deprecated":false,"description":"Can be \\"INLINE\\", \\"VARIABLES\\", or \\"BOTH\\".","schema":{"type":"string","enum":["INLINE","VARIABLES","BOTH"]}}]},"/JSON/graphql/action/setOptionLenientMaxQueryDepthEnabled/":{"get":{"description":"Sets whether or not Maximum Query Depth is enforced leniently.","operationId":"graphqlActionSetOptionLenientMaxQueryDepthEnabled","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"Boolean","in":"query","required":false,"deprecated":false,"description":"Enforce Leniently (true or false).","schema":{"type":"boolean"}}]},"/JSON/graphql/action/setOptionMaxAdditionalQueryDepth/":{"get":{"description":"Sets the maximum additional query generation depth (used if enforced leniently).","operationId":"graphqlActionSetOptionMaxAdditionalQueryDepth","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"Integer","in":"query","required":false,"deprecated":false,"description":"The Maximum Additional Depth.","schema":{"type":"integer"}}]},"/JSON/graphql/action/setOptionMaxArgsDepth/":{"get":{"description":"Sets the maximum arguments generation depth.","operationId":"graphqlActionSetOptionMaxArgsDepth","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"Integer","in":"query","required":false,"deprecated":false,"description":"The Maximum Depth.","schema":{"type":"integer"}}]},"/JSON/graphql/action/setOptionMaxQueryDepth/":{"get":{"description":"Sets the maximum query generation depth.","operationId":"graphqlActionSetOptionMaxQueryDepth","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"Integer","in":"query","required":false,"deprecated":false,"description":"The Maximum Depth.","schema":{"type":"integer"}}]},"/JSON/graphql/action/setOptionOptionalArgsEnabled/":{"get":{"description":"Sets whether or not Optional Arguments should be specified.","operationId":"graphqlActionSetOptionOptionalArgsEnabled","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"Boolean","in":"query","required":false,"deprecated":false,"description":"Specify Optional Arguments (true or false).","schema":{"type":"boolean"}}]},"/JSON/graphql/action/setOptionQuerySplitType/":{"get":{"description":"Sets the level for which a single query is generated.","operationId":"graphqlActionSetOptionQuerySplitType","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"String","in":"query","required":false,"deprecated":false,"description":"Can be \\"LEAF\\", \\"ROOT_FIELD\\", or \\"OPERATION\\".","schema":{"type":"string","enum":["LEAF","ROOT_FIELD","OPERATION"]}}]},"/JSON/graphql/action/setOptionRequestMethod/":{"get":{"description":"Sets the request method.","operationId":"graphqlActionSetOptionRequestMethod","tags":["graphql"],"responses":{"default":{"description":"unexpected error","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Error"}}}}}},"parameters":[{"name":"String","in":"query","required":false,"deprecated":false,"description":"\\tCan be \\"POST_JSON\\", \\"POST_GRAPHQL\\", or \\"GET\\".","schema":{"type":"string","enum":["POST_JSON","POST_GRAPHQL","GET"]}}]}}}');
+
+/***/ }),
+
 /***/ 7838:
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"_from":"@saucelabs/zap@^0.3.2","_id":"@saucelabs/zap@0.3.2","_inBundle":false,"_integrity":"sha512-rGojA65x8sWIz0L5LNOaRlBITilQn/+GP095GujitFN8GtpcvqUIPS2JlOi/NRc6Tn4BsMA2r99Pq1ih2CCXXQ==","_location":"/@saucelabs/zap","_phantomChildren":{"argparse":"2.0.1"},"_requested":{"type":"range","registry":true,"raw":"@saucelabs/zap@^0.3.2","name":"@saucelabs/zap","escapedName":"@saucelabs%2fzap","scope":"@saucelabs","rawSpec":"^0.3.2","saveSpec":null,"fetchSpec":"^0.3.2"},"_requiredBy":["/"],"_resolved":"https://registry.npmjs.org/@saucelabs/zap/-/zap-0.3.2.tgz","_shasum":"163e7e145e90db870e43843006d8d336d4529825","_spec":"@saucelabs/zap@^0.3.2","_where":"/Users/christianbromann/Sites/SauceLabs/projects/sauce-security-action","author":{"name":"Christian Bromann","email":"christian@saucelabs.com"},"bin":{"zap":"bin/zap"},"bugs":{"url":"https://github.com/saucelabs/node-zap/issues"},"bundleDependencies":false,"contributors":[{"name":"christian-bromann","email":"christian@saucelabs.com"}],"dependencies":{"change-case":"^4.1.1","ejs":"^3.1.6","form-data":"^4.0.0","got":"^11.7.0","js-yaml":"^4.1.0","tar":"^6.1.2","tmp-promise":"^3.0.2","tunnel":"0.0.6","yargs":"^16.0.3"},"deprecated":false,"description":"OWASP ZapProxy bindings for Node.js","devDependencies":{"@types/jest":"^26.0.23","@types/tar":"^4.0.5","@types/tunnel":"0.0.2","@typescript-eslint/eslint-plugin":"^4.28.0","@typescript-eslint/parser":"^4.28.0","eslint":"^7.29.0","eslint-plugin-import":"^2.23.4","jest":"^27.0.5","npm-run-all":"^4.1.5","openapi-types":"^9.0.3","release-it":"^14.10.0","rimraf":"^3.0.2","source-map-support":"^0.5.19","swagger-typescript-codegen":"^3.2.3","ts-jest":"^27.0.3","ts-node":"^10.0.0","typescript":"^4.3.4"},"homepage":"https://github.com/saucelabs/node-zap","license":"Apache-2.0","main":"./build/index","name":"@saucelabs/zap","publishConfig":{"access":"public"},"repository":{"type":"git","url":"git://github.com/saucelabs/node-zap.git"},"scripts":{"build":"NODE_ENV=dev run-s clean compile postinstall","clean":"rimraf tsconfig.tsbuildinfo ./build ./coverage","compile":"tsc -p ./tsconfig.json","eslint":"eslint -c ./.eslintrc.js ./src/**/*.ts ./tests/**/*.ts","postinstall":"./scripts/setup.js","prepublishOnly":"NODE_ENV=production run-s build","release":"release-it --github.release","release:ci":"npm run release -- --ci --npm.skipChecks --no-git.requireCleanWorkingDir","release:major":"npm run release -- major","release:minor":"npm run release -- minor","release:patch":"npm run release -- patch","test":"run-s build eslint test:unit","test:unit":"cp -r build/api src/api && jest --coverage","watch":"npm run compile -- --watch"},"typings":"./build/index.d.ts","version":"0.3.2"}');
+module.exports = JSON.parse('{"name":"@saucelabs/zap","version":"0.4.2","author":"Christian Bromann <christian@saucelabs.com>","description":"OWASP ZapProxy bindings for Node.js","homepage":"https://github.com/saucelabs/node-zap","license":"Apache-2.0","contributors":["christian-bromann <christian@saucelabs.com>"],"repository":{"type":"git","url":"git://github.com/saucelabs/node-zap.git"},"publishConfig":{"access":"public"},"main":"./build/index","bin":{"zap":"./bin/zap"},"typings":"./build/index.d.ts","scripts":{"build":"NODE_ENV=dev run-s clean compile postinstall","clean":"rimraf tsconfig.tsbuildinfo ./build ./coverage","compile":"tsc -p ./tsconfig.json","eslint":"eslint -c ./.eslintrc.js ./src/**/*.ts ./tests/**/*.ts","postinstall":"./scripts/setup.js","prepublishOnly":"NODE_ENV=production run-s build","release":"release-it --github.release","release:ci":"npm run release -- --ci --npm.skipChecks --no-git.requireCleanWorkingDir","release:patch":"npm run release -- patch","release:minor":"npm run release -- minor","release:major":"npm run release -- major","test":"run-s build eslint test:unit","test:unit":"cp -r build/api src/api && jest --coverage","watch":"npm run compile -- --watch"},"dependencies":{"change-case":"^4.1.1","ejs":"^3.1.6","form-data":"^4.0.0","got":"^11.7.0","js-yaml":"^4.1.0","tar":"^6.1.2","tmp-promise":"^3.0.2","tunnel":"0.0.6","yargs":"^16.0.3"},"devDependencies":{"@types/jest":"^26.0.23","@types/tar":"^4.0.5","@types/tunnel":"0.0.2","@typescript-eslint/eslint-plugin":"^4.28.0","@typescript-eslint/parser":"^4.28.0","eslint":"^7.29.0","eslint-plugin-import":"^2.23.4","jest":"^27.0.5","npm-run-all":"^4.1.5","openapi-types":"^9.0.3","release-it":"^14.10.0","rimraf":"^3.0.2","source-map-support":"^0.5.19","swagger-typescript-codegen":"^3.2.3","ts-jest":"^27.0.3","ts-node":"^10.0.0","typescript":"^4.3.4"}}');
 
 /***/ }),
 
@@ -547,7 +555,8 @@ const { version } = __nccwpck_require__(7838);
 exports.BINDING_VERSION_NOTE = `node-zap v${version}`;
 const protocols = [
     __nccwpck_require__(3791),
-    __nccwpck_require__(6963)
+    __nccwpck_require__(6963),
+    __nccwpck_require__(7474)
 ];
 exports.API_DOMAINS = new Set();
 const protocolFlattened = new Map();
@@ -15584,6 +15593,8 @@ module.exports = (options = {}, connect = tls.connect) => new Promise((resolve, 
 	let socket;
 
 	const callback = async () => {
+		await socketPromise;
+
 		socket.off('timeout', onTimeout);
 		socket.off('error', reject);
 
@@ -15605,7 +15616,7 @@ module.exports = (options = {}, connect = tls.connect) => new Promise((resolve, 
 		callback();
 	};
 
-	(async () => {
+	const socketPromise = (async () => {
 		try {
 			socket = await connect(options, callback);
 
@@ -17185,6 +17196,24 @@ module.exports = (mode, isDir, portable) => {
 
 /***/ }),
 
+/***/ 7118:
+/***/ ((module) => {
+
+// warning: extremely hot code path.
+// This has been meticulously optimized for use
+// within npm install on large package trees.
+// Do not edit without careful benchmarking.
+const normalizeCache = Object.create(null)
+const {hasOwnProperty} = Object.prototype
+module.exports = s => {
+  if (!hasOwnProperty.call(normalizeCache, s))
+    normalizeCache[s] = s.normalize('NFKD')
+  return normalizeCache[s]
+}
+
+
+/***/ }),
+
 /***/ 6843:
 /***/ ((module) => {
 
@@ -18106,7 +18135,7 @@ module.exports = warner(class Parser extends EE {
 // while still allowing maximal safe parallelization.
 
 const assert = __nccwpck_require__(2357)
-const normPath = __nccwpck_require__(6843)
+const normalize = __nccwpck_require__(7118)
 const stripSlashes = __nccwpck_require__(8886)
 const { join } = __nccwpck_require__(5622)
 
@@ -18127,7 +18156,7 @@ module.exports = () => {
   const getDirs = path => {
     const dirs = path.split('/').slice(0, -1).reduce((set, path) => {
       if (set.length)
-        path = normPath(join(set[set.length - 1], path))
+        path = join(set[set.length - 1], path)
       set.push(path || '/')
       return set
     }, [])
@@ -18215,9 +18244,8 @@ module.exports = () => {
     // So, we just pretend that every path matches every other path here,
     // effectively removing all parallelization on windows.
     paths = isWindows ? ['win32 parallelization disabled'] : paths.map(p => {
-      return stripSlashes(normPath(join(p)))
-        .normalize('NFKD')
-        .toLowerCase()
+      // don't need normPath, because we skip this entirely for windows
+      return normalize(stripSlashes(join(p))).toLowerCase()
     })
 
     const dirs = new Set(
@@ -18774,29 +18802,18 @@ module.exports = path => {
 /***/ 8886:
 /***/ ((module) => {
 
-// this is the only approach that was significantly faster than using
-// str.replace(/\/+$/, '') for strings ending with a lot of / chars and
-// containing multiple / chars.
-const batchStrings = [
-  '/'.repeat(1024),
-  '/'.repeat(512),
-  '/'.repeat(256),
-  '/'.repeat(128),
-  '/'.repeat(64),
-  '/'.repeat(32),
-  '/'.repeat(16),
-  '/'.repeat(8),
-  '/'.repeat(4),
-  '/'.repeat(2),
-  '/',
-]
-
+// warning: extremely hot code path.
+// This has been meticulously optimized for use
+// within npm install on large package trees.
+// Do not edit without careful benchmarking.
 module.exports = str => {
-  for (const s of batchStrings) {
-    while (str.length >= s.length && str.slice(-1 * s.length) === s)
-      str = str.slice(0, -1 * s.length)
+  let i = str.length - 1
+  let slashesStart = -1
+  while (i > -1 && str.charAt(i) === '/') {
+    slashesStart = i
+    i--
   }
-  return str
+  return slashesStart === -1 ? str : str.slice(0, slashesStart)
 }
 
 
@@ -18877,6 +18894,7 @@ const pathReservations = __nccwpck_require__(9587)
 const stripAbsolutePath = __nccwpck_require__(7111)
 const normPath = __nccwpck_require__(6843)
 const stripSlash = __nccwpck_require__(8886)
+const normalize = __nccwpck_require__(7118)
 
 const ONENTRY = Symbol('onEntry')
 const CHECKFS = Symbol('checkFs')
@@ -18961,8 +18979,7 @@ const uint32 = (a, b, c) =>
 // Note that on windows, we always drop the entire cache whenever a
 // symbolic link is encountered, because 8.3 filenames are impossible
 // to reason about, and collisions are hazards rather than just failures.
-const cacheKeyNormalize = path => stripSlash(normPath(path))
-  .normalize('NFKD')
+const cacheKeyNormalize = path => normalize(stripSlash(normPath(path)))
   .toLowerCase()
 
 const pruneCache = (cache, abs) => {
@@ -22626,12 +22643,35 @@ var core = __nccwpck_require__(2186);
 // EXTERNAL MODULE: ./node_modules/@saucelabs/zap/build/index.js
 var build = __nccwpck_require__(5227);
 var build_default = /*#__PURE__*/__nccwpck_require__.n(build);
+;// CONCATENATED MODULE: ./src/utils.ts
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+const sleep = (time = 1000) => __awaiter(void 0, void 0, void 0, function* () { return new Promise(resolve => setTimeout(resolve, time)); });
+function waitUntilScanFinished(api, scanNumber) {
+    return __awaiter(this, void 0, void 0, function* () {
+        while (true) {
+            const { status } = yield api.status(scanNumber);
+            if (status === '100') {
+                break;
+            }
+            yield sleep();
+        }
+    });
+}
+
 ;// CONCATENATED MODULE: ./src/constants.ts
 const REPORT_EXTENSIONS = ['html', 'xml', 'json', 'md'];
 const JOB_ASSETS = ['session.json', 'zap.log', 'session.tar.gz'];
 
 ;// CONCATENATED MODULE: ./src/main.ts
-var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+var main_awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -22645,15 +22685,17 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-const sleep = (time = 100) => __awaiter(void 0, void 0, void 0, function* () { return new Promise(resolve => setTimeout(resolve, time)); });
+
 const getAlertByRisk = (alerts, risk) => alerts.filter(alert => alert.risk.toLowerCase() === risk);
 let teardown = () => { };
 function run() {
-    return __awaiter(this, void 0, void 0, function* () {
+    return main_awaiter(this, void 0, void 0, function* () {
         const startTime = Date.now();
         const username = (0,core.getInput)('username') || process.env.SAUCE_USERNAME;
         const accessKey = (0,core.getInput)('accessKey') || process.env.SAUCE_ACCESS_KEY;
-        const urlToScan = (0,core.getInput)('url');
+        const targetToScan = (0,core.getInput)('target');
+        const openAPISpec = (0,core.getInput)('openapi');
+        const graphqlDefinition = (0,core.getInput)('graphql');
         const downloadReports = Boolean((0,core.getInput)('downloadReports'));
         const downloadJobAssets = Boolean((0,core.getInput)('downloadJobAssets'));
         const asv = parseInt((0,core.getInput)('allowedSevereVulnerabilties'), 10) || 0;
@@ -22663,10 +22705,9 @@ function run() {
         if (!username || !accessKey) {
             return (0,core.setFailed)('Missing "username" or "accessKey" GitHub Action parameter');
         }
-        if (!urlToScan) {
+        if (!targetToScan) {
             return (0,core.setFailed)('Missing GitHub Action parameter "url"');
         }
-        // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
         const zaproxy = new (build_default())({
             user: username,
             key: accessKey
@@ -22675,39 +22716,35 @@ function run() {
          * start Sauce Labs Zap session
          */
         yield zaproxy.session.newSession({ commandTimeout: 1000 * 60 });
-        teardown = () => __awaiter(this, void 0, void 0, function* () { return zaproxy.session.deleteSession(); });
-        const { scan } = yield zaproxy.spider.scan({ url: urlToScan });
-        (0,core.info)(`Exploring application ${urlToScan} ...`);
-        while (true) {
-            const { status } = yield zaproxy.spider.status({
-                scanId: parseInt(scan, 10)
+        teardown = () => main_awaiter(this, void 0, void 0, function* () { return zaproxy.session.deleteSession(); });
+        const { scan } = yield zaproxy.spider.scan({ url: targetToScan });
+        const apiSpec = (openAPISpec && {
+            type: 'openapi',
+            params: { url: openAPISpec }
+        }) ||
+            (graphqlDefinition && {
+                type: 'graphql',
+                params: { endurl: graphqlDefinition }
             });
-            if (status === '100') {
-                break;
-            }
-            yield sleep();
+        if (apiSpec) {
+            (0,core.info)(`Importing ${apiSpec.type} API definition from ${targetToScan} ...`);
+            yield zaproxy[apiSpec.type].importUrl(apiSpec.params);
         }
+        (0,core.info)(`Exploring application ${targetToScan} ...`);
+        waitUntilScanFinished(zaproxy.spider, scan);
         (0,core.info)('Start analyzing application ...');
         const { scan: ascan } = yield zaproxy.ascan.scan({
-            url: urlToScan,
+            url: targetToScan,
             scanPolicyName: 'Default Policy'
         });
-        while (true) {
-            const { status } = yield zaproxy.ascan.status({
-                scanId: parseInt(ascan, 10)
-            });
-            if (status === '100') {
-                break;
-            }
-            yield sleep();
-        }
+        waitUntilScanFinished(zaproxy.ascan, ascan);
         (0,core.info)('Computing vulnerabilities ...');
         const { alerts } = yield zaproxy.alert.alerts();
         (0,core.info)(`\nComputed scan results after ${(Date.now() - startTime) / 1000}s`);
         (0,core.startGroup)(`Vulnerability results`);
         for (const alert of alerts) {
             const url = new URL(alert.url);
-            (0,core.info)(`${urlToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
+            (0,core.info)(`${targetToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
                 `Description: ${alert.description.trim()}\n` +
                 `Solution: ${alert.solution.trim()}\n\n`);
         }
@@ -22737,7 +22774,7 @@ function run() {
                 (0,core.info)('\nDownloading Zap Reports ...');
                 const reportPath = external_path_default().join(process.cwd(), '__zap-reports__');
                 yield external_fs_default().promises.mkdir(reportPath);
-                yield Promise.all(REPORT_EXTENSIONS.map((ext) => __awaiter(this, void 0, void 0, function* () {
+                yield Promise.all(REPORT_EXTENSIONS.map((ext) => main_awaiter(this, void 0, void 0, function* () {
                     const report = yield zaproxy.core[`${ext}report`]();
                     const reportName = `report.${ext}`;
                     yield external_fs_default().promises.writeFile(external_path_default().join(reportPath, reportName), report.toString(), 'utf-8');
@@ -22759,7 +22796,7 @@ function run() {
                 (0,core.info)('\nDownloading Sauce Job Assets ...');
                 const assetPath = external_path_default().join(process.cwd(), '__sauce-assets__');
                 yield external_fs_default().promises.mkdir(assetPath);
-                yield Promise.all(JOB_ASSETS.map((asset) => __awaiter(this, void 0, void 0, function* () {
+                yield Promise.all(JOB_ASSETS.map((asset) => main_awaiter(this, void 0, void 0, function* () {
                     const assetBuffer = yield zaproxy.session.getAsset({
                         name: asset
                     });
@@ -22775,7 +22812,7 @@ function run() {
     });
 }
 // eslint-disable-next-line github/no-then
-run().catch((error) => __awaiter(void 0, void 0, void 0, function* () {
+run().catch((error) => main_awaiter(void 0, void 0, void 0, function* () {
     (0,core.setFailed)(error.message);
     return teardown();
 }));

@@ -2,20 +2,18 @@ import fs from 'fs'
 import path from 'path'
 
 import {
-    getInput,
-    setFailed,
-    info,
-    startGroup,
     endGroup,
-    setOutput
+    getInput,
+    info,
+    setFailed,
+    setOutput,
+    startGroup
 } from '@actions/core'
 import SauceZap from '@saucelabs/zap'
 
-import {REPORT_EXTENSIONS, JOB_ASSETS} from './constants'
+import {waitUntilScanFinished} from './utils'
+import {JOB_ASSETS, REPORT_EXTENSIONS} from './constants'
 import type {REPORT} from './types'
-
-const sleep = async (time = 100) =>
-    new Promise(resolve => setTimeout(resolve, time))
 
 const getAlertByRisk = (
     alerts: any[],
@@ -28,7 +26,9 @@ async function run(): Promise<void> {
     const startTime = Date.now()
     const username = getInput('username') || process.env.SAUCE_USERNAME
     const accessKey = getInput('accessKey') || process.env.SAUCE_ACCESS_KEY
-    const urlToScan = getInput('url')
+    const targetToScan = getInput('target')
+    const openAPISpec = getInput('openapi')
+    const graphqlDefinition = getInput('graphql')
     const downloadReports = Boolean(getInput('downloadReports'))
     const downloadJobAssets = Boolean(getInput('downloadJobAssets'))
     const asv = parseInt(getInput('allowedSevereVulnerabilties'), 10) || 0
@@ -43,11 +43,10 @@ async function run(): Promise<void> {
         )
     }
 
-    if (!urlToScan) {
+    if (!targetToScan) {
         return setFailed('Missing GitHub Action parameter "url"')
     }
 
-    // @ts-expect-error https://github.com/saucelabs/node-zap/issues/2
     const zaproxy = new SauceZap({
         user: username,
         key: accessKey
@@ -58,35 +57,33 @@ async function run(): Promise<void> {
      */
     await zaproxy.session.newSession({commandTimeout: 1000 * 60})
     teardown = async () => zaproxy.session.deleteSession()
-    const {scan} = await zaproxy.spider.scan({url: urlToScan})
+    const {scan} = await zaproxy.spider.scan({url: targetToScan})
 
-    info(`Exploring application ${urlToScan} ...`)
-    while (true) {
-        const {status} = await zaproxy.spider.status({
-            scanId: parseInt(scan, 10)
+    const apiSpec =
+        (openAPISpec && {
+            type: 'openapi' as const,
+            params: {url: openAPISpec}
+        }) ||
+        (graphqlDefinition && {
+            type: 'graphql',
+            params: {endurl: graphqlDefinition}
         })
-        if (status === '100') {
-            break
-        }
-
-        await sleep()
+    if (apiSpec) {
+        info(
+            `Importing ${apiSpec.type} API definition from ${targetToScan} ...`
+        )
+        await zaproxy[apiSpec.type].importUrl(apiSpec.params)
     }
+
+    info(`Exploring application ${targetToScan} ...`)
+    waitUntilScanFinished(zaproxy.spider, scan)
 
     info('Start analyzing application ...')
     const {scan: ascan} = await zaproxy.ascan.scan({
-        url: urlToScan,
+        url: targetToScan,
         scanPolicyName: 'Default Policy'
     })
-    while (true) {
-        const {status} = await zaproxy.ascan.status({
-            scanId: parseInt(ascan, 10)
-        })
-        if (status === '100') {
-            break
-        }
-
-        await sleep()
-    }
+    waitUntilScanFinished(zaproxy.ascan, ascan)
 
     info('Computing vulnerabilities ...')
     const {alerts} = await zaproxy.alert.alerts()
@@ -95,7 +92,7 @@ async function run(): Promise<void> {
     for (const alert of alerts) {
         const url = new URL(alert.url)
         info(
-            `${urlToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
+            `${targetToScan}${url.pathname} (${alert.risk}): ${alert.name}\n` +
                 `Description: ${alert.description.trim()}\n` +
                 `Solution: ${alert.solution.trim()}\n\n`
         )
@@ -156,7 +153,7 @@ async function run(): Promise<void> {
             )
             info(`Zap reports downloaded to ${reportPath}`)
             setOutput('reports-folder-path', reportPath)
-        } catch (err) {
+        } catch (err: any) {
             return setFailed(
                 `An error was encountered when downloading: ${err.message}.`
             )
@@ -189,7 +186,7 @@ async function run(): Promise<void> {
             )
             info(`Sauce job assets downloaded to ${assetPath}`)
             setOutput('assets-folder-path', assetPath)
-        } catch (err) {
+        } catch (err: any) {
             return setFailed(
                 `An error was encountered when downloading: ${err.message}.`
             )

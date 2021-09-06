@@ -1,0 +1,34 @@
+name: "API Test - OpenAPI"
+on: [push, pull_request]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        name: Action Test
+        steps:
+            - uses: actions/checkout@v1
+
+            - id: sauce-api-test-openapi
+              uses: ./
+              with:
+                username: ${{ secrets.SAUCE_USERNAME }}
+                accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+                target: https://api.apac-southeast-1.saucelabs.com/v1/security
+                openapi: https://api.apac-southeast-1.saucelabs.com/v1/security/openapi
+                # expected number of vulnerabilities
+                allowedMediumVulnerabilties: 5
+                allowedLowVulnerabilties: 3
+                allowedInformationalVulnerabilties: 2
+                # download all assets
+                downloadReports: true
+                downloadJobAssets: true
+
+            # attach all reports and assets to the job
+            - uses: actions/upload-artifact@v2
+              with:
+                name: reports
+                path: ${{ steps.sauce-api-test-openapi.outputs.reports-folder-path }}
+            - uses: actions/upload-artifact@v2
+              with:
+                name: assets
+                path: ${{ steps.sauce-api-test-openapi.outputs.assets-folder-path }}

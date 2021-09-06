@@ -16,7 +16,7 @@ jobs:
               with:
                   username: ${{ secrets.SAUCE_USERNAME }}
                   accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
-                  url: https://my-app.com
+                  target: https://my-app.com
                   allowedSevereVulnerabilties: 0
                   downloadReports: true
             - name: Upload Report
@@ -37,7 +37,7 @@ jobs:
 
 **Required** Sauce Labs API Key.
 
-### `url`:
+### `target`:
 
 Url to the application under test.
 
