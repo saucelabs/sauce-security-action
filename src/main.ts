@@ -169,6 +169,7 @@ async function run(): Promise<void> {
             info('\nDownloading Sauce Job Assets ...')
             const assetPath = path.join(process.cwd(), '__sauce-assets__')
             await fs.promises.mkdir(assetPath)
+            setOutput('assets-folder-path', assetPath)
 
             await Promise.all(
                 JOB_ASSETS.map(async asset => {
@@ -183,8 +184,8 @@ async function run(): Promise<void> {
                 })
             )
             info(`Sauce job assets downloaded to ${assetPath}`)
-            setOutput('assets-folder-path', assetPath)
         } catch (err: any) {
+            console.log(err.body && err.body.toString())
             return error(
                 `An error was encountered when downloading: ${err.message}.`
             )

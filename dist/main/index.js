@@ -22794,6 +22794,7 @@ function run() {
                 (0,core.info)('\nDownloading Sauce Job Assets ...');
                 const assetPath = external_path_default().join(process.cwd(), '__sauce-assets__');
                 yield external_fs_default().promises.mkdir(assetPath);
+                (0,core.setOutput)('assets-folder-path', assetPath);
                 yield Promise.all(JOB_ASSETS.map((asset) => main_awaiter(this, void 0, void 0, function* () {
                     const assetBuffer = yield zaproxy.session.getAsset({
                         name: asset
@@ -22801,9 +22802,9 @@ function run() {
                     yield external_fs_default().promises.writeFile(external_path_default().join(assetPath, asset), assetBuffer, 'utf-8');
                 })));
                 (0,core.info)(`Sauce job assets downloaded to ${assetPath}`);
-                (0,core.setOutput)('assets-folder-path', assetPath);
             }
             catch (err) {
+                console.log(err.body && err.body.toString());
                 return (0,core.error)(`An error was encountered when downloading: ${err.message}.`);
             }
         }
