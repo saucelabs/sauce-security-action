@@ -46,6 +46,7 @@ jobs:
                 accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
                 target: https://api.apac-southeast-1.saucelabs.com/v1/security
                 openapi: https://api.apac-southeast-1.saucelabs.com/v1/security/openapi
+```
 
 ## Inputs
 
