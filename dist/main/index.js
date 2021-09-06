@@ -22804,7 +22804,7 @@ function run() {
                 (0,core.info)(`Sauce job assets downloaded to ${assetPath}`);
             }
             catch (err) {
-                console.log(err.body && err.body.toString());
+                console.log(err, Object.keys(err));
                 return (0,core.error)(`An error was encountered when downloading: ${err.message}.`);
             }
         }
