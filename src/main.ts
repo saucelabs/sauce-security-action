@@ -160,9 +160,6 @@ async function run(): Promise<void> {
         }
     }
 
-    await zaproxy.session.deleteSession()
-    teardown = () => {}
-
     /**
      * Store Zap session if desired
      */
@@ -192,6 +189,9 @@ async function run(): Promise<void> {
             )
         }
     }
+
+    await zaproxy.session.deleteSession()
+    teardown = () => {}
 }
 
 // eslint-disable-next-line github/no-then

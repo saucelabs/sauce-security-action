@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
     test:
         runs-on: ubuntu-latest
-        name: Action Test
+        name: API Test - OpenAPI
         steps:
             - uses: actions/checkout@v1
 
