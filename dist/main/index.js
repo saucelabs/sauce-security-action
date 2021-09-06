@@ -22787,6 +22787,11 @@ function run() {
             }
         }
         /**
+         * make sure to delete session before trying to download assets
+         */
+        yield zaproxy.session.deleteSession();
+        teardown = () => { };
+        /**
          * Store Zap session if desired
          */
         if (downloadJobAssets) {
@@ -22804,12 +22809,9 @@ function run() {
                 (0,core.info)(`Sauce job assets downloaded to ${assetPath}`);
             }
             catch (err) {
-                console.log(err, Object.keys(err));
                 return (0,core.error)(`An error was encountered when downloading: ${err.message}.`);
             }
         }
-        yield zaproxy.session.deleteSession();
-        teardown = () => { };
     });
 }
 // eslint-disable-next-line github/no-then
