@@ -22731,13 +22731,13 @@ function run() {
             yield zaproxy[apiSpec.type].importUrl(apiSpec.params);
         }
         (0,core.info)(`Exploring application ${targetToScan} ...`);
-        waitUntilScanFinished(zaproxy.spider, scan);
+        yield waitUntilScanFinished(zaproxy.spider, scan);
         (0,core.info)('Start analyzing application ...');
         const { scan: ascan } = yield zaproxy.ascan.scan({
             url: targetToScan,
             scanPolicyName: 'Default Policy'
         });
-        waitUntilScanFinished(zaproxy.ascan, ascan);
+        yield waitUntilScanFinished(zaproxy.ascan, ascan);
         (0,core.info)('Computing vulnerabilities ...');
         const { alerts } = yield zaproxy.alert.alerts();
         (0,core.info)(`\nComputed scan results after ${(Date.now() - startTime) / 1000}s`);
@@ -22783,11 +22783,9 @@ function run() {
                 (0,core.setOutput)('reports-folder-path', reportPath);
             }
             catch (err) {
-                return (0,core.setFailed)(`An error was encountered when downloading: ${err.message}.`);
+                return (0,core.error)(`An error was encountered when downloading: ${err.message}.`);
             }
         }
-        yield zaproxy.session.deleteSession();
-        teardown = () => { };
         /**
          * Store Zap session if desired
          */
@@ -22806,14 +22804,16 @@ function run() {
                 (0,core.setOutput)('assets-folder-path', assetPath);
             }
             catch (err) {
-                return (0,core.setFailed)(`An error was encountered when downloading: ${err.message}.`);
+                return (0,core.error)(`An error was encountered when downloading: ${err.message}.`);
             }
         }
+        yield zaproxy.session.deleteSession();
+        teardown = () => { };
     });
 }
 // eslint-disable-next-line github/no-then
-run().catch((error) => main_awaiter(void 0, void 0, void 0, function* () {
-    (0,core.setFailed)(error.message);
+run().catch((err) => main_awaiter(void 0, void 0, void 0, function* () {
+    (0,core.setFailed)(err.message);
     return teardown();
 }));
 
