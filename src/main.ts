@@ -77,14 +77,14 @@ async function run(): Promise<void> {
     }
 
     info(`Exploring application ${targetToScan} ...`)
-    waitUntilScanFinished(zaproxy.spider, scan)
+    await waitUntilScanFinished(zaproxy.spider, scan)
 
     info('Start analyzing application ...')
     const {scan: ascan} = await zaproxy.ascan.scan({
         url: targetToScan,
         scanPolicyName: 'Default Policy'
     })
-    waitUntilScanFinished(zaproxy.ascan, ascan)
+    await waitUntilScanFinished(zaproxy.ascan, ascan)
 
     info('Computing vulnerabilities ...')
     const {alerts} = await zaproxy.alert.alerts()
