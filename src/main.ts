@@ -185,7 +185,7 @@ async function run(): Promise<void> {
             )
             info(`Sauce job assets downloaded to ${assetPath}`)
         } catch (err: any) {
-            console.log(err.body && err.body.toString())
+            console.log(err, Object.keys(err))
             return error(
                 `An error was encountered when downloading: ${err.message}.`
             )
